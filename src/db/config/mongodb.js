@@ -10,7 +10,7 @@ const client = new MongoClient(uri, {
   }
 });
 
-const db = client.db('GC02')
+const db = client.db('Final_Project')
 
 export function getCollection(collectionName) {
   return db.collection(collectionName)
