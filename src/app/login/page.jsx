@@ -1,7 +1,62 @@
 "use client";
-import React from "react";
+import { BASE_URL } from "@/db/config/constant";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
+import Swal from "sweetalert2";
 
 const Page = () => {
+  const router = useRouter();
+  async function submitAction(formData) {
+    const email = formData.get("email");
+    const password = formData.get("password");
+    // console.log(email, password);
+    if (!email) {
+      return Swal.fire({
+        title: "email required",
+        showConfirmButton: false,
+        timer: 1500,
+        icon: "warning",
+      });
+    }
+    if (!password) {
+      return Swal.fire({
+        title: "password required",
+        showConfirmButton: false,
+        timer: 1500,
+        icon: "warning",
+      });
+    }
+
+    let res = await fetch(`${BASE_URL}/api/login`, {
+      cache: "no-store",
+      method: "POST",
+      body: JSON.stringify({ email, password }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    await res.json();
+
+    if (!res.ok) {
+      return Swal.fire({
+        title: "Email/Password Login",
+        showConfirmButton: false,
+        timer: 1500,
+        icon: "warning",
+      });
+    }
+
+     Swal.fire({
+        title: "berhasil login",
+        showConfirmButton: false,
+        timer: 1500,
+        icon: 'success'
+    })
+    // cookies.set("Authorization", `Bearer ${result.data.token}`)
+    return router.push("/");
+  }
   return (
     <>
       {/* component */}
@@ -19,12 +74,12 @@ const Page = () => {
 
         <div className="flex w-full lg:w-1/2 justify-center items-center bg-white border-l space-y-8">
           <div className="w-full px-8 md:px-32 lg:px-24">
-            <form>
+            <form action={submitAction}>
               <h1 className="text-gray-800 font-bold text-2xl mb-1">
                 Welcome Back!
               </h1>
               <div className="text-sm font-normal text-gray-600 mb-8">
-                Don't have an account? <a className="underline">Sign Up</a>
+                Don't have an account? <Link href='/register' className="underline">Sign Up</Link>
               </div>
               <div>Email</div>
               <div className="flex items-center border-2 mb-8 py-2 px-3 rounded-2xl mt-2">

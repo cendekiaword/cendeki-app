@@ -1,7 +1,64 @@
 "use client";
-import React from "react";
+import { BASE_URL } from "@/db/config/constant";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
+import Swal from "sweetalert2";
 
 const Page = () => {
+  const router = useRouter();
+  async function submitAction(formData) {
+    const email = formData.get("email");
+    const password = formData.get("password");
+    const fullname = formData.get("fullname");
+    const age = formData.get("age");
+    // console.log(email, password);
+    if (!email) {
+      return Swal.fire({
+        title: "email required",
+        showConfirmButton: false,
+        timer: 1500,
+        icon: "warning",
+      });
+    }
+    if (!password) {
+      return Swal.fire({
+        title: "password required",
+        showConfirmButton: false,
+        timer: 1500,
+        icon: "warning",
+      });
+    }
+
+    let res = await fetch(`${BASE_URL}/api/register`, {
+      cache: "no-store",
+      method: "POST",
+      body: JSON.stringify({ email, password, fullname, age }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    // await res.json();
+
+    if (!res.ok) {
+      return Swal.fire({
+        title: "Email/Password Login",
+        showConfirmButton: false,
+        timer: 1500,
+        icon: "warning",
+      });
+    }
+
+    Swal.fire({
+      title: "berhasil register",
+      showConfirmButton: false,
+      timer: 1500,
+      icon: "success",
+    });
+    // cookies.set("Authorization", `Bearer ${result.data.token}`)
+    return router.push("/login");
+  }
   return (
     <>
       {/* component */}
@@ -50,12 +107,12 @@ const Page = () => {
                   Enter your credentials to get access account
                 </div>
                 <div className="mt-10">
-                  <form action="#">
+                  <form action={submitAction}>
                     <div className="flex flex-col mb-5">
                       <label
                         htmlFor="email"
                         className="mb-1 text-xs tracking-wide text-gray-600">
-                        Name:
+                        Fullname:
                       </label>
                       <div className="relative">
                         <div
@@ -74,8 +131,8 @@ const Page = () => {
                         </div>
                         <input
                           id="email"
-                          type="email"
-                          name="email"
+                          type="text"
+                          name="fullname"
                           className="
               text-sm
               placeholder-gray-500
@@ -87,7 +144,47 @@ const Page = () => {
               py-2
               focus:outline-none focus:border-blue-400
             "
-                          placeholder="Enter your name"
+                          placeholder="Enter your Fullname"
+                        />
+                      </div>
+                    </div>
+                    <div className="flex flex-col mb-5">
+                      <label
+                        htmlFor="email"
+                        className="mb-1 text-xs tracking-wide text-gray-600">
+                        Age:
+                      </label>
+                      <div className="relative">
+                        <div
+                          className="
+              inline-flex
+              items-center
+              justify-center
+              absolute
+              left-0
+              top-0
+              h-full
+              w-10
+              text-gray-400
+            ">
+                          <i className="fas fa-child text-purple-500" />
+                        </div>
+                        <input
+                          id="email"
+                          type="number"
+                          name="age"
+                          className="
+              text-sm
+              placeholder-gray-500
+              pl-10
+              pr-4
+              rounded-2xl
+              border border-gray-400
+              w-full
+              py-2
+              focus:outline-none focus:border-blue-400
+            "
+                          placeholder="Enter your age"
                         />
                       </div>
                     </div>
@@ -196,11 +293,11 @@ const Page = () => {
     ">
                   <span className="ml-2">You have an account?</span>
                 </a>
-                <a
-                  href="#"
+                <Link
+                  href="/login"
                   className="text-xs ml-2 text-purple-500 font-semibold">
                   Login here
-                </a>
+                </Link>
               </div>
             </div>
           </>
