@@ -7,21 +7,11 @@ export async function POST(request) {
       const body = await request.json()
       
       const checkUserEmail = await UserModel.checkUserEmail(body.email)
-      const checkUserUsername = await UserModel.checkUserUsername(body.username)
-      // console.log(checkUserEmail);
       
       if (checkUserEmail) {
         return NextResponse.json({
           message: 'Email already used'
         },{
-          status: 404
-        }
-        )
-      }
-      if (checkUserUsername) {
-        return NextResponse.json({
-          message: 'Username already used'
-        }, {
           status: 404
         }
         )
