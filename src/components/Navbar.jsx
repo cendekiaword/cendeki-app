@@ -4,43 +4,43 @@ import React from "react";
 export default function Navbar() {
   return (
     <>
-      <nav className="sticky top-0 flex justify-between px-5 py-3 z-10">
-        <div className="w-[70dvw]">
+      <nav className="sticky top-0 z-10 flex h-12 w-full items-center justify-between px-5">
+        <div className="">
           <Link
             href=""
-            className="text-lg px-3 pb-3 hover:border-b-4 border-black text-black"
+            className="border-black px-3 pb-3 text-lg text-black hover:border-b-4"
           >
             Mockup Logo
           </Link>
           <Link
             href=""
-            className="text-lg px-3 pb-3 hover:border-b-4 border-black text-black"
+            className="border-black px-3 pb-3 text-lg text-black hover:border-b-4"
           >
             Home
           </Link>
           <Link
             href=""
-            className="text-lg px-3 pb-3 hover:border-b-4 border-black text-black"
+            className="border-black px-3 pb-3 text-lg text-black hover:border-b-4"
           >
             Start Journey
           </Link>
           <Link
             href=""
-            className="text-lg px-3 pb-3 hover:border-b-4 border-black text-black"
+            className="border-black px-3 pb-3 text-lg text-black hover:border-b-4"
           >
             Leaderboard
           </Link>
         </div>
-        <div className="flex w-[30dvw] justify-end gap-5">
+        <div className="">
           <Link
             href=""
-            className="text-lg px-3 pb-3 hover:border-b-4 border-black text-black"
+            className="border-black px-3 pb-3 text-lg text-black hover:border-b-4"
           >
             Profile
           </Link>
           <Link
             href=""
-            className="text-lg px-3 pb-3 hover:border-b-4 border-black text-black"
+            className="border-black px-3 pb-3 text-lg text-black hover:border-b-4"
           >
             Login
           </Link>
