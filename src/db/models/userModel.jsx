@@ -14,7 +14,7 @@ const AddUserSchema = z.object({
   fullname: z.string(),
   email: z.string().email(),
   password: z.string().min(5).max(10),
-  age: z.integer()
+  age: z.number()
 })
 
 const LoginUserSchema = z.object({

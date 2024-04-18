@@ -1,5 +1,5 @@
-import { signToken } from "@/app/db/helpers/jwt";
-import { UserModel } from "@/app/db/models/userModel";
+import { signToken } from "@/db/helpers/jwt";
+import { UserModel } from "@/db/models/userModel";
 import { NextResponse } from "next/server";
 import { ZodError } from "zod";
 
