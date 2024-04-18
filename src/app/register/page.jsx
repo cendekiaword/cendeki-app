@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import Swal from "sweetalert2";
+import { Vortex } from "../../components/ui/vortex";
 
 const Page = () => {
   const router = useRouter();
@@ -43,7 +44,7 @@ const Page = () => {
 
     if (!res.ok) {
       return Swal.fire({
-        title: "Email/Password Login",
+        title: "Email sudah digunakan",
         showConfirmButton: false,
         timer: 1500,
         icon: "warning",
@@ -69,7 +70,7 @@ const Page = () => {
         }}
       />
       {/* Input Component */}
-      <div className="h-screen flex">
+      <div className="h-screen flex ">
         <div
           className="hidden lg:flex w-full lg:w-1/2 login_img_section
     justify-around items-center"></div>
