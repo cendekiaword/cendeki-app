@@ -142,9 +142,10 @@ export default function Teaser({ animationData }) {
           <h1 className="border py-16">Experience it by yourself</h1>
         </div>
         <div className="prose grid h-[70dvh] w-full grid-flow-row grid-cols-2 bg-sky-300 md:max-h-dvh ">
-          <div className="not-prose col-span-1 flex items-center justify-center">
+          <div className="col-span-1 flex flex-col items-center justify-center">
+            <h2>Indonesian History</h2>
             <LottieMediumRound
-              className="w-[60%] bg-orange-300"
+              className="not-prose w-[80%]"
               animationData={JSON.parse(JSON.stringify(animationData))}
             />
           </div>

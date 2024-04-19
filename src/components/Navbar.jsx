@@ -36,19 +36,19 @@ export default function Navbar({ className }) {
       >
         <div className="">
           <Link
-            href=""
+            href="/"
             className="border-black px-3 pb-3 text-lg text-black hover:border-b-4"
           >
             Mockup Logo
           </Link>
-          <Link
+          {/* <Link
             href=""
             className="border-black px-3 pb-3 text-lg text-black hover:border-b-4"
           >
             Home
-          </Link>
+          </Link> */}
           <Link
-            href=""
+            href="lobby"
             className="border-black px-3 pb-3 text-lg text-black hover:border-b-4"
           >
             Start Journey
@@ -62,13 +62,13 @@ export default function Navbar({ className }) {
         </div>
         <div className="">
           <Link
-            href=""
+            href="/profile/me"
             className="border-black px-3 pb-3 text-lg text-black hover:border-b-4"
           >
             Profile
           </Link>
           <Link
-            href=""
+            href="/login"
             className="border-black px-3 pb-3 text-lg text-black hover:border-b-4"
           >
             Login
