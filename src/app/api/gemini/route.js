@@ -1,17 +1,19 @@
 import { StoryModel } from "@/db/models/storyModel";
+import generateStory from "@/utils/geminiAI";
 import { NextResponse } from "next/server";
 import { ZodError } from "zod";
-const { GoogleGenerativeAI } = require('@google/generative-ai')
-
-// console.log(process.env.GEMINI_API_KEY);
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY)
 
 export async function POST() {
-  const model = genAI.getGenerativeModel({ model: "gemini-pro" });
-  const prompt = "Write a story about a pokemon.";
-  const result = await model.generateContent(prompt);
-  const response = await result.response;
-  const text = response.text();
-  const story = await StoryModel.addStory({ text });
-  return NextResponse.json({data: text}, {status: 201});
+  const prompt = `
+  buatkan cerita tentang sejarah dengan format json, dengan properti fullStory adalah cerita penuh tanpa potongan, properti story adalah cerita penuh yang di hilangkan beberapa katanya diganti dengan ---- dan kata tersebut dimasukan dalam properti answer dalam bentuk array
+  [
+  "fullStory": string,
+  "story": string,
+  "answer" : string[]
+  ]`;
+  let result = await generateStory(prompt);
+  result = result.replace("```json", "")
+  result = result.replace("```", "")
+  await StoryModel.addStory({ result: JSON.parse(result) });
+  return NextResponse.json({ data: result }, { status: 201 });
 }
