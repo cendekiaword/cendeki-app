@@ -15,5 +15,8 @@ export async function POST() {
   result = result.replace("```json", "")
   result = result.replace("```", "")
   await StoryModel.addStory({ result: JSON.parse(result) });
-  return NextResponse.json({ data: result }, { status: 201 });
+
+  const story = StoryModel.getStoryById(result._id)
+
+  return NextResponse.json({ data: story }, { status: 201 });
 }
