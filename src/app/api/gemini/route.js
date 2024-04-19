@@ -4,8 +4,16 @@ import { NextResponse } from "next/server";
 import { ZodError } from "zod";
 
 export async function POST() {
-  const prompt = "Write a story about History in one pargaraf.";
-  const result = await generateStory(prompt);
-  const story = await StoryModel.addStory({ result });
+  const prompt = `
+  buatkan cerita tentang sejarah dengan format json, dengan properti fullStory adalah cerita penuh tanpa potongan, properti story adalah cerita penuh yang di hilangkan beberapa katanya diganti dengan ---- dan kata tersebut dimasukan dalam properti answer dalam bentuk array
+  [
+  "fullStory": string,
+  "story": string,
+  "answer" : string[]
+  ]`;
+  let result = await generateStory(prompt);
+  result = result.replace("```json", "")
+  result = result.replace("```", "")
+  await StoryModel.addStory({ result: JSON.parse(result) });
   return NextResponse.json({ data: result }, { status: 201 });
 }
