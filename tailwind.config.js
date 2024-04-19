@@ -17,6 +17,15 @@ module.exports = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      // Remove this lines if tailwind prose class throws an error
+      typography: {
+        DEFAULT: {
+          css: {
+            width: "80dvw",
+            maxWidth: "100dvw"
+          },
+        },
+      },
     },
   },
   plugins: [addVariablesForColors, require('@tailwindcss/typography'),],

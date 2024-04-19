@@ -1,10 +1,39 @@
-import Link from "next/link";
-import React from "react";
+"use client";
 
-export default function Navbar() {
+import { cn } from "@/utils/cn";
+import Link from "next/link";
+import React, { useEffect, useState } from "react";
+
+export default function Navbar({ className }) {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    function handleScroll() {
+      if (window.scrollY > 0) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    }
+
+    // Add scroll event listener
+    window.addEventListener("scroll", handleScroll);
+
+    // Cleanup
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
     <>
-      <nav className="sticky top-0 z-10 flex h-12 w-full items-center justify-between px-5">
+      <nav
+        className={cn(
+          "sticky top-0 z-10 flex h-12 w-full items-center justify-between px-5",
+          scrolled ? "" : "bg-sky-300",
+          className,
+        )}
+      >
         <div className="">
           <Link
             href=""
