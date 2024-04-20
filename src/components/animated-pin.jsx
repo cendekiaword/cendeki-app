@@ -12,11 +12,11 @@ export function AnimatedPinDemo() {
           href="https://twitter.com/mannupaaji"
         >
           <div className="flex h-[20rem] w-[20rem] basis-full flex-col p-4 tracking-tight text-slate-100/50 sm:basis-1/2 ">
-            <h3 className="!m-0 max-w-xs !pb-2 text-base text-center  font-bold text-slate-100">
+            <h3 className="!m-0 max-w-xs !pb-2 text-base text-center  font-bold invert">
               {el.title}
             </h3>
             <div className="mt-4 flex w-full flex-1 rounded-lg h-[80%] justify-center" >
-                <img src="https://as2.ftcdn.net/v2/jpg/02/09/05/49/1000_F_209054939_2ZkFKbChO0m4NSMZnEUhfyNZ6HFJTuHM.jpg"  className="border rounded"/>
+                <img src="https://as2.ftcdn.net/v2/jpg/02/09/05/49/1000_F_209054939_2ZkFKbChO0m4NSMZnEUhfyNZ6HFJTuHM.jpg"  className=" rounded-xl"/>
             </div>
           </div>
         </PinContainer>

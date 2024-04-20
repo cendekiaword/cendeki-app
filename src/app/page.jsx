@@ -28,7 +28,6 @@ export default function Home() {
 
   return (
     <main className="flex min-h-[300dvh] w-full flex-col items-center bg-sky-300">
-      <Navbar />
       <div className="flex h-dvh w-full flex-col items-center justify-center gap-20 border-black">
         <div className="flex w-full items-center justify-evenly">
           <article className="z-5 prose flex max-w-[50%] flex-col">
