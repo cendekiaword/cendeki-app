@@ -1,7 +1,6 @@
 import React from "react";
 import * as animationData from "@/lotties/reading1.json";
 import history from "@/lotties/history1.json";
-import Navbar from "@/components/Navbar";
 import { LottieMediumRound } from "@/components/Lottie";
 import Branding from "@/components/Branding";
 import Teaser from "@/components/Teaser";
@@ -9,7 +8,6 @@ import Teaser from "@/components/Teaser";
 export default function Home() {
   return (
     <>
-      <Navbar />
       <div className="flex h-dvh w-full flex-col items-center justify-center gap-20 border-black bg-sky-300">
         <div className="flex w-full items-center justify-evenly">
           <article className="z-5 prose flex max-w-[50%] flex-col">

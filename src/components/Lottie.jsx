@@ -5,7 +5,7 @@ import React from "react";
 
 export const LottieMediumRound = ({ animationData, className }) => {
   return (
-    <div className={cn("w-[30%] overflow-hidden rounded-full", className)}>
+    <div className={cn("overflow-hidden rounded-full", className)}>
       <Lottie animationData={animationData} loop={true} />
     </div>
   );
