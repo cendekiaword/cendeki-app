@@ -1,7 +1,6 @@
 import React from "react";
 import * as animationData from "@/lotties/reading1.json";
 import history from "@/lotties/history1.json";
-import Navbar from "@/components/Navbar";
 import { LottieMediumRound } from "@/components/Lottie";
 import Branding from "@/components/Branding";
 import Teaser from "@/components/Teaser";

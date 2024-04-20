@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { LottieMediumRound } from "@/components/Lottie";
 import { FaCircleCheck, FaCircleXmark } from "react-icons/fa6";
 
 export default function Teaser({ animationData }) {
-  const journey = {
+  const journey4 = {
     fullStory:
       "Soekarno, juga dikenal sebagai Bung Karno, adalah proklamator kemerdekaan Indonesia yang pertama dan presiden pertama Republik Indonesia. Dia lahir pada tanggal 6 Juni 1901 di Blitar, Jawa Timur, dan dikenal sebagai seorang orator ulung dan pemimpin karismatik. Soekarno aktif dalam pergerakan kemerdekaan Indonesia dan menjadi tokoh utama dalam menyusun teks Proklamasi Kemerdekaan Indonesia pada tanggal 17 Agustus 1945. Sebagai presiden, Soekarno mengusung konsep Nasionalisme, Agama, dan Komunisme (NASAKOM) untuk mengintegrasikan berbagai kepentingan politik dan sosial di Indonesia. Namun, masa kepemimpinannya juga diwarnai oleh konflik internal dan tekanan dari luar negeri, yang akhirnya menyebabkan ia digulingkan dari kekuasaan pada tahun 1967. Meskipun demikian, warisan pemikiran dan kontribusinya terhadap kemerdekaan Indonesia tetap dihargai dan dihormati hingga kini.",
     story:
@@ -44,12 +44,43 @@ export default function Teaser({ animationData }) {
     ],
   };
 
+  const journey = {
+    fullStory:
+      "In 1945, Indonesia was under Dutch colonial rule, which had lasted for over three centuries. The Indonesian people had been striving for independence and had formed various nationalist movements to resist colonial domination. One of the key figures in the struggle for independence was Sukarno, who played a pivotal role in uniting different factions under the banner of nationalism. On August 17, 1945, Sukarno and Mohammad Hatta proclaimed Indonesia's independence, marking the beginning of the nation's journey as a sovereign state. However, the road to independence was not easy, as it was met with resistance from the Dutch colonial authorities and internal conflicts among different political groups. Despite these challenges, the spirit of nationalism and the desire for self-determination drove the Indonesian people towards achieving their independence.",
+    story:
+      "In 1945, Indonesia was under ---- colonial rule, which had lasted for over ---- centuries. The Indonesian people had been striving for ---- and had formed various ---- movements to resist colonial domination. One of the key figures in the struggle for independence was ----, who played a pivotal role in uniting different ---- under the banner of nationalism. On August 17, 1945, ---- and Mohammad Hatta proclaimed Indonesia's ----, marking the beginning of the nation's journey as a sovereign state. However, the road to independence was met with ---- from the Dutch colonial authorities and internal ---- among different political groups. Despite these challenges, the spirit of ---- and the desire for ---- drove the Indonesian people towards achieving their independence.",
+    answer: [
+      "Dutch",
+      "three",
+      "independence",
+      "nationalist",
+      "Sukarno",
+      "factions",
+      "Sukarno",
+      "independence",
+      "resistance",
+      "conflicts",
+      "nationalism",
+      "self-determination",
+    ],
+    references: [
+      "https://www.history.com/topics/southeast-asia/indonesia",
+      "https://www.britannica.com/place/Indonesia/The-Revolutionary-Period",
+    ],
+  };
+
   const [answers, setAnswers] = useState(Array(journey.answer.length));
   const [feedback, setFeedback] = useState(
     Array(journey.answer.length).fill(""),
   );
   const [border, setBorder] = useState(Array(journey.answer.length).fill(""));
+  const [scores, setScores] = useState(Array(journey.answer.length).fill(0));
+  const [finalScore, setFinalScore] = useState(0);
 
+  useEffect(() => {
+    const sum = scores.reduce((acc, score) => acc + score, 0);
+    setFinalScore(sum);
+  }, [scores]);
   function handleSubmit(e) {
     // e.preventDefault();
     if (e.key == "Enter") {
@@ -79,6 +110,20 @@ export default function Teaser({ animationData }) {
           return updatedBorder;
         });
 
+        let score = 0;
+        if (res === "Correct") {
+          score = 100;
+        } else if (res === "Incorrect" && answer && answer.length !== 0) {
+          score = 0;
+        } else {
+          score = 0;
+        }
+        setScores((prev) => {
+          const updateScore = [...prev];
+          updateScore[idx] = score;
+          return updateScore;
+        });
+
         return res;
       });
     }
@@ -88,10 +133,10 @@ export default function Teaser({ animationData }) {
     if (idx !== journey.story.split("----").length - 1) {
       return (
         <>
-          <span className="" key={idx}>
+          <span className="invert" key={"q" + idx}>
             {question}
           </span>
-          <span className="relative">
+          <span key={idx} className="relative">
             <input
               type="text"
               placeholder="- - - -"
@@ -109,14 +154,16 @@ export default function Teaser({ animationData }) {
             />
             {feedback[idx] == "Correct" && (
               <>
-                <span className="absolute right-6 top-0 text-sm">100</span>
+                <span className="absolute right-6 top-0 text-sm">
+                  {scores[idx]}
+                </span>
                 <FaCircleCheck className="absolute right-1 top-[0.1rem] size-4 text-xl text-cyan-500" />
               </>
             )}
             {border[idx] == "border-2 border-rose-400 placeholder:invert" && (
               <>
                 <span className="absolute right-6 top-0 text-sm text-rose-500">
-                  0
+                  {scores[idx]}
                 </span>
                 <FaCircleXmark className="absolute right-1 top-[0.1rem] size-4 text-xl text-rose-500" />
               </>
@@ -127,7 +174,7 @@ export default function Teaser({ animationData }) {
     } else {
       return (
         <>
-          <span className="" key={idx}>
+          <span className="invert" key={"q" + idx}>
             {question}
           </span>
         </>
@@ -137,30 +184,43 @@ export default function Teaser({ animationData }) {
 
   return (
     <>
-      <div className="min-h-dvh bg-sky-300">
-        <div className="prose w-full text-center md:max-h-[15dvh]">
-          <h1 className="border py-16">Experience it by yourself</h1>
-        </div>
-        <div className="prose grid h-[70dvh] w-full grid-flow-row grid-cols-2 bg-sky-300 md:max-h-dvh ">
-          <div className="col-span-1 flex flex-col items-center justify-center">
-            <h2>Indonesian History</h2>
+      <div className="prose min-h-dvh w-full bg-sky-300">
+        <h1 className="flex items-center justify-center pt-24">
+          Experience it by yourself
+        </h1>
+        <main className="prose grid w-full grid-cols-2 md:min-h-[80dvh]">
+          <section className="col-span-1 flex flex-col items-center justify-center">
+            <h2 className="flex items-center justify-center ">History</h2>
             <LottieMediumRound
-              className="not-prose w-[80%]"
+              className="not-prose w-[50%]"
               animationData={JSON.parse(JSON.stringify(animationData))}
             />
-          </div>
-          <div className="col-span-1 h-full max-w-full">
-            <content className="flex h-full w-full grid-cols-1 flex-col items-center justify-center">
-              <b className="w-[80%] text-pretty md:text-justify">{questions}</b>
-              {/* <button
+          </section>
+          <section className="col-span-1 h-full max-w-full">
+            <h2 className="flex items-center justify-center ">
+              Indonesian Independece
+            </h2>
+            <content className="flex items-center justify-center">
+              <div className="rounded-2xl bg-slate-800 p-8">
+                <b className="w-[80%] text-pretty md:text-justify">
+                  {questions}
+                </b>
+                {/* <button
                 onClick={handleSubmit}
                 className="mt-4 bg-blue-500 p-2 text-white"
-              >
+                >
                 Submit
               </button> */}
+              </div>
             </content>
-          </div>
-        </div>
+            <div className="col-span-2 grid grid-cols-4">
+              <div className="col-span-1 mt-4 flex justify-between rounded-full bg-slate-800 px-4">
+                <b className="text-2xl invert">Score:</b>
+                <b className="text-2xl invert">{finalScore}</b>
+              </div>
+            </div>
+          </section>
+        </main>
       </div>
     </>
   );
