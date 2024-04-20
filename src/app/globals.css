@@ -11,6 +11,10 @@
   }
 }
 
+.navbar-fixed-top.scrolled {
+  background-color: #fff !important;
+  transition: background-color 200ms linear;
+}
 
 /* :root {
   --foreground-rgb: 0, 0, 0;
