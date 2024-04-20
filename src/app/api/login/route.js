@@ -13,6 +13,7 @@ export async function POST(request) {
       return NextResponse.json(user);
     }
 
+    console.log(user);
     const accessToken = signToken({
       _id: user._id,
       email: user.email,

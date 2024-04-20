@@ -48,7 +48,7 @@ export default function Navbar({ className }) {
             Home
           </Link> */}
           <Link
-            href="lobby"
+            href="/lobby"
             className="border-black px-3 pb-3 text-lg text-black hover:border-b-4"
           >
             Start Journey
