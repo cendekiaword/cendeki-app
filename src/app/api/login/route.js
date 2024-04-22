@@ -5,6 +5,7 @@ import { ZodError } from "zod";
 
 export async function POST(request) {
   try {
+    // console.log(request, "BODY");
     const body = await request.json();
 
     const user = await UserModel.login(body);
@@ -13,7 +14,6 @@ export async function POST(request) {
       return NextResponse.json(user);
     }
 
-    console.log(user);
     const accessToken = signToken({
       _id: user._id,
       email: user.email,
@@ -21,6 +21,7 @@ export async function POST(request) {
 
     return NextResponse.json({ accessToken });
   } catch (error) {
+    // console.log(error)
     if (error instanceof ZodError) {
       const errPath = error.issues[0].path[0];
       const errMessage = error.issues[0].message;

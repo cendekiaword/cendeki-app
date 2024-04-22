@@ -11,7 +11,9 @@ const Page = () => {
   async function submitAction(formData) {
     const email = formData.get("email");
     const password = formData.get("password");
+
     console.log(email, password);
+
     if (!email) {
       return Swal.fire({
         title: "email required",
@@ -37,6 +39,7 @@ const Page = () => {
         "Content-Type": "application/json",
       },
     });
+
     console.log(res);
 
     let result = await res.json();
@@ -55,12 +58,14 @@ const Page = () => {
       });
     }
 
-    return Swal.fire({
-      title: "Success login",
-      showConfirmButton: false,
-      timer: 1500,
-      icon: "success",
-    });
+
+     Swal.fire({
+        title: "Login Success",
+        showConfirmButton: false,
+        timer: 1500,
+        icon: 'success'
+    })
+
     // cookies.set("Authorization", `Bearer ${result.data.token}`)
     // return router.push("/");
   }
