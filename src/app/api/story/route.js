@@ -12,11 +12,11 @@ export async function POST() {
   "answer" : string[]
   ]`;
   let result = await generateStory(prompt);
-  console.log(result);
+  // console.log(result);
   result = result.replace("```json", "")
   result = result.replace("```", "")
   const apa = await StoryModel.addStoryByCatmail("history","der@gmail.com",{ result: JSON.parse(result) });
-console.log(apa._id);
+// console.log(apa._id);
   const story = StoryModel.getStoryById(apa._id.toString())
   console.log(story);
 

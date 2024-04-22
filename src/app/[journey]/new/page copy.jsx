@@ -52,7 +52,7 @@ export default function page() {
         seconds,
       };
     } else {
-      return
+      return;
       // clearTimer();
       // router.push("/");
     }
@@ -64,7 +64,7 @@ export default function page() {
   }, [scores]);
 
   useEffect(() => {
-    clearTimer(); // Initialize timer
+    // clearTimer(); // Initialize timer
     return () => {
       if (Ref.current) {
         clearInterval(Ref.current);
@@ -76,6 +76,9 @@ export default function page() {
     console.log(e, "e");
     console.log(typeof e, "type");
     if (e != undefined && typeof e == "object") {
+      if(!getTimeRemaining(e)) {
+        return
+      }
       let { total, seconds } = getTimeRemaining(e);
 
       setTimer(
@@ -96,10 +99,8 @@ export default function page() {
     // }
   };
 
-
-  
-  const clearTimer = () => {
-    // console.log(e, "CLEAR TIMER")
+  const clearTimer = (e) => {
+    console.log(e, "CLEAR TIMER");
     // If you adjust it you should also need to
     // adjust the Endtime formula we are about
     // to code next
@@ -108,30 +109,44 @@ export default function page() {
     // If you try to remove this line the
     // updating of timer Variable will be
     // after 1000ms or 1sec
-    // if (Ref.current) clearInterval(Ref.current);
-    // const id = setInterval(() => {
-    //   startTimer(e);
-    // }, 1000);
-    // Ref.current = id;
-  };
-
-  const startInterval = () => {
     if (Ref.current) {
-      clearInterval(Ref.current); // Clear any existing interval
+      clearInterval(Ref.current);
+      console.log("SUDAH CLEAR");
     }
-    
     const id = setInterval(() => {
-      startTimer(getDeadline());
+      startTimer(e);
     }, 1000);
-    
-    Ref.current = id; // Store the interval ID in the ref
-  };
-  const onClickStart = () => {
-    clearTimer();
-    startInterval(); // Start the interval
+    Ref.current = id;
+    console.log(Ref.current, "di dalam clearTimer")
   };
 
-  const getDeadline = () => {
+  const clearTimerClear = (e) => {-
+    
+    console.log(e, "CLEAR TIMER");
+    // If you adjust it you should also need to
+    // adjust the Endtime formula we are about
+    // to code next
+    setTimer("00:10");
+
+    // If you try to remove this line the
+    // updating of timer Variable will be
+    // after 1000ms or 1sec
+    if (Ref.current) {
+      clearInterval(Ref.current);
+      console.log("SUDAH CLEAR");
+    }
+    const id = setInterval(() => {
+      startTimer(e);
+    }, 1000);
+    Ref.current = id;
+    setTimeout(myFunction, 12000)
+    function myFunction() {
+      clearInterval(id)
+    }
+    console.log(Ref.current, "di dalam clearTimer")
+  };
+
+  const getDeadTime = () => {
     let deadline = new Date();
 
     // This is where you need to adjust if
@@ -141,7 +156,7 @@ export default function page() {
   };
 
   const onClickReset = () => {
-    // clearTimer(getDeadline());
+    // clearTimer(getDeadTime());
     clearTimer();
   };
 
@@ -261,6 +276,13 @@ export default function page() {
           </section>
           <section className="col-span-1 flex max-w-full flex-col items-center justify-center px-8">
             <h2 className="flex items-center justify-center ">Tengu</h2>
+            <button
+              type="button"
+              className="h-92 mb-36 bg-red-500"
+              onClick={onClickReset}
+            >
+              reset
+            </button>
             <content className="flex items-center justify-center">
               <div className="rounded-2xl bg-slate-800 p-8">
                 <b className="w-[80%] text-pretty md:text-justify">
@@ -271,9 +293,13 @@ export default function page() {
             <div className="mt-4 flex w-full justify-between">
               <div>{timer}</div>
               <button
-                onClick={() => {
-                  // clearTimer(getDeadline());
-                  onClickStart()
+                onClick={(e) => {
+                  clearTimerClear(getDeadTime());
+                  // const id = setInterval(() => {
+                  //   startTimer(getDeadTime());
+                  // }, 1000);
+                  // Ref.current = id;
+                  // console.log(Ref.current, "di dalam clearTimer");
                 }}
               >
                 Start
