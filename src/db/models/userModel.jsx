@@ -63,7 +63,7 @@ export class UserModel {
 
     if (!emailFound) {
       return {
-        message: "Email / password is wrong",
+        errorMsg: "Email / password is wrong",
       };
     }
 
@@ -71,7 +71,7 @@ export class UserModel {
 
     if (!userFound) {
       return {
-        message: "Email / password is wrong",
+        errorMsg: "Email / password is wrong",
       };
     }
 

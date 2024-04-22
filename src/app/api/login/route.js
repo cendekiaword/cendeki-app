@@ -9,7 +9,7 @@ export async function POST(request) {
 
     const user = await UserModel.login(body);
 
-    if (!user) {
+    if (user.errorMsg) {
       return NextResponse.json(user);
     }
 
