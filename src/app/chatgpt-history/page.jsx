@@ -61,7 +61,7 @@ const ApnaChatGpt = () => {
                 name="question"
                 onChange={(e) => setQuestion(e.target.value)}
                 onKeyDown={enterHit}
-                placeholder="Ask any question..."
+                placeholder="Ask any someone/something history..."
                 type="text"
                 value={question}
               />

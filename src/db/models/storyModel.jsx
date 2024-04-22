@@ -15,11 +15,14 @@ export class StoryModel {
     }
     
     static async addStory(text) {
-        // console.log(text);
-        return await this.collection().insertOne({
-            story: text.result.story,
-            answer: text.result.answer,
-            category: text.result.category})
+
+        // console.log(text, '<<< ini di model');
+        return await this.oldCollection().insertOne({
+            fullStory: text.fullStory,
+            story: text.story,
+            answer: text.answer,
+            category: text.category})
+     
     }
 
     static async getStoryById(_id){
