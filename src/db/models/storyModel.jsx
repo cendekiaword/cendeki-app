@@ -1,5 +1,4 @@
 import { getCollection } from "../config/mongodb";
-
 import { z } from "zod";
 
 export class StoryModel {
@@ -13,8 +12,12 @@ export class StoryModel {
     }
     
     static async addStory(text) {
-        const result = await this.collection().insertOne(text)
-        return result
+        // console.log(text);
+        return await this.collection().insertOne({
+            fullStory: text.result.fullStory,
+            story: text.result.story,
+            answer: text.result.answer,
+            category: text.result.category})
     }
 
     static async getStoryById(_id){
