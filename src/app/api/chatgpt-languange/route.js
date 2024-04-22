@@ -1,4 +1,5 @@
 import { RAPID_API } from "@/db/config/constant";
+import { StoryModel } from "@/db/models/storyModel";
 import axios from "axios";
 import { NextResponse } from "next/server";
 
@@ -51,14 +52,14 @@ export async function POST(req, res) {
     console.log(data.choices[0].message.content);
     const object = JSON.parse(data.choices[0].message.content);
     console.log(object);
+    object.category = 'languange'
+    await StoryModel.addStory(object)
 
-    // res.send({ success: true, answer: data.text })
     return NextResponse.json({
       status: 200,
       answer: object,
     });
   } catch (error) {
-    // res.send({ success: false, message: error?.response?.data?.messaege || error })
     console.log(error);
     return NextResponse.json({
       status: 400,
