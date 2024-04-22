@@ -1,11 +1,13 @@
 import { NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
-import { verifyToken } from './app/db/helpers/jwt';
+import { cookies, headers } from 'next/headers';
+import { verifyToken } from './db/helpers/jwt';
 
 // Middleware function
 export async function middleware(request) {
   // Get the token from the cookie
-  const token = cookies(request).get('Authorization')?.split(' ')[1];
+  const data = cookies(request).get('Authorization')
+  const token = data.value.split(" ")[1]
+  // console.log(token, '<< ini token di middleware');
 
   // Create a new header object
   const requestHeader = new Headers(request.headers);
@@ -36,5 +38,5 @@ export async function middleware(request) {
 // Matching Paths
 export const config = {
   // Define the paths for which the middleware will run
-  matcher: ['api/story?'],
+  matcher: ['/api/story', '/api/profile'],
 };

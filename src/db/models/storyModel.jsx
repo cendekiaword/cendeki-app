@@ -3,6 +3,9 @@ import { z } from "zod";
 
 export class StoryModel {
     static collection() {
+        return getCollection("story baru")
+    }
+    static oldCollection() {
         return getCollection("story")
     }
 
@@ -23,5 +26,23 @@ export class StoryModel {
     static async getStoryById(_id){
         const result = await this.collection().findOne({_id})
         return result
+    }
+
+    static async randomFind(category){
+      const agg = [
+        {
+          '$match': {
+            category
+          }
+        }, {
+          '$sample': {
+            'size': 1
+          }
+        }
+      ];
+      const cursor = this.oldCollection().aggregate(agg);
+      const result = await cursor.toArray();
+      // console.log(result);
+      return result
     }
 }

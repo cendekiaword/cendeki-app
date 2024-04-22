@@ -2,6 +2,7 @@ import { getCollection } from "../config/mongodb";
 
 import { z } from "zod";
 import { hashPassword, verifyPassword } from "../helpers/bcrypt";
+import { ObjectId } from "mongodb";
 
 // type NewUserInput = Omit<UserType, "_id">
 
@@ -63,7 +64,7 @@ export class UserModel {
 
     if (!emailFound) {
       return {
-        message: "Email / password is wrong",
+        errorMsg: "Email / password is wrong",
       };
     }
 
@@ -71,10 +72,16 @@ export class UserModel {
 
     if (!userFound) {
       return {
-        message: "Email / password is wrong",
+        errorMsg: "Email / password is wrong",
       };
     }
 
     return emailFound;
+  }
+
+  static async findProfile(idUser){
+    let id = new ObjectId(String(idUser))
+    const profile = await this.collection().findOne({_id: id})
+    return profile
   }
 }

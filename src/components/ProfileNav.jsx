@@ -1,6 +1,8 @@
 import React from 'react'
+import EditProfile from './EditProfile'
 
-const ProfileNav = () => {
+const ProfileNav = ({profile}) => {
+  // console.log(profile);
   return (
     <div className="py-5 bg-slate-300 w-full h-40 items-center flex justify-center">
         <div className="flex flex-row items-center justify-center h-full w-[60%]">
@@ -11,17 +13,18 @@ const ProfileNav = () => {
             />
           </div>
           <div className="flex flex-col w-[65%] px-2">
-            <div className="text-xl">Nama</div>
+            <div className="text-xl">{profile.fullname}</div>
             <div className="flex flex-row gap-3 text-xs text-gray-400">
-              <div>@mail</div>
-              <div className="underline ">Bio</div>
+              <div>{profile.email}</div>
+              <div className="underline ">age: {profile.age}</div>
             </div>
           </div>
           <div className="flex flex-col flex-1 text-end mr-5">
             <div className="flex justify-end">
-              <div className="bg-white w-36 h-8 flex items-center justify-center rounded-xl text-blue-300">
+              {/* <div className="bg-white w-36 h-8 flex items-center justify-center rounded-xl text-blue-300">
                 Edit Profile
-              </div>
+              </div> */}
+              <EditProfile/>
             </div>
             <div className="flex flex-row gap-3 pt-3 w-full justify-end">
               <div className="text-sm">Point</div>
