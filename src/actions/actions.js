@@ -16,9 +16,13 @@ export async function profile(){
     return result.data
   }
 
+  // get random story
   export async function getStory(params){
     let res = await fetch(`${BASE_URL}/api/journey?journey=${params}`, {
-      cache: 'no-store'
+      cache: 'no-store',
+      headers: {
+        Cookie: cookies().toString()
+      }
     })
      
     let result = await res.json()

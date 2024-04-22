@@ -4,7 +4,7 @@ import Link from "next/link";
 import React from "react";
 
 export default function page({ params }) {
-  // console.log(params);
+  console.log(params);
   return (
     <>
       <main className="flex items-center justify-evenly bg-sky-300 md:min-h-[94.8dvh]">
@@ -33,9 +33,6 @@ export default function page({ params }) {
           <Link
             href={`/${params.journey}/revisit`}
             className="flex h-16 w-96 items-center rounded-md bg-slate-800 px-3 hover:outline"
-            onClick={() => {
-              getStory()
-            }}
           >
             <p className="text-2xl font-semibold invert">
               Revisiting Past Journeys
