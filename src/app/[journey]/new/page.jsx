@@ -1,6 +1,6 @@
 "use client";
 import { LottieMediumRound } from "@/components/Lottie";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FaCircleCheck, FaCircleXmark } from "react-icons/fa6";
 import animationData from "@/lotties/reading1.json";
 
@@ -27,7 +27,7 @@ export default function page() {
       "https://yokai.com/tengu/",
     ],
   };
-
+  const Ref = useRef(null);
   const [answers, setAnswers] = useState(Array(journey.answer.length));
   const [feedback, setFeedback] = useState(
     Array(journey.answer.length).fill(""),
@@ -35,7 +35,7 @@ export default function page() {
   const [border, setBorder] = useState(Array(journey.answer.length).fill(""));
   const [scores, setScores] = useState(Array(journey.answer.length).fill(0));
   const [finalScore, setFinalScore] = useState(0);
-
+  const [timer, setTimer] = useState("00:00:00");
   useEffect(() => {
     const sum = scores.reduce((acc, score) => acc + score, 0);
     setFinalScore(sum);

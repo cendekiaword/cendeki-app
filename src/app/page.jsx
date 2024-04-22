@@ -67,7 +67,7 @@ export default function Home() {
         </div>
       </div>
       <Teaser animationData={history} />
-      {/* <Branding /> */}
+      <Branding />
     </>
   );
 }
