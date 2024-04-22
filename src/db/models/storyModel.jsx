@@ -8,7 +8,8 @@ export class StoryModel {
     }
 
     static async getStoryByUser(_id) {
-        return await this.collection.find({userId : _id})
+        const result = await this.collection().find({userId : _id})
+        return result
     }
     
     static async addStory(category,email,text) {
@@ -35,7 +36,7 @@ static async addStoryByCatmail(category, email,text) {
   }
 
     static async getStoryById(_id){
-        const res = await this.collection().findOne({_id})
-        return res
+        const result = await this.collection().findOne({_id})
+        return result
     }
 }
