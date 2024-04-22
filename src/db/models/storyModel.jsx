@@ -1,5 +1,4 @@
 import { getCollection } from "../config/mongodb";
-
 import { z } from "zod";
 
 export class StoryModel {
@@ -15,28 +14,14 @@ export class StoryModel {
         return result
     }
     
-    static async addStory(category,email,text) {
-        const result = await this.collection().insertOne(text)
-        return result
+    static async addStory(text) {
+        // console.log(text);
+        return await this.collection().insertOne({
+            fullStory: text.result.fullStory,
+            story: text.result.story,
+            answer: text.result.answer,
+            category: text.result.category})
     }
-
-
-// Define a function to fetch stories
-static async addStoryByCatmail(category, email,text) {
-    try {
-        console.log(text,">>>>>>>>>>>>>>>>>>>>>>>>>")
-      const stories = await this.collection().findOneAndUpdate(
-        { category: category, 'story.email': email },
-        { $push: { 'story.$.stories': text.result } },
-        { new: true }
-      );
-
-      return stories;
-    } catch (error) {
-      console.error('Error fetching stories:', error);
-      return [];
-    }
-  }
 
     static async getStoryById(_id){
         const result = await this.collection().findOne({_id})
