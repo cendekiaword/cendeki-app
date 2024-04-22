@@ -16,6 +16,33 @@
   transition: background-color 200ms linear;
 }
 
+.bg-primary {
+  background-color: #1860b6;
+}
+
+.bg-accent {
+  background-color: #ecf5ff;
+}
+
+.btn-primary {
+  background-color: #1860b6;
+}
+
+.text-primary {
+  color: #1860b6;
+}
+
+.text-secondary {
+  color: #2563eb;
+}
+
+.border-primary {
+  border-color: #1860b6;
+}
+
+.decoration-primary {
+  text-decoration-color: #1860b6;
+}
 /* :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
