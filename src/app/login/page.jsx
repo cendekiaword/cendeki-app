@@ -4,12 +4,16 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import Swal from "sweetalert2";
+import Cookies from "universal-cookie";
 
 const Page = () => {
   const router = useRouter();
   async function submitAction(formData) {
     const email = formData.get("email");
     const password = formData.get("password");
+
+    console.log(email, password);
+
     if (!email) {
       return Swal.fire({
         title: "email required",
@@ -36,16 +40,24 @@ const Page = () => {
       },
     });
 
-    const result = await res.json();
+    console.log(res);
 
-    if (!res.ok) {
+    let result = await res.json();
+    console.log(result);
+    const cookies = new Cookies();
+    cookies.set("Authorization", `Bearer ${result.accessToken}`)
+    // let cookie = cookies.get("Authorization")
+    // console.log(cookie);
+
+    if (result.errorMsg) {
       return Swal.fire({
-        title: "Email/Password is Wrong",
+        title: result.errorMsg,
         showConfirmButton: false,
         timer: 1500,
         icon: "warning",
       });
     }
+
 
      Swal.fire({
         title: "Login Success",
@@ -53,8 +65,9 @@ const Page = () => {
         timer: 1500,
         icon: 'success'
     })
+
     // cookies.set("Authorization", `Bearer ${result.data.token}`)
-    return router.push("/");
+    // return router.push("/");
   }
   return (
     <>
