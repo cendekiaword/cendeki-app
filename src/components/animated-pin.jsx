@@ -18,7 +18,7 @@ export function AnimatedPinDemo() {
             >
               <Link href={el.href}>
                 <div className="flex h-[20rem] w-[20rem] basis-full flex-col p-4 tracking-tight text-slate-100/50 sm:basis-1/2 ">
-                  <h3 className="!m-0 max-w-xs !pb-2 text-center text-base  font-bold text-slate-100">
+                  <h3 className="!m-0 max-w-xs !pb-2 text-center text-base  font-bold text-black">
                     {el.title}
                   </h3>
                   <div className="mt-4 flex h-[80%] w-full flex-1 justify-center rounded-lg">

@@ -1,4 +1,5 @@
 import React from 'react'
+import EditProfile from './EditProfile'
 
 const ProfileNav = () => {
   return (
@@ -19,9 +20,10 @@ const ProfileNav = () => {
           </div>
           <div className="flex flex-col flex-1 text-end mr-5">
             <div className="flex justify-end">
-              <div className="bg-white w-36 h-8 flex items-center justify-center rounded-xl text-blue-300">
+              {/* <div className="bg-white w-36 h-8 flex items-center justify-center rounded-xl text-blue-300">
                 Edit Profile
-              </div>
+              </div> */}
+              <EditProfile/>
             </div>
             <div className="flex flex-row gap-3 pt-3 w-full justify-end">
               <div className="text-sm">Point</div>

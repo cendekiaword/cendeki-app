@@ -6,10 +6,16 @@ import MyProfile from "@/components/page/MyProgress";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import React from "react";
+import Cookies from "universal-cookie";
 
 const Page = () => {
   const params = useParams();
+  const cookies = new Cookies();
   const { pageProfile } = params;
+
+  async function profile(){
+
+  }
   return (
     <>
       <main className="flex h-[54rem] flex-col items-center bg-white">

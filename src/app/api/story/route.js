@@ -15,9 +15,8 @@ export async function POST() {
   // console.log(result);
   result = result.replace("```json", "")
   result = result.replace("```", "")
-  // console.log(result);
+
   const res = await StoryModel.addStory({ result: JSON.parse(result) });
-  // console.log(res.insertedId);
   
   const story = await StoryModel.getStoryById(res.insertedId)
 
