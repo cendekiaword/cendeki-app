@@ -27,7 +27,7 @@ const ApnaChatGpt = () => {
       setQuestionPreview(question);
       setQuestion("");
       setAnswer("");
-      const res = await fetch(`${BASE_URL}/api/chatgpt?query=${question}`,{
+      const res = await fetch(`${BASE_URL}/api/chatgpt-languange?query=${question}`,{
         method: 'POST',
         cache: 'no-store'
       });
@@ -52,7 +52,7 @@ const ApnaChatGpt = () => {
   return (
     <Fragment>
         <div className="dark:bg-gray-900 min-h-[92vh]">
-          <h1 className="text-3xl font-bold text-center pt-5 text-white">Cendekia-Story-Prompt</h1>
+          <h1 className="text-3xl font-bold text-center pt-5 text-white">Cendekia-Story-Prompt-Languange</h1>
           <div className="w-[92%] sm:w-[50%] m-auto mt-6">
             <div className="inputWrapper flex justify-around text-white">
               <input
