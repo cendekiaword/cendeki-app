@@ -5,18 +5,20 @@ import { ZodError } from "zod";
 
 export async function POST() {
   const prompt = `
-  create a ${"history"} lesson in a style of story with javascript object format of: {
-    fullStory: string,
-    question: string.
-    answer: string[]
-  } with question filled with story from fullStory but remove 5 parts of it and replace it with 4 "-" dashes to create a question to be filled and add it to the answer.`;
+  buatkan cerita tentang biologi dengan format json, dengan properti fullStory adalah cerita penuh tanpa potongan, properti story adalah cerita penuh yang di hilangkan beberapa katanya diganti dengan ---- dan kata tersebut dimasukan dalam properti answer dalam bentuk array
+  [
+  "fullStory": string,
+  "story": string,
+  "answer" : string[]
+  ]`;
   let result = await generateStory(prompt);
   console.log(result);
   result = result.replace("```json", "")
   result = result.replace("```", "")
-  await StoryModel.addStory({ result: JSON.parse(result) });
+  const apa = await StoryModel.addStoryByCatmail("history","der@gmail.com",{ result: JSON.parse(result) });
+console.log(apa._id);
+  const story = StoryModel.getStoryById(apa._id.toString())
+  console.log(story);
 
-  const story = StoryModel.getStoryById(result._id)
-
-  return NextResponse.json({ data: story }, { status: 201 });
+  return NextResponse.json({ data: result }, { status: 201 });
 }
