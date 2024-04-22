@@ -29,7 +29,7 @@ export default function Navbar({ className }) {
     <>
       <nav
         className={cn(
-          "sticky top-0 z-10 flex h-12 w-full items-center justify-between px-5 style={{ backdropFilter: "blur(5px)" }}",
+          "sticky top-0 z-10 flex h-12 w-full items-center justify-between px-5 style={{ backdropFilter: }}",
           scrolled ? "" : "bg-sky-300",
           className,
         )}
