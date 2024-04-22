@@ -1,28 +1,29 @@
 import { getCollection } from "../config/mongodb";
 import { z } from "zod";
 
-export class StoryModel {
+export class ScoreModel {
     static collection() {
-        return getCollection("story")
+        return getCollection("score")
     }
     // static Collection() {
     //     return getCollection("story")
     // }
-
-    static async getStoryByUser(_id) {
-        const result = await this.collection().find({userId : _id})
+    // Get 
+    static async getScoreById(_id) {
+        const result = await this.collection().find({id : _id})
         return result
     }
     
-    static async addStory(text) {
-        // console.log(text);
+    static async addScore(text) {
+        console.log(text,"<<<<<<<<<<<<<<<");
         return await this.collection().insertOne({
-            story: text.result.story,
-            answer: text.result.answer,
-            category: text.result.category})
+            score:text.result.score,
+            quizId:text.result.quizId,
+            playDate:new Date(),
+            userId:text.result.userId})
     }
 
-    static async getStoryById(_id){
+    static async getScoreById(_id){
         const result = await this.collection().findOne({_id})
         return result
     }
