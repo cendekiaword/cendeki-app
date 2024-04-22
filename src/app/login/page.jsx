@@ -46,8 +46,8 @@ const Page = () => {
     console.log(result);
     const cookies = new Cookies();
     cookies.set("Authorization", `Bearer ${result.accessToken}`)
-    // let cookie = cookies.get("Authorization")
-    // console.log(cookie);
+    let cookie = cookies.get("Authorization")
+    console.log(cookie);
 
     if (result.errorMsg) {
       return Swal.fire({
@@ -67,7 +67,7 @@ const Page = () => {
     })
 
     // cookies.set("Authorization", `Bearer ${result.data.token}`)
-    // return router.push("/");
+    return router.push("/");
   }
   return (
     <>

@@ -1,0 +1,19 @@
+{
+    "history": {
+        "fullStory": "Setelah perjuangan panjang merebut kemerdekaan dari penjajahan Belanda, Indonesia memproklamasikan kemerdekaan pada 17 Agustus 1945. Soekarno terpilih sebagai presiden pertama, dan mulai membangun negara baru yang didasarkan pada Pancasila. Indonesia mengalami berbagai tantangan pembangunan, termasuk konflik internal, pemberontakan separatis, dan ketidakstabilan ekonomi. Pada tahun 1965, kudeta yang gagal oleh Partai Komunis Indonesia menyebabkan pembantaian massal dan berakhirnya era demokrasi. Indonesia berada di bawah kekuasaan otoriter Soeharto selama 32 tahun, yang ditandai dengan pertumbuhan ekonomi, namun juga represi politik dan korupsi.",
+    "story": "Setelah perjuangan panjang merebut kemerdekaan dari penjajahan ----, Indonesia memproklamasikan kemerdekaan pada 17 Agustus 1945. Soekarno ---- sebagai presiden pertama, dan mulai membangun negara ---- yang ---- pada Pancasila. Indonesia mengalami berbagai ----, termasuk konflik internal, pemberontakan separatis, dan ---- ekonomi. Pada tahun 1965, ---- yang gagal oleh Partai Komunis Indonesia menyebabkan ---- dan ---- era ----. Indonesia ---- di bawah kekuasaan otoriter Soeharto selama 32 tahun, yang ditandai dengan ----, namun juga ---- dan ----.",
+    "answer": [
+      "Belanda",
+      "terpilih",
+      "baru",
+      "didasarkan",
+      "tantangan",
+      "kudeta",
+      "pembantaian",
+      "demokrasi",
+      "pertumbuhan",
+      "represi"
+    ],
+    "category": "history"
+    }
+}

@@ -6,6 +6,9 @@ export class StoryModel {
     static collection() {
         return getCollection("story baru")
     }
+    static oldCollection() {
+        return getCollection("story")
+    }
 
     static async getStoryByUser(_id) {
         return await this.collection.find({userId : _id})
@@ -37,5 +40,23 @@ static async addStoryByCatmail(category, email,text) {
     static async getStoryById(_id){
         const res = await this.collection().findOne({_id})
         return res
+    }
+
+    static async randomFind(category){
+      const agg = [
+        {
+          '$match': {
+            category
+          }
+        }, {
+          '$sample': {
+            'size': 1
+          }
+        }
+      ];
+      const cursor = this.oldCollection().aggregate(agg);
+      const result = await cursor.toArray();
+      // console.log(result);
+      return result
     }
 }

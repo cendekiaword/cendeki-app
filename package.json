@@ -20,6 +20,7 @@
     "framer-motion": "^11.1.7",
     "fs": "^0.0.1-security",
     "html-react-parser": "^5.1.10",
+    "jose": "^5.2.4",
     "jsonwebtoken": "^9.0.2",
     "lottie-react": "^2.4.0",
     "mongodb": "^6.5.0",

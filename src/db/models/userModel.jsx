@@ -2,6 +2,7 @@ import { getCollection } from "../config/mongodb";
 
 import { z } from "zod";
 import { hashPassword, verifyPassword } from "../helpers/bcrypt";
+import { ObjectId } from "mongodb";
 
 // type NewUserInput = Omit<UserType, "_id">
 
@@ -76,5 +77,11 @@ export class UserModel {
     }
 
     return emailFound;
+  }
+
+  static async findProfile(idUser){
+    let id = new ObjectId(String(idUser))
+    const profile = await this.collection().findOne({_id: id})
+    return profile
   }
 }
