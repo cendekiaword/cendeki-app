@@ -15,6 +15,24 @@ const page = ({params}) => {
     },[])
   return (
     <>
+    <div>
+      {story.fullStory}
+      <br />
+      ========
+    </div>
+    <div>
+      {story.story}
+      <br />
+      ========
+    </div>
+    <div>
+      {story.answer}
+      <br />
+      ========
+    </div>
+    <div>
+      {story.category}
+    </div>
 
     </>
   )
