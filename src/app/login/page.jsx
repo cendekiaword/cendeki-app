@@ -8,7 +8,6 @@ import Swal from "sweetalert2";
 const Page = () => {
   const router = useRouter();
   async function submitAction(formData) {
-    
     const email = formData.get("email");
     const password = formData.get("password");
     if (!email) {
@@ -27,8 +26,8 @@ const Page = () => {
         icon: "warning",
       });
     }
-    
-    let res = await fetch(`http://localhost:3000/api/login`, {
+
+    let res = await fetch(`${BASE_URL}/api/login`, {
       cache: "no-store",
       method: "POST",
       body: JSON.stringify({ email, password }),
@@ -36,25 +35,24 @@ const Page = () => {
         "Content-Type": "application/json",
       },
     });
-    console.log(res, "RESULT");
-    
-    await res.json();
+
+    const result = await res.json();
 
     if (!res.ok) {
       return Swal.fire({
-        title: "Email/Password Login",
+        title: "Email/Password is Wrong",
         showConfirmButton: false,
         timer: 1500,
         icon: "warning",
       });
     }
 
-    Swal.fire({
-      title: "berhasil login",
-      showConfirmButton: false,
-      timer: 1500,
-      icon: "success",
-    });
+     Swal.fire({
+        title: "Login Success",
+        showConfirmButton: false,
+        timer: 1500,
+        icon: 'success'
+    })
     // cookies.set("Authorization", `Bearer ${result.data.token}`)
     return router.push("/");
   }
@@ -68,7 +66,7 @@ const Page = () => {
         }}
       />
       {/* Input Component */}
-      <div className="flex h-screen">
+      <div className="flex min-h-[55.6rem]">
         <div
           className="login_img_section hidden w-full items-center justify-around
     lg:flex lg:w-1/2"
