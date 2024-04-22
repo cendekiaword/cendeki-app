@@ -1,7 +1,10 @@
+"use client"
+import { BASE_URL } from "@/db/config/constant";
 import Link from "next/link";
 import React from "react";
 
 export default function page({ params }) {
+  console.log(params);
   return (
     <>
       <main className="flex items-center justify-evenly bg-sky-300 md:min-h-[94.8dvh]">
