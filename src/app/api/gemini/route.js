@@ -12,6 +12,7 @@ export async function POST() {
   "answer" : string[]
   ]`;
   let result = await generateStory(prompt);
+  console.log(result);
   result = result.replace("```json", "")
   result = result.replace("```", "")
   const apa = await StoryModel.addStoryByCatmail("history","der@gmail.com",{ result: JSON.parse(result) });

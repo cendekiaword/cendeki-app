@@ -70,7 +70,7 @@ const Page = () => {
         }}
       />
       {/* Input Component */}
-      <div className="h-screen flex ">
+      <div className="h-[55.6rem] flex ">
         <div
           className="hidden lg:flex w-full lg:w-1/2 login_img_section
     justify-around items-center"></div>

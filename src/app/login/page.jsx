@@ -36,12 +36,14 @@ const Page = () => {
         "Content-Type": "application/json",
       },
     });
+    // console.log(res);
 
-    await res.json();
+    let result = await res.json();
+    console.log(result);
 
     if (!res.ok) {
       return Swal.fire({
-        title: "Email/Password Login",
+        title: "Email/Password is Wrong",
         showConfirmButton: false,
         timer: 1500,
         icon: "warning",
@@ -49,7 +51,7 @@ const Page = () => {
     }
 
      Swal.fire({
-        title: "berhasil login",
+        title: "Success login",
         showConfirmButton: false,
         timer: 1500,
         icon: 'success'
@@ -67,7 +69,7 @@ const Page = () => {
         }}
       />
       {/* Input Component */}
-      <div className="h-screen flex">
+      <div className="min-h-[55.6rem] flex">
         <div
           className="hidden lg:flex w-full lg:w-1/2 login_img_section
     justify-around items-center"></div>
