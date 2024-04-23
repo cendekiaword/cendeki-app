@@ -5,19 +5,13 @@ export class StoryModel {
   static collection() {
     return getCollection("story");
   }
-  // static Collection() {
-  //     return getCollection("story")
-  // }
 
+  static async getStoryByUser(_id) {
+    const result = this.collection().find({ userId: _id });
+    return result;
+  }
 
-    static async getStoryByUser(_id) {
-        const result = await this.collection().find({userId : _id})
-        return result
-    }
-    
-    static async addStory(text) {
-
-        // console.log(text, '<<< ini di model');
+  static async addStory(text) {
         return await this.collection().insertOne({
           title: text.title,
             fullStory: text.fullStory,
@@ -25,7 +19,6 @@ export class StoryModel {
             answer: text.answer,
             category: text.category,
           })
-     
     }
   
     static async randomFind(category){
@@ -42,7 +35,6 @@ export class StoryModel {
       ];
       const cursor = this.collection().aggregate(agg);
       const result = await cursor.toArray();
-      // console.log(result);
       return result
     }
 

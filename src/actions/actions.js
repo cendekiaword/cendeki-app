@@ -3,19 +3,16 @@ import { BASE_URL } from "@/db/config/constant";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-export async function profile() {
-  // console.log(cookies());
-  let res = await fetch(`${BASE_URL}/api/profile`, {
-    cache: "no-store",
-    headers: {
-      Cookie: cookies().toString(),
-    },
-  });
-  // console.log(res);
-  let result = await res.json();
-  // console.log(result);
-  return result.data;
-}
+export async function profile(){
+    let res = await fetch(`${BASE_URL}/api/profile`, {
+      cache: 'no-store',
+      headers: {
+        Cookie: cookies().toString()
+    }
+    })
+    let result = await res.json()
+    return result.data
+  }
 
 // get random story
 export async function getStory(params) {
@@ -41,9 +38,7 @@ export async function editProfile({ fullname, bio }) {
       Cookie: cookies().toString(),
     },
   });
-  // console.log(res);
   const result = await res.json();
-  // console.log(result);
   return redirect('/profile/details')
 }
 

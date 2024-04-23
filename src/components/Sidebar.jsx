@@ -96,7 +96,7 @@ const menus = [
     href: "/leaderboard",
   },
   {
-    name: "History",
+    name: "Previous Journey",
     icon: "",
     href: "/profile/history"
   },
