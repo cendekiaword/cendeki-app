@@ -85,10 +85,12 @@ export class UserModel {
     return profile
   }
 
+
   static async updateProfile({idUser, fullname, bio}){
     const id = new ObjectId(String(idUser))
     const res = await this.collection().updateOne({_id: id}, { $set: { fullname: fullname, bio: bio } })
     // console.log(res);
     return res
+
   }
 }

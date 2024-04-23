@@ -2,12 +2,13 @@ import { getCollection } from "../config/mongodb";
 import { z } from "zod";
 
 export class StoryModel {
-    static collection() {
-        return getCollection("story")
-    }
-    // static Collection() {
-    //     return getCollection("story")
-    // }
+  static collection() {
+    return getCollection("Story");
+  }
+  // static Collection() {
+  //     return getCollection("story")
+  // }
+
 
     static async getStoryByUser(_id) {
         const result = await this.collection().find({userId : _id})
@@ -26,12 +27,7 @@ export class StoryModel {
           })
      
     }
-
-    static async getStoryById(_id){
-        const result = await this.collection().findOne({_id})
-        return result
-    }
-
+  
     static async randomFind(category){
       const agg = [
         {
@@ -49,4 +45,9 @@ export class StoryModel {
       // console.log(result);
       return result
     }
+
+  static async getStoryById(_id) {
+    const result = await this.collection().findOne({ _id });
+    return result;
+  }
 }

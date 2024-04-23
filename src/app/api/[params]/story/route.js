@@ -1,5 +1,3 @@
-import { CategoryModel } from "@/db/models/categoryModel";
-import { ScoreModel } from "@/db/models/scoreModel";
 import { StoryModel } from "@/db/models/storyModel";
 import generateStory from "@/utils/geminiAI";
 import { NextResponse } from "next/server";
@@ -67,10 +65,8 @@ export async function POST(req, { params }) {
     result = result.replace("```json", "")
     result = result.replace("```", "")
     // console.log(result);
-    text = JSON.parse(result)['fullStory']
-    const res = await CategoryModel.addCategory(text);
-
-    const story = await StoryModel.addStory({ result: JSON.parse(result) })
+    const res = await StoryModel.addStory({ result: JSON.parse(result) });
+    const story = await StoryModel.getStoryById(res.insertedId)
 
 
     return NextResponse.json({ data: story }, { status: 201 });
@@ -128,29 +124,17 @@ export async function POST(req, { params }) {
     }
 
     const randomPrompt = getRandomPrompt(arr);
-    // console.log(randomPrompt);
+    console.log(randomPrompt);
     let result = await generateStory(randomPrompt);
     // console.log(result);
     result = result.replace("```json", "")
     result = result.replace("```", "")
     // console.log(result);
-    let text = JSON.parse(result)
-    const res = await CategoryModel.addCategory(text.fullStory);
+    const res = await StoryModel.addStory({ result: JSON.parse(result) });
 
-    const story = await StoryModel.addStory({ result: {
-      story:text.story,
-      answer:text.answer,
-      category:res.insertedId
-    } })
-    
-    const score = await ScoreModel.addScore({ result: {
-      score:req.body.score,
-      quizId:story.insertedId,
-      playDate: new Date(),
-      userId: req.body.userId
-    } }) 
+    const story = await StoryModel.getStoryById(res.insertedId)
 
-    console.log(score,"<<<<<<<<<<<<<<<<<<")
+
     return NextResponse.json({ data: story }, { status: 201 });
   } else {
     return NextResponse.json({ data: 'Category is unavailable' }, { status: 404 });
