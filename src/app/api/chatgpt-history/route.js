@@ -8,7 +8,7 @@ export async function POST(req, res) {
     // console.log('masuk');
     const { searchParams } = new URL(req.url);
     const query = searchParams.get("query");
-    const prompt = `ceritakan sejarah tentang ${query} sesuai dengan cerita aslinya dengan bentuk object dengan properti sebagai berikut dan bukan json, 
+    const prompt = `ceritakan sejarah tentang ${query} sesuai dengan cerita aslinya dengan bentuk json dengan properti sebagai berikut , 
     {
      "fullStory": cerita dengan panjang 5 kalimat,
      "story": fullStory yang dihilangkan  2 kata pada tiap kalimat dari fullStory kata tersebut dan tidak berdekatan kemudian kata yang hilang diganti dengan  '----',
@@ -44,15 +44,18 @@ export async function POST(req, res) {
     // console.log(RAPID_API);
 
     const { data } = await axios.request(options);
-    console.log(data.choices[0].message.content);
+    // console.log(data.choices[0].message.content);
     const object = JSON.parse(data.choices[0].message.content);
-    console.log(object);
+    object.title = query
     object.category = 'history'
-    await StoryModel.addStory(object)
-
+    let res =  await StoryModel.addStory(object)
+    const { insertedId } = res
+    let result = await StoryModel.getStoryById(insertedId)
+    // console.log(res);
+    
     return NextResponse.json({
       status: 200,
-      answer: object,
+      answer: result,
     });
   } catch (error) {
     console.log(error);

@@ -12,34 +12,34 @@ export class StoryModel {
   }
 
   static async addStory(text) {
-    return await this.collection().insertOne({
-      fullStory: text.fullStory,
-      story: text.story,
-      answer: text.answer,
-      category: text.category,
-    });
-  }
+        return await this.collection().insertOne({
+          title: text.title,
+            fullStory: text.fullStory,
+            story: text.story,
+            answer: text.answer,
+            category: text.category,
+          })
+    }
+  
+    static async randomFind(category){
+      const agg = [
+        {
+          '$match': {
+            category
+          }
+        }, {
+          '$sample': {
+            'size': 1
+          }
+        }
+      ];
+      const cursor = this.collection().aggregate(agg);
+      const result = await cursor.toArray();
+      return result
+    }
 
   static async getStoryById(_id) {
     const result = await this.collection().findOne({ _id });
-    return result;
-  }
-
-  static async randomFind(category) {
-    const agg = [
-      {
-        $match: {
-          category,
-        },
-      },
-      {
-        $sample: {
-          size: 1,
-        },
-      },
-    ];
-    const cursor = this.collection().aggregate(agg);
-    const result = await cursor.toArray();
     return result;
   }
 }

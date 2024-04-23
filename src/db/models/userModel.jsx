@@ -32,6 +32,11 @@ export class UserModel {
     return this.collection().find().toArray();
   }
 
+  static async getUser(_id){
+    const user = await this.collection().findOne({_id})
+    return user
+  }
+
   static async checkUserEmail(email) {
     const checkEmail = await this.collection().findOne({ email });
     return checkEmail;
@@ -79,9 +84,72 @@ export class UserModel {
     return emailFound;
   }
 
-  static async findProfile(idUser){
-    let id = new ObjectId(String(idUser))
-    const profile = await this.collection().findOne({_id: id})
-    return profile
+  static async findProfile(idUser) {
+    let id = new ObjectId(String(idUser));
+    const agg = [
+      {
+        $match: {
+          _id: id,
+        },
+      },
+      {
+        $lookup: {
+          from: "Scores",
+          localField: "_id",
+          foreignField: "userId",
+          as: "historyId",
+        },
+      },
+      {
+        $lookup: {
+          from: "story",
+          localField: "historyId.storyId",
+          foreignField: "_id",
+          as: "history",
+        },
+      },
+      {
+        $addFields: {
+          history: {
+            $map: {
+              input: "$history",
+              as: "h",
+              in: {
+                $mergeObjects: [
+                  "$$h",
+                  {
+                    $arrayElemAt: [
+                      {
+                        $filter: {
+                          input: "$historyId",
+                          cond: {
+                            $eq: ["$$this.storyId", "$$h._id"],
+                          },
+                        },
+                      },
+                      0,
+                    ],
+                  },
+                ],
+              },
+            },
+          },
+        },
+      },
+    ];
+    const cursor = this.collection().aggregate(agg);
+    const result = await cursor.toArray();
+    // console.log(result);
+    return result[0];
+  }
+
+  static async updateProfile({ idUser, fullname, bio }) {
+    const id = new ObjectId(String(idUser));
+    const res = await this.collection().updateOne(
+      { _id: id },
+      { $set: { fullname: fullname, bio: bio } },
+    );
+    // console.log(res);
+    return res;
   }
 }

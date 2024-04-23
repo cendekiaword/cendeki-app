@@ -4,8 +4,49 @@ import React, { useEffect, useRef, useState } from "react";
 import { FaCircleCheck, FaCircleXmark } from "react-icons/fa6";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
+import { BASE_URL } from "@/db/config/constant";
+import Cookies from "universal-cookie";
 
 export default function page() {
+  // const [question, setQuestion] = useState("");
+  // const [loading, setLoading] = useState(false);
+  // const [questionPreview, setQuestionPreview] = useState("");
+  // const [journey, setJourney] = useState();
+  // const [history, setHistory] = useState([]);
+
+  // const enterHit = (e) => {
+  //   if (e.key === "Enter") {
+  //     generateAnswer();
+  //   }
+  // };
+
+  // const generateAnswer = async () => {
+  //   try {
+  //     setLoading(true);
+  //     setQuestionPreview(question);
+  //     setQuestion("");
+  //     setAnswer("");
+  //     const res = await fetch(`${BASE_URL}/api/chatgpt-history?query=${question}`,{
+  //       method: 'POST',
+  //       cache: 'no-store'
+  //     });
+  //     // console.log(res);
+  //     const result = await res.json()
+  //     // console.log(result);
+  //     if (!res.ok) {
+  //       alert();
+  //       setLoading(false);
+  //       return;
+  //     }
+  //     setLoading(false);
+  //     setJourney(result.answer.story);
+  //     setHistory([{ question, answer: result.answer.story }, ...history]);
+  //     // console.log(result.content);
+  //   } catch (error) {
+  //     console.log(error);
+  //     alert(error);
+  //   }
+  // };
   const journey = {
     fullStory:
       "Tengu are mythical creatures found in Japanese folklore, often depicted as bird-like humanoids with both human and avian characteristics. Historically, they were thought to be disruptive demons and harbingers of war, but over time their image transformed into protective deities of the mountains and forests. Tengu are typically portrayed with red faces and long noses, and they are known to be skilled warriors. The Tengu are associated with the Shugendo tradition, where they are considered both protective deities and teachers of martial arts. They inhabit sacred mountains, guarding Shinto shrines and Buddhist temples. According to legends, Tengu can move swiftly through the air, wield magical powers, and have the ability to shape-shift. Their lore is rich with stories of encounters with samurai and monks, where they often impart wisdom or serve as formidable opponents.",
@@ -72,18 +113,32 @@ export default function page() {
     };
   }, []);
 
+  async function postScore (){
+    const cookies = new Cookies()
+    // console.log(finalScore);
+    return await fetch(`${BASE_URL}/api/scoring`, {
+      cache: 'no-store',
+      headers: {
+        Cookie: cookies.toString(),
+        "Content-Type": "application/json"
+      },
+      method: 'POST',
+      body: JSON.stringify({ finalScore, storyId: journey.id})
+    })
+  }
   useEffect(() => {
     if (gameEnd) {
-      // Swal.fire({html:`<div className="bg-primary">your final score is ${finalScore}<div>`})
+      postScore()
       Swal.fire({
         title: "Time's up!",
         text: `Your final score is ${finalScore}`,
         icon: "info",
         confirmButtonColor: "#3085d6",
         confirmButtonText: "okay",
-      }).then((result) => {
+      })
+      .then((result) => {
         if (result.isConfirmed) {
-          router.push("/profile/history");
+          // router.push("/profile/history");
         }
       });
     }

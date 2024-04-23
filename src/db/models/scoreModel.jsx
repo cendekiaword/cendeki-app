@@ -1,9 +1,10 @@
+import { ObjectId } from "mongodb";
 import { getCollection } from "../config/mongodb";
 import { z } from "zod";
 
 export class ScoreModel {
     static collection() {
-        return getCollection("score")
+        return getCollection("Scores")
     }
     // static Collection() {
     //     return getCollection("story")
@@ -14,13 +15,17 @@ export class ScoreModel {
         return result
     }
     
-    static async addScore(text) {
-        console.log(text,"<<<<<<<<<<<<<<<");
+    static async addScore({userId, score, storyId, playDate}) {
+        // console.log(text,"<<<<<<<<<<<<<<<");
+        // console.log(userId, storyId, playDate);
+        const idUser = new ObjectId(String(userId))
+        const idStory = new ObjectId(String("6627315836f20e5031518694"))
         return await this.collection().insertOne({
-            score:text.result.score,
-            quizId:text.result.quizId,
-            playDate:new Date(),
-            userId:text.result.userId})
+            storyId: idStory,
+            userId: idUser,
+            score,
+            playDate
+          })
     }
 
     static async getScoreById(_id){

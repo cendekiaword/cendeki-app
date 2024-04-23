@@ -52,12 +52,15 @@ export async function POST(req, res) {
     console.log(data.choices[0].message.content);
     const object = JSON.parse(data.choices[0].message.content);
     console.log(object);
+    object.title = query
     object.category = 'languange'
-    await StoryModel.addStory(object)
+    let res =  await StoryModel.addStory(object)
+    const { insertedId } = res
+    let result = await StoryModel.getStoryById(insertedId)
 
     return NextResponse.json({
       status: 200,
-      answer: object,
+      answer: result,
     });
   } catch (error) {
     console.log(error);

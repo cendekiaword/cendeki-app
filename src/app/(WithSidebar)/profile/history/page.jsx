@@ -5,8 +5,18 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { profile } from "@/actions/actions";
 
-export default function page() {
+export default async function page() {
+  const getData = async () => {
+    return await profile()
+  }
+
+  const data = await getData()
+  // console.log(data);
+  let histories = data.history
+  // console.log(histories);
+
   return (
     <>
       <div className="mx-auto flex w-dvw max-w-[70dvw] justify-center mt-16">
@@ -55,7 +65,7 @@ export default function page() {
           />
 
           <div className="flex max-h-[70dvh] w-full max-w-[80%] flex-col gap-8 overflow-hidden hover:overflow-y-auto">
-            {histories.map((el, idx) => {
+            {histories && histories?.map((el, idx) => {
               return (
                 <div
                   key={idx}
@@ -65,7 +75,7 @@ export default function page() {
                     <h2 className="text-xl font-bold">
                       {el.title}
                     </h2>
-                    <p className="">{el.date}</p>
+                    <p className="">{el.playDate}</p>
                   </div>
                   <div className="flex justify-between">
                     <div className="rounded-md bg-sky-300 px-4 py-1 text-xl font-bold">
@@ -86,53 +96,53 @@ export default function page() {
   );
 }
 
-const histories = [
-  {
-    title: "Indonesia Independence",
-    category: "History",
-    date: "22/04/2024",
-    score: 800,
-  },
-  {
-    title: "Bahasa Indonesia",
-    category: "Language",
-    date: "22/04/2024",
-    score: 400,
-  },
-  {
-    title: "photosynthesis",
-    category: "Science",
-    date: "22/04/2024",
-    score: 1200,
-  },
-  {
-    title: "Majapahit Kingdom",
-    category: "History",
-    date: "22/04/2024",
-    score: 300,
-  },
-  {
-    title: "English",
-    category: "Language",
-    date: "22/04/2024",
-    score: 800,
-  },
-  {
-    title: "Quantum Reactor",
-    category: "Physics",
-    date: "22/04/2024",
-    score: 2000,
-  },
-  {
-    title: "Gravity",
-    category: "Physics",
-    date: "22/04/2024",
-    score: 1500,
-  },
-  {
-    title: "Japanese",
-    category: "Language",
-    date: "22/04/2024",
-    score: 900,
-  },
-];
+// const histories = [
+//   // {
+//   //   title: "Indonesia Independence",
+//   //   category: "History",
+//   //   date: "22/04/2024",
+//   //   score: 800,
+//   // },
+//   // {
+//   //   title: "Bahasa Indonesia",
+//   //   category: "Language",
+//   //   date: "22/04/2024",
+//   //   score: 400,
+//   // },
+//   // {
+//   //   title: "photosynthesis",
+//   //   category: "Science",
+//   //   date: "22/04/2024",
+//   //   score: 1200,
+//   // },
+//   // {
+//   //   title: "Majapahit Kingdom",
+//   //   category: "History",
+//   //   date: "22/04/2024",
+//   //   score: 300,
+//   // },
+//   // {
+//   //   title: "English",
+//   //   category: "Language",
+//   //   date: "22/04/2024",
+//   //   score: 800,
+//   // },
+//   // {
+//   //   title: "Quantum Reactor",
+//   //   category: "Physics",
+//   //   date: "22/04/2024",
+//   //   score: 2000,
+//   // },
+//   // {
+//   //   title: "Gravity",
+//   //   category: "Physics",
+//   //   date: "22/04/2024",
+//   //   score: 1500,
+//   // },
+//   // {
+//   //   title: "Japanese",
+//   //   category: "Language",
+//   //   date: "22/04/2024",
+//   //   score: 900,
+//   // },
+// ];

@@ -1,9 +1,41 @@
+"use client"
+import { profile } from "@/actions/actions";
 import Link from "next/link";
-import React from "react";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import Swal from "sweetalert2";
+import Cookies from "universal-cookie";
 
 export default function Sidebar() {
+  const [dataProfile, setDataProfile] = useState({})
+  const router = useRouter()
+  const cookies = new Cookies();
+  async function logout() {
+    let token = cookies.get("Authorization")
+    if (!token) {
+        return Swal.fire({
+            title: 'You are not login yet',
+            showConfirmButton: false,
+            timer: 1500,
+            icon: 'warning'
+        })
+    }
+    cookies.remove("Authorization");
+    return router.push("/")
+}
+
+async function getProfile(){
+  let res = await profile()
+  setDataProfile(res)
+}
+
+useEffect(() => {
+  getProfile()
+},[])
+
+
   return (
-    <>
+    <div>
       <div className="sticky left-0 top-0 flex min-h-dvh max-h-dvh max-w-[20dvw] flex-col justify-between shadow-lg shadow-blue-600 md:min-w-[20dvw]">
         <div>
           <Link href="/" className="my-8 mb-8 flex items-center justify-center">
@@ -39,16 +71,16 @@ export default function Sidebar() {
               alt=""
             />
             <div>
-              <p className="font-bold">John Doe</p>
-              <p className="text-gray-500">jd@mail.com</p>
+              <p className="font-bold">{dataProfile.fullname}</p>
+              <p className="text-gray-500">{dataProfile.email}</p>
             </div>
           </Link>
-          <Link href="/" className="my-4 rounded-md bg-sky-200 py-1 text-center font-bold">
+          <button onClick={logout} className="my-4 rounded-md bg-sky-200 py-1 text-center font-bold">
             Log out
-          </Link>
+          </button>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

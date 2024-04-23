@@ -1,5 +1,6 @@
 import { signToken } from "@/db/helpers/jwt";
 import { UserModel } from "@/db/models/userModel";
+import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { ZodError } from "zod";
 
@@ -18,6 +19,8 @@ export async function POST(request) {
       _id: user._id,
       email: user.email,
     });
+
+    cookies().set('Authorization', `Bearer ${accessToken}`)
 
     return NextResponse.json({ accessToken });
   } catch (error) {
