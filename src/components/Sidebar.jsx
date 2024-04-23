@@ -71,8 +71,8 @@ useEffect(() => {
               alt=""
             />
             <div>
-              <p className="font-bold">{dataProfile.fullname}</p>
-              <p className="text-gray-500">{dataProfile.email}</p>
+              <p className="font-bold">{dataProfile?.fullname}</p>
+              <p className="text-gray-500">{dataProfile?.email}</p>
             </div>
           </Link>
           <button onClick={logout} className="my-4 rounded-md bg-sky-200 py-1 text-center font-bold">
