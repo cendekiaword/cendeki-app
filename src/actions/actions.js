@@ -3,7 +3,8 @@ import { BASE_URL } from "@/db/config/constant";
 import { cookies } from "next/headers";
 
 export async function profile(){
-    // console.log(cookies());
+
+    console.log(BASE_URL);
     let res = await fetch(`${BASE_URL}/api/profile`, {
       cache: 'no-store',
       headers: {
