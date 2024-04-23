@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import Swal from "sweetalert2";
-import { Vortex } from "../../components/ui/vortex";
+import { Vortex } from "../../../components/ui/vortex";
 
 const Page = () => {
   const router = useRouter();
