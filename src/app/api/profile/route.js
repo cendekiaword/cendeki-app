@@ -3,10 +3,10 @@ import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
 export async function GET(){
+    console.log('masuk');
     const id = headers().get('x-id-user')
     let profile = await UserModel.findProfile(id)
-    // console.log(profile);
-
+    console.log(profile)
     return NextResponse.json({
         status: 200,
         data: profile
@@ -15,7 +15,7 @@ export async function GET(){
 
 export async function PATCH(request){
     const idUser = headers().get('x-id-user')
-    console.log('masuk');
+    // console.log('masuk');
     let body = await request.json();
     const { fullname, bio} = body
     const profile = await UserModel.updateProfile({idUser, fullname, bio})

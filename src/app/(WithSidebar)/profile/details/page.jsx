@@ -30,7 +30,7 @@ const Page = () => {
   return (
     <>
       <main className="flex h-[54rem] flex-col items-center bg-white">
-        <ProfileNav profile={data}/>
+        <ProfileNav profile={data} getProfile={getProfile}/>
         <div className="grid h-full w-[70%] grid-cols-3 px-5 py-2">
           <div className=" flex flex-col p-6 px-10 py-8">
             <div className="text-sm font-semibold text-gray-300">
