@@ -152,4 +152,12 @@ export class UserModel {
     // console.log(res);
     return res;
   }
+
+  static async googleLogin(data) {
+    const user = await this.collection().findOne({ email: data.email })
+    if (!user) {
+      return await this.addUser(data)
+    }
+    return user
+  }
 }

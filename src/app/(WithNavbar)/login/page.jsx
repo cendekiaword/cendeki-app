@@ -7,8 +7,11 @@ import Swal from "sweetalert2";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook, FaApple } from "react-icons/fa";
 import Cookies from "universal-cookie";
+import { signIn } from "next-auth/react";
+import { GoogleButton } from "../../../components/googleButton";
+
 const Page = () => {
-  const cookies = new Cookies()
+  const cookies = new Cookies();
   const router = useRouter();
   async function submitAction(formData) {
     const email = formData.get("email");
@@ -29,6 +32,7 @@ const Page = () => {
         icon: "warning",
       });
     }
+    
 
     let res = await fetch(`${BASE_URL}/api/login`, {
       cache: "no-store",
@@ -57,7 +61,7 @@ const Page = () => {
       icon: "success",
     });
     // console.log(result);
-    cookies.set("Authorization", `Bearer ${result.accessToken}`)
+    cookies.set("Authorization", `Bearer ${result.accessToken}`);
     return router.push("/");
   }
   return (
@@ -104,7 +108,8 @@ const Page = () => {
           <div className="flex justify-center gap-8 ">
             <FaApple className="size-8 rounded-full bg-black p-1 text-white" />
             <FaFacebook className="size-8 rounded-full text-sky-600" />
-            <FcGoogle className="size-8 rounded-full text-white" />
+            <GoogleButton/>
+              <FcGoogle className="size-8 rounded-full text-white" />
           </div>
         </div>
       </div>

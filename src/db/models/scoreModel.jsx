@@ -66,6 +66,11 @@ export class ScoreModel {
           },
         },
       },
+      {
+        $sort: {
+          totalScore: -1
+        }
+      }
     ];
 
     const cursor = this.collection().aggregate(agg);
