@@ -135,7 +135,7 @@ export async function POST(req, { params }) {
     const userId= req.headers.get('x-id-user')
     console.log(userId, "<<<<<< user");
     const storyId = res.insertedId
-    const score = await ScoreModel.addScore(res, userId, storyId)
+    const score = await ScoreModel.addScore({res, userId, storyId})
 
     const story = await StoryModel.getStoryById(res.insertedId)
 

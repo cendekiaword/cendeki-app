@@ -15,14 +15,17 @@ export class ScoreModel {
         return result
     }
     
-    static async addScore(text, idUser, storyId) {
-        console.log(text,"<<<<<<<<<<<<<<<");
-        const userId = new ObjectId(idUser)
+    static async addScore({userId, score, storyId, playDate}) {
+        // console.log(text,"<<<<<<<<<<<<<<<");
+        // console.log(userId, storyId, playDate);
+        const idUser = new ObjectId(String(userId))
+        const idStory = new ObjectId(String("6627315836f20e5031518694"))
         return await this.collection().insertOne({
-            // score:text.result.score,
-            storyId,
-            playDate:new Date(),
-            userId})
+            storyId: idStory,
+            userId: idUser,
+            score,
+            playDate
+          })
     }
 
     static async getScoreById(_id){

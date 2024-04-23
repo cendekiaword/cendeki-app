@@ -3,7 +3,7 @@ import { z } from "zod";
 
 export class StoryModel {
   static collection() {
-    return getCollection("Story");
+    return getCollection("story");
   }
   // static Collection() {
   //     return getCollection("story")
