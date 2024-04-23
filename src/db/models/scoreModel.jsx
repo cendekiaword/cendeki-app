@@ -20,7 +20,7 @@ export class ScoreModel {
         const userId = new ObjectId(idUser)
         return await this.collection().insertOne({
             // score:text.result.score,
-            quizId:storyId,
+            storyId,
             playDate:new Date(),
             userId})
     }
