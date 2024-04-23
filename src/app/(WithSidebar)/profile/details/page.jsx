@@ -22,7 +22,6 @@ const Page = () => {
   async function getProfile() {
     let prof = await profile();
     setData(prof);
-    // console.log(data);
   }
 
   useEffect(() => {

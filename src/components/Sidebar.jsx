@@ -1,11 +1,13 @@
 "use client"
+import { profile } from "@/actions/actions";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import Cookies from "universal-cookie";
 
 export default function Sidebar() {
+  const [dataProfile, setDataProfile] = useState({})
   const router = useRouter()
   const cookies = new Cookies();
   async function logout() {
@@ -21,6 +23,16 @@ export default function Sidebar() {
     cookies.remove("Authorization");
     return router.push("/")
 }
+
+async function getProfile(){
+  let res = await profile()
+  setDataProfile(res)
+}
+
+useEffect(() => {
+  getProfile()
+},[])
+
 
   return (
     <div>
@@ -59,8 +71,8 @@ export default function Sidebar() {
               alt=""
             />
             <div>
-              <p className="font-bold">John Doe</p>
-              <p className="text-gray-500">jd@mail.com</p>
+              <p className="font-bold">{dataProfile.fullname}</p>
+              <p className="text-gray-500">{dataProfile.email}</p>
             </div>
           </Link>
           <button onClick={logout} className="my-4 rounded-md bg-sky-200 py-1 text-center font-bold">
