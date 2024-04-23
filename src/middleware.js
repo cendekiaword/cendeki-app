@@ -5,21 +5,17 @@ import { verifyToken } from "./db/helpers/jwt";
 // Middleware function
 export async function middleware(request) {
   // Get the token from the cookie
-
+  // console.log('masuk middleware');
   const data = cookies(request).get('Authorization')
-  const token = data?.value.split(" ")[1]
-
-  // console.log(typeof data);
   if (!data) {
-    // console.log('masuk', "<<<<<");
     return NextResponse.redirect(new URL("/login", request.url));
   }
-
-
-  // console.log(token, '<< ini token di middleware');
+  
+  const token = data.value.split(" ")[1]
 
   // Create a new header object
   const requestHeader = new Headers(request.headers);
+
 
   // If a token exists
   if (token) {
@@ -47,9 +43,5 @@ export async function middleware(request) {
 // Matching Paths
 export const config = {
   // Define the paths for which the middleware will run
-
   matcher: ['/lobby', '/api/language/story', '/api/history/story', '/api/profile', '/api/scoring', '/history/new'],
-
-
- 
 };

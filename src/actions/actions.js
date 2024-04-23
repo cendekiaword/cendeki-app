@@ -13,8 +13,7 @@ export async function profile() {
       }
     })
 
-    console.log(res)
-    let result = await res.json()
+    let result = await res.json();
     return result.data
   } catch (error) {
     console.log(error)
