@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook, FaApple } from "react-icons/fa";
 import Cookies from "universal-cookie";
+import { GoogleButton } from "@/components/GoogleButton";
 const Page = () => {
   const cookies = new Cookies()
   const router = useRouter();
@@ -102,9 +103,7 @@ const Page = () => {
           </form>
           <p className="text-center text-gray-500">or continue with</p>
           <div className="flex justify-center gap-8 ">
-            <FaApple className="size-8 rounded-full bg-black p-1 text-white" />
-            <FaFacebook className="size-8 rounded-full text-sky-600" />
-            <FcGoogle className="size-8 rounded-full text-white" />
+            <GoogleButton/>
           </div>
         </div>
       </div>

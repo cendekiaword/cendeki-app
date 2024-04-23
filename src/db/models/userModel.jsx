@@ -14,7 +14,7 @@ import { ObjectId } from "mongodb";
 const AddUserSchema = z.object({
   fullname: z.string(),
   email: z.string().email(),
-  password: z.string().min(5).max(10),
+  password: z.string().min(5),
   age: z.number(),
 });
 
@@ -45,14 +45,15 @@ export class UserModel {
   static async addUser(user) {
     const validation = AddUserSchema.safeParse(user);
     if (!validation.success) {
+      console.log(validation);
       throw validation.error;
     }
-
+    
     const result = await this.collection().insertOne({
       ...user,
       password: hashPassword(user.password),
     });
-    console.log(result);
+    // console.log(result);
     return {
       _id: result.insertedId,
       ...user,
@@ -151,5 +152,14 @@ export class UserModel {
     );
     // console.log(res);
     return res;
+  }
+
+  static async googleLogin(data) {
+    const user = await this.collection().findOne({ email: data.email })
+    if (!user) {
+      console.log(data);
+      return await this.addUser(data)
+    }
+    return user
   }
 }
