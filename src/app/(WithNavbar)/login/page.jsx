@@ -6,7 +6,9 @@ import React, { useState } from "react";
 import Swal from "sweetalert2";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook, FaApple } from "react-icons/fa";
+import Cookies from "universal-cookie";
 const Page = () => {
+  const cookies = new Cookies()
   const router = useRouter();
   async function submitAction(formData) {
     const email = formData.get("email");
@@ -54,7 +56,8 @@ const Page = () => {
       timer: 1500,
       icon: "success",
     });
-    // cookies.set("Authorization", `Bearer ${result.data.token}`)
+    // console.log(result);
+    cookies.set("Authorization", `Bearer ${result.accessToken}`)
     return router.push("/");
   }
   return (
@@ -79,22 +82,24 @@ const Page = () => {
         </div>
         <div className="col-span-1 flex flex-col gap-8 px-16">
           <h2 className="text-2xl font-semibold">Sign in</h2>
-          <input
-            type="text"
-            placeholder="Enter email"
-            name="email"
-            className="bg-accent h-12 w-full rounded px-4 placeholder:text-sky-600"
-          />
-          <input
-            type="text"
-            placeholder="Password"
-            name="password"
-            className="bg-accent h-12 w-full rounded px-4 placeholder:text-sky-600"
-          />
-          <p className="text-end text-sm text-gray-500">Forgot password?</p>
-          <button className="bg-primary h-12 w-full rounded px-4 font-semibold text-white hover:shadow-lg hover:shadow-blue-300">
-            Login
-          </button>
+          <form action={submitAction} className="flex flex-col gap-3">
+            <input
+              type="text"
+              placeholder="Enter email"
+              name="email"
+              className="bg-accent h-12 w-full rounded px-4 placeholder:text-sky-600"
+            />
+            <input
+              type="text"
+              placeholder="Password"
+              name="password"
+              className="bg-accent h-12 w-full rounded px-4 placeholder:text-sky-600"
+            />
+            <p className="text-end text-sm text-gray-500">Forgot password?</p>
+            <button className="bg-primary h-12 w-full rounded px-4 font-semibold text-white hover:shadow-lg hover:shadow-blue-300">
+              Login
+            </button>
+          </form>
           <p className="text-center text-gray-500">or continue with</p>
           <div className="flex justify-center gap-8 ">
             <FaApple className="size-8 rounded-full bg-black p-1 text-white" />

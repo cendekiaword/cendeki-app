@@ -14,9 +14,9 @@ export async function GET(){
 }
 
 export async function PATCH(request){
+    const idUser = headers().get('x-id-user')
     console.log('masuk');
     let body = await request.json();
-    const idUser = headers().get('x-id-user')
     const { fullname, bio} = body
     const profile = await UserModel.updateProfile({idUser, fullname, bio})
     const data = await UserModel.findProfile(idUser)

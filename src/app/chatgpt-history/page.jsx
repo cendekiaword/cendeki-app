@@ -33,7 +33,7 @@ const ApnaChatGpt = () => {
       });
       // console.log(res);
       const result = await res.json()
-      console.log(result.answer);
+      console.log(result);
       if (!res.ok) {
         alert();
         setLoading(false);
