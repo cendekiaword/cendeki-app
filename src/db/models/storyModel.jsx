@@ -9,10 +9,23 @@ export class StoryModel {
   //     return getCollection("story")
   // }
 
-  static async getStoryByUser(_id) {
-    const result = await this.collection().find({ userId: _id });
-    return result;
-  }
+
+    static async getStoryByUser(_id) {
+        const result = await this.collection().find({userId : _id})
+        return result
+    }
+    
+    static async addStory(text) {
+
+        // console.log(text, '<<< ini di model');
+        return await this.oldCollection().insertOne({
+            fullStory: text.fullStory,
+            story: text.story,
+            answer: text.answer,
+            category: text.category})
+     
+    }
+
 
   static async addStory(text) {
     // console.log(text);

@@ -12,3 +12,17 @@ export async function GET(){
         data: profile
     })
 }
+
+export async function PATCH(request){
+    console.log('masuk');
+    let body = await request.json();
+    const idUser = headers().get('x-id-user')
+    const { fullname, bio} = body
+    const profile = await UserModel.updateProfile({idUser, fullname, bio})
+    const data = await UserModel.findProfile(idUser)
+    return NextResponse.json({
+        status: 201,
+        data
+    })
+    // console.log(profile);
+}
