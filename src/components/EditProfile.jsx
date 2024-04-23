@@ -1,4 +1,6 @@
 "use client";
+import { editProfile } from '@/actions/actions';
+import { BASE_URL } from '@/db/config/constant';
 import React, { useState } from 'react'
 
 const EditProfile = () => {
@@ -11,6 +13,15 @@ const EditProfile = () => {
         if(modal === ""){
             setModal("hidden")
         }
+    }
+
+    async function submitAction(formData){
+        const fullname = formData.get("fullname");
+        const bio = formData.get("bio")
+        // console.log(fullname, bio);
+        let res = await editProfile({fullname, bio})
+        console.log(res);
+        
     }
   return (
     
@@ -70,7 +81,7 @@ const EditProfile = () => {
           </button>
         </div>
         {/* Modal body */}
-        <form className="p-4 md:p-5">
+        <form className="p-4 md:p-5" action={submitAction}>
           <div className="grid gap-4 mb-4 grid-cols-2">
             <div className="col-span-2">
               <label
@@ -81,7 +92,7 @@ const EditProfile = () => {
               </label>
               <input
                 type="text"
-                name="name"
+                name="fullname"
                 id="name"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 placeholder="Type product name"
@@ -102,6 +113,7 @@ const EditProfile = () => {
                 className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Write product description here"
                 defaultValue={""}
+                name='bio'
               />
             </div>
           </div>

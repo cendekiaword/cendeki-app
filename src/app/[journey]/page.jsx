@@ -25,13 +25,7 @@ export default function page({ params }) {
             <p className="text-2xl font-semibold invert">New Journey</p>
           </Link>
           <Link
-            href={`/${params.journey}/curated`}
-            className="flex h-16 w-96 items-center rounded-md bg-slate-800 px-3 hover:outline"
-          >
-            <p className="text-2xl font-semibold invert">Curated Journeys</p>
-          </Link>
-          <Link
-            href={`/${params.journey}/revisit`}
+            href={`/${params.journey}/history`}
             className="flex h-16 w-96 items-center rounded-md bg-slate-800 px-3 hover:outline"
           >
             <p className="text-2xl font-semibold invert">

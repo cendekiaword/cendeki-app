@@ -9,41 +9,45 @@ export class StoryModel {
   //     return getCollection("story")
   // }
 
-  static async getStoryByUser(_id) {
-    const result = await this.collection().find({ userId: _id });
-    return result;
-  }
 
-  static async addStory(text) {
-    // console.log(text);
-    return await this.collection().insertOne({
-      category: text.result.category,
-      story: text.result.story,
-      answer: text.result.answer,
-    });
-  }
+    static async getStoryByUser(_id) {
+        const result = await this.collection().find({userId : _id})
+        return result
+    }
+    
+    static async addStory(text) {
+
+        // console.log(text, '<<< ini di model');
+        return await this.collection().insertOne({
+          title: text.title,
+            fullStory: text.fullStory,
+            story: text.story,
+            answer: text.answer,
+            category: text.category,
+          })
+     
+    }
+  
+    static async randomFind(category){
+      const agg = [
+        {
+          '$match': {
+            category
+          }
+        }, {
+          '$sample': {
+            'size': 1
+          }
+        }
+      ];
+      const cursor = this.collection().aggregate(agg);
+      const result = await cursor.toArray();
+      // console.log(result);
+      return result
+    }
 
   static async getStoryById(_id) {
     const result = await this.collection().findOne({ _id });
-    return result;
-  }
-
-  static async randomFind(category) {
-    const agg = [
-      {
-        $match: {
-          category,
-        },
-      },
-      {
-        $sample: {
-          size: 1,
-        },
-      },
-    ];
-    const cursor = this.Collection().aggregate(agg);
-    const result = await cursor.toArray();
-    // console.log(result);
     return result;
   }
 }
