@@ -46,3 +46,7 @@ export async function editProfile({ fullname, bio }) {
   // console.log(result);
   return redirect('/profile/details')
 }
+
+export async function callAction(){
+  return await getStory(params.journey)
+}
