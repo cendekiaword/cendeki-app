@@ -1,3 +1,4 @@
+import { ObjectId } from "mongodb";
 import { getCollection } from "../config/mongodb";
 import { z } from "zod";
 
@@ -14,13 +15,14 @@ export class ScoreModel {
         return result
     }
     
-    static async addScore(text) {
+    static async addScore(text, idUser, storyId) {
         console.log(text,"<<<<<<<<<<<<<<<");
+        const userId = new ObjectId(idUser)
         return await this.collection().insertOne({
-            score:text.result.score,
-            quizId:text.result.quizId,
+            // score:text.result.score,
+            quizId:storyId,
             playDate:new Date(),
-            userId:text.result.userId})
+            userId})
     }
 
     static async getScoreById(_id){

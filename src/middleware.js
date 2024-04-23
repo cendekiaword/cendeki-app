@@ -5,6 +5,10 @@ import { verifyToken } from "./db/helpers/jwt";
 // Middleware function
 export async function middleware(request) {
   // Get the token from the cookie
+
+  const data = cookies(request).get('Authorization')
+  const token = data?.value.split(" ")[1]
+
   const data = cookies(request).get("Authorization");
   // console.log(typeof data);
   if (!data) {
@@ -12,6 +16,7 @@ export async function middleware(request) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
   const token = data.value.split(" ")[1];
+
   // console.log(token, '<< ini token di middleware');
 
   // Create a new header object
@@ -43,5 +48,7 @@ export async function middleware(request) {
 // Matching Paths
 export const config = {
   // Define the paths for which the middleware will run
-  matcher: ["/api/story", "/api/profile", "/profile/:path*"],
+  matcher: ['/api/language/story','/api/history/story', '/api/profile'],
+
+ 
 };
