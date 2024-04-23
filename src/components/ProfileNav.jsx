@@ -1,7 +1,7 @@
 import React from 'react'
 import EditProfile from './EditProfile'
 
-const ProfileNav = ({profile}) => {
+const ProfileNav = ({profile, getProfile}) => {
   // console.log(profile);
   return (
     <div className="py-5 bg-slate-300 w-full h-40 items-center flex justify-center">
@@ -24,7 +24,7 @@ const ProfileNav = ({profile}) => {
               {/* <div className="bg-white w-36 h-8 flex items-center justify-center rounded-xl text-blue-300">
                 Edit Profile
               </div> */}
-              <EditProfile/>
+              <EditProfile getProfile={getProfile}/>
             </div>
             <div className="flex flex-row gap-3 pt-3 w-full justify-end">
               <div className="text-sm">Point</div>

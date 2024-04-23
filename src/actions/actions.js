@@ -1,5 +1,6 @@
 "use server";
 import { BASE_URL } from "@/db/config/constant";
+import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -44,6 +45,10 @@ export async function editProfile({ fullname, bio }) {
       Cookie: cookies().toString(),
     },
   });
+  // console.log(res);
+  if(!res.ok){
+    return "Failed"
+  }
   const result = await res.json();
   return redirect('/profile/details')
 }

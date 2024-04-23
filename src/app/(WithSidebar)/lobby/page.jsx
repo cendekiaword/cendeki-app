@@ -49,6 +49,6 @@ const categories = [
     name: "Science",
   },
   {
-    name: "Physics",
+    name: "Social",
   },
 ];
