@@ -42,15 +42,15 @@ const categories = [
     stories: Array(10).fill("story"),
   },
   {
-    category: "Geography",
+    category: "Sport",
     stories: Array(10).fill("story"),
   },
   {
-    category: "Geography",
+    category: "Astronomy",
     stories: Array(10).fill("story"),
   },
   {
-    category: "Geography",
+    category: "Art",
     stories: Array(10).fill("story"),
   },
 ];
