@@ -1,12 +1,17 @@
-import { NextResponse } from 'next/server';
-import { cookies, headers } from 'next/headers';
-import { verifyToken } from './db/helpers/jwt';
+import { NextResponse } from "next/server";
+import { cookies, headers } from "next/headers";
+import { verifyToken } from "./db/helpers/jwt";
 
 // Middleware function
 export async function middleware(request) {
   // Get the token from the cookie
-  const data = cookies(request).get('Authorization')
-  const token = data.value.split(" ")[1]
+  const data = cookies(request).get("Authorization");
+  // console.log(typeof data);
+  if (!data) {
+    // console.log('masuk', "<<<<<");
+    return NextResponse.redirect(new URL("/login", request.url));
+  }
+  const token = data.value.split(" ")[1];
   // console.log(token, '<< ini token di middleware');
 
   // Create a new header object
@@ -18,25 +23,25 @@ export async function middleware(request) {
       // Verify the token
       const decoded = await verifyToken(token);
       // Set user id and email as headers
-      requestHeader.set('x-id-user', decoded._id);
-      requestHeader.set('x-email-user', decoded.email);
+      requestHeader.set("x-id-user", decoded._id);
+      requestHeader.set("x-email-user", decoded.email);
       // Return the modified headers
       return NextResponse.next({
         request: {
-          headers: requestHeader
-        }
+          headers: requestHeader,
+        },
       });
     } catch (error) {
       // Token verification failed, redirect to login
-      return NextResponse.redirect(new URL('/login', request.url));
+      return NextResponse.redirect(new URL("/login", request.url));
     }
-  } 
+  }
   // If no token found, redirect to login
-  return NextResponse.redirect(new URL('/login', request.url));
+  return NextResponse.redirect(new URL("/login", request.url));
 }
 
 // Matching Paths
 export const config = {
   // Define the paths for which the middleware will run
-  matcher: ['/api/story', '/api/profile'],
+  matcher: ["/api/story", "/api/profile", "/profile/:path*"],
 };

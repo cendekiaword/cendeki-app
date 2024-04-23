@@ -44,5 +44,5 @@ export async function editProfile({ fullname, bio }) {
   // console.log(res);
   const result = await res.json();
   // console.log(result);
-  return redirect('/profile/me')
+  return redirect('/profile/details')
 }

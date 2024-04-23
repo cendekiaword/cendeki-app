@@ -17,11 +17,13 @@ export class StoryModel {
     static async addStory(text) {
 
         // console.log(text, '<<< ini di model');
-        return await this.oldCollection().insertOne({
+        return await this.collection().insertOne({
+          title: text.title,
             fullStory: text.fullStory,
             story: text.story,
             answer: text.answer,
-            category: text.category})
+            category: text.category,
+          })
      
     }
 
@@ -42,7 +44,7 @@ export class StoryModel {
           }
         }
       ];
-      const cursor = this.Collection().aggregate(agg);
+      const cursor = this.collection().aggregate(agg);
       const result = await cursor.toArray();
       // console.log(result);
       return result

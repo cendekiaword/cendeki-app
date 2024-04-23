@@ -1,9 +1,29 @@
+"use client"
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
+import Swal from "sweetalert2";
+import Cookies from "universal-cookie";
 
 export default function Sidebar() {
+  const router = useRouter()
+  const cookies = new Cookies();
+  async function logout() {
+    let token = cookies.get("Authorization")
+    if (!token) {
+        return Swal.fire({
+            title: 'You are not login yet',
+            showConfirmButton: false,
+            timer: 1500,
+            icon: 'warning'
+        })
+    }
+    cookies.remove("Authorization");
+    return router.push("/")
+}
+
   return (
-    <>
+    <div>
       <div className="sticky left-0 top-0 flex min-h-dvh max-h-dvh max-w-[20dvw] flex-col justify-between shadow-lg shadow-blue-600 md:min-w-[20dvw]">
         <div>
           <Link href="/" className="my-8 mb-8 flex items-center justify-center">
@@ -43,12 +63,12 @@ export default function Sidebar() {
               <p className="text-gray-500">jd@mail.com</p>
             </div>
           </Link>
-          <Link href="/" className="my-4 rounded-md bg-sky-200 py-1 text-center font-bold">
+          <button onClick={logout} className="my-4 rounded-md bg-sky-200 py-1 text-center font-bold">
             Log out
-          </Link>
+          </button>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
