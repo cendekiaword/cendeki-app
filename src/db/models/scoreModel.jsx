@@ -3,7 +3,7 @@ import { z } from "zod";
 
 export class ScoreModel {
     static collection() {
-        return getCollection("score")
+        return getCollection("Scores")
     }
     // static Collection() {
     //     return getCollection("story")

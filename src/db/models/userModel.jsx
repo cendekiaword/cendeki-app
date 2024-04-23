@@ -84,4 +84,9 @@ export class UserModel {
     const profile = await this.collection().findOne({_id: id})
     return profile
   }
+
+  static async getUser(_id){
+    const user = await this.collection().findOne({_id})
+    return user
+  }
 }
