@@ -14,7 +14,7 @@ export default function page() {
         <h1 className="text-center text-4xl font-bold">Global Leaderboard</h1>
         <p>Latest update: 22/04/2024</p>
 
-        <div className="mb-8 flex items-end">
+        <div className="my-8 flex items-end">
           <div className="flex h-44 w-32 flex-col">
             <img src="logo.png" alt="" className="mb-2 size-12 self-center" />
             <p className="text-center font-extrabold">User 2</p>
@@ -37,21 +37,21 @@ export default function page() {
           </div>
         </div>
 
-        <div className="h-[50%] w-[50%] overflow-hidden rounded-lg">
+        <div className="h-[50%] w-[50%] overflow-hidden rounded-xl hover:overflow-y-auto">
           <table className="min-w-full rounded-xl border">
             <thead className="sticky top-0 h-8 text-left font-bold text-white">
               <tr className="bg-primary">
-                <th>No.</th>
-                <th>Name</th>
-                <th>Score</th>
+                <th className="p-2">No.</th>
+                <th className="p-2">Name</th>
+                <th className="p-2">Score</th>
               </tr>
             </thead>
             <tbody className="h-[20%] overflow-y-auto overflow-x-hidden">
               {ranks.map((rank, idx) => (
-                <tr className="px-4 py-2 text-left font-bold" key={idx}>
-                  <td>{idx + 1}</td>
-                  <td>{rank.name}</td>
-                  <td>{rank.score}</td>
+                <tr className="text-left font-bold hover:bg-sky-200" key={idx}>
+                  <td className="w-6 p-2 text-center">{idx + 1}</td>
+                  <td className="p-2 ">{rank.name}</td>
+                  <td className="p-2 ">{rank.score}</td>
                 </tr>
               ))}
             </tbody>

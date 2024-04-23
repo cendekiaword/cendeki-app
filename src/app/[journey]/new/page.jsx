@@ -2,11 +2,10 @@
 import { LottieMediumRound } from "@/components/Lottie";
 import React, { useEffect, useRef, useState } from "react";
 import { FaCircleCheck, FaCircleXmark } from "react-icons/fa6";
-import animationData from "@/lotties/reading1.json";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
+import Swal from "sweetalert2";
 
 export default function page() {
-  console.log();
   const journey = {
     fullStory:
       "Tengu are mythical creatures found in Japanese folklore, often depicted as bird-like humanoids with both human and avian characteristics. Historically, they were thought to be disruptive demons and harbingers of war, but over time their image transformed into protective deities of the mountains and forests. Tengu are typically portrayed with red faces and long noses, and they are known to be skilled warriors. The Tengu are associated with the Shugendo tradition, where they are considered both protective deities and teachers of martial arts. They inhabit sacred mountains, guarding Shinto shrines and Buddhist temples. According to legends, Tengu can move swiftly through the air, wield magical powers, and have the ability to shape-shift. Their lore is rich with stories of encounters with samurai and monks, where they often impart wisdom or serve as formidable opponents.",
@@ -37,25 +36,25 @@ export default function page() {
   const [border, setBorder] = useState(Array(journey.answer.length).fill(""));
   const [scores, setScores] = useState(Array(journey.answer.length).fill(0));
   const [finalScore, setFinalScore] = useState(0);
+  const [gameEnd, setGameEnd] = useState(false);
   const [timer, setTimer] = useState("00:10");
   const router = useRouter();
   const getTimeRemaining = (e) => {
-    // console.log(e, "EEEEEEEEEEEEEE");
-    const total = e !== undefined ? Date.parse(e) - Date.parse(new Date()) : 0;
-    // const minutes = Math.floor((total / 1000 / 60) % 60);
-    const seconds = Math.floor((total / 1000) % 60);
-
-    if (total > 0) {
+    const total = Date.parse(e) - Date.parse(new Date());
+    if (!isNaN(total)) {
+      const minutes = Math.floor((total / 1000 / 60) % 60);
+      const seconds = Math.floor((total / 1000) % 60);
       return {
         total,
-        // minutes,
+        minutes,
         seconds,
       };
-    } else {
-      return
-      // clearTimer();
-      // router.push("/");
     }
+    return {
+      total: 0,
+      minutes: 0,
+      seconds: 0,
+    };
   };
 
   useEffect(() => {
@@ -64,7 +63,8 @@ export default function page() {
   }, [scores]);
 
   useEffect(() => {
-    clearTimer(); // Initialize timer
+    // clearTimer();
+    // Initialize timer
     return () => {
       if (Ref.current) {
         clearInterval(Ref.current);
@@ -72,82 +72,59 @@ export default function page() {
     };
   }, []);
 
-  const startTimer = (e) => {
-    console.log(e, "e");
-    console.log(typeof e, "type");
-    if (e != undefined && typeof e == "object") {
-      let { total, seconds } = getTimeRemaining(e);
-
-      setTimer(
-        // (minutes > 9 ? minutes : "0" + minutes) +
-        // ":" +
-        seconds > 9 ? seconds : "0" + seconds,
-      );
-    } else {
-      return;
+  useEffect(() => {
+    if (gameEnd) {
+      // Swal.fire({html:`<div className="bg-primary">your final score is ${finalScore}<div>`})
+      Swal.fire({
+        title: "Time's up!",
+        text: `Your final score is ${finalScore}`,
+        icon: "info",
+        confirmButtonColor: "#3085d6",
+        confirmButtonText: "okay",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          router.push("/profile/history");
+        }
+      });
     }
-    // let res = getTimeRemaining(e);
-    // console.log(res, "TIME")
-    // let {total, seconds} = res
-    // if (total >= 0) {
-    //   // update the timer
-    //   // check if less than 10 then we need to
-    //   // add '0' at the beginning of the variable
-    // }
+  }, [gameEnd]);
+
+  const startTimer = (endtime) => {
+    let { total, minutes, seconds } = getTimeRemaining(endtime);
+    if (total <= 0) {
+      if (Ref.current) clearInterval(Ref.current);
+      setTimer("00:00");
+      setGameEnd(true);
+    } else {
+      setTimer(
+        (minutes > 9 ? minutes : "0" + minutes) +
+          ":" +
+          (seconds > 9 ? seconds : "0" + seconds),
+      );
+    }
   };
 
-
-  
-  const clearTimer = () => {
-    // console.log(e, "CLEAR TIMER")
-    // If you adjust it you should also need to
-    // adjust the Endtime formula we are about
-    // to code next
+  const clearTimer = (endtime) => {
+    if (Ref.current) clearInterval(Ref.current);
     setTimer("00:10");
 
-    // If you try to remove this line the
-    // updating of timer Variable will be
-    // after 1000ms or 1sec
-    // if (Ref.current) clearInterval(Ref.current);
-    // const id = setInterval(() => {
-    //   startTimer(e);
-    // }, 1000);
-    // Ref.current = id;
-  };
-
-  const startInterval = () => {
-    if (Ref.current) {
-      clearInterval(Ref.current); // Clear any existing interval
-    }
-    
     const id = setInterval(() => {
-      startTimer(getDeadline());
+      startTimer(endtime);
     }, 1000);
-    
-    Ref.current = id; // Store the interval ID in the ref
+    Ref.current = id;
   };
+
+  const getTimeUp = () => {
+    let timeup = new Date();
+    timeup.setSeconds(timeup.getSeconds() + 10);
+    return timeup;
+  };
+
   const onClickStart = () => {
-    clearTimer();
-    startInterval(); // Start the interval
-  };
-
-  const getDeadline = () => {
-    let deadline = new Date();
-
-    // This is where you need to adjust if
-    // you intend to add more time
-    deadline.setSeconds(deadline.getSeconds() + 10);
-    return deadline;
-  };
-
-  const onClickReset = () => {
-    // clearTimer(getDeadline());
-    clearTimer();
+    clearTimer(getTimeUp());
   };
 
   function handleSubmit(e) {
-    console.log(scores);
-    // e.preventDefault();
     if (e.key == "Enter") {
       const newFeedback = answers.map((answer, idx) => {
         if (scores[idx] > 0) {
@@ -166,9 +143,9 @@ export default function page() {
 
         let borderClass = "";
         if (res === "Correct") {
-          borderClass = "border-2 border-teal-400 placeholder:invert";
+          borderClass = "border-b-2 border-teal-400";
         } else if (res === "Incorrect" && answer && answer.length !== 0) {
-          borderClass = "border-2 border-rose-400 placeholder:invert";
+          borderClass = "border-b-2 border-rose-400";
         } else {
           borderClass = "";
         }
@@ -180,8 +157,7 @@ export default function page() {
 
         let score = 0;
         if (res === "Correct") {
-          // score += timer.split(":")[1] * 10;
-          score += timer * 10;
+          score += timer.split(":")[1] * 10;
         } else if (res === "Incorrect" && answer && answer.length !== 0) {
           score = 0;
         } else {
@@ -202,7 +178,7 @@ export default function page() {
     if (idx !== journey.story.split("----").length - 1) {
       return (
         <React.Fragment key={idx}>
-          <span className="invert">{question}</span>
+          <span className="">{question}</span>
           <span className="relative">
             <input
               type="text"
@@ -215,7 +191,7 @@ export default function page() {
                 setAnswers(newAnswers);
               }}
               className={
-                "inline h-6 w-40 max-w-fit rounded-full bg-white px-3 outline-none " +
+                "inline h-6 w-40 max-w-fit rounded-full border-b-2 border-sky-400 px-3 " +
                 (border[idx] !== "" ? border[idx] : " bg-opacity-70")
               }
             />
@@ -227,7 +203,7 @@ export default function page() {
                 <FaCircleCheck className="absolute right-1 top-[0.1rem] size-4 text-xl text-cyan-500" />
               </>
             )}
-            {border[idx] == "border-2 border-rose-400 placeholder:invert" && (
+            {border[idx] == "border-b-2 border-rose-400" && (
               <>
                 <span className="absolute right-6 top-0 text-sm text-rose-500">
                   {scores[idx]}
@@ -240,50 +216,48 @@ export default function page() {
       );
     } else {
       return (
-        <span className="invert" key={"x" + idx + 3}>
+        <span className="invert" key={"q" + idx}>
           {question}
         </span>
       );
     }
   });
-  console.log(timer);
+  // console.log(timer);
 
   return (
     <>
-      <div className="relative" style={{ height: "calc(100vh - 48px)" }}>
-        <div className="grid h-full grid-cols-2 overflow-auto bg-sky-300">
-          <section className="col-span-1 flex flex-col items-center justify-center">
-            <h2 className="flex items-center justify-center ">History</h2>
-            <LottieMediumRound
-              className="w-[60%]"
-              animationData={JSON.parse(JSON.stringify(animationData))}
-            />
-          </section>
-          <section className="col-span-1 flex max-w-full flex-col items-center justify-center px-8">
-            <h2 className="flex items-center justify-center ">Tengu</h2>
-            <content className="flex items-center justify-center">
-              <div className="rounded-2xl bg-slate-800 p-8">
-                <b className="w-[80%] text-pretty md:text-justify">
-                  {questions}
-                </b>
-              </div>
-            </content>
-            <div className="mt-4 flex w-full justify-between">
-              <div>{timer}</div>
-              <button
-                onClick={() => {
-                  // clearTimer(getDeadline());
-                  onClickStart()
-                }}
-              >
-                Start
-              </button>
-              <div className="flex w-[30%] justify-between rounded-full bg-slate-800 px-4">
-                <b className="text-2xl invert">Score:</b>
-                <b className="text-2xl invert">{finalScore}</b>
-              </div>
-            </div>
-          </section>
+      <div className="mx-auto mt-32 flex max-w-[80dvw] flex-col gap-8 md:max-w-[60dvw]">
+        <h1 className="text-center text-8xl font-bold">Test Your Knowledge</h1>
+        <p className="text-center">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis
+          magnam aliquam a praesentium alias quibusdam impedit esse itaque,
+          necessitatibus nulla eos explicabo nihil, provident laborum. Tempore
+          error non ullam minus.
+        </p>
+      </div>
+      <div className="border-primary mx-auto mt-16 max-w-[80dvw] rounded-lg border p-4 md:max-w-[60dvw]">
+        <div className="flex items-center justify-between">
+          <div className="flex flex-col justify-center gap-1">
+            <h2 className="text-2xl font-bold">Indonesian Independence</h2>
+            <p>Fill the missing blank down below</p>
+          </div>
+          <button
+            onClick={onClickStart}
+            className="border-primary h-12 w-32 rounded-xl border hover:shadow hover:shadow-sky-400"
+          >
+            Start
+          </button>
+        </div>
+        <div className="border-primary mt-4 rounded-lg border">
+          <p className="p-4 text-justify indent-10 leading-loose tracking-tight">
+            {questions}
+          </p>
+          <div className="bg-primary flex w-full justify-between">
+            <p className="px-4 py-2 font-bold text-white">
+              Score: {finalScore}
+            </p>
+            <p className="px-4 py-2 font-bold text-white">Time: {timer}</p>
+          </div>
         </div>
       </div>
     </>

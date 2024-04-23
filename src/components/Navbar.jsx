@@ -11,8 +11,9 @@ export default function Navbar({ className }) {
           className,
         )}
       >
-        <Link href="/" className="">
+        <Link href="/" className="flex items-center gap-2 text-primary">
           <img src="/logo.png" className="size-12" alt="" />
+          <h1 className="text-4xl font-bold">Cendeki App</h1>
         </Link>
         <div className="">
           <Link
@@ -22,7 +23,7 @@ export default function Navbar({ className }) {
             Category
           </Link>
           <Link
-            href=""
+            href="/leaderboard"
             className="border-primary text-primary px-3 pb-3 text-lg font-bold hover:border-b-4"
           >
             Leaderboard

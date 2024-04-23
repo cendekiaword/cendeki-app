@@ -6,7 +6,7 @@ export default function HeroIntro({ className }) {
       {/* Hero Intro */}
       <div
         className={cn(
-          "mx-auto mt-32 flex max-w-[80dvw] flex-col items-center gap-8",
+          "mx-auto mt-32 flex max-w-[80dvw] md:max-w-[60dvw] flex-col items-center gap-8",
           className,
         )}
       >
