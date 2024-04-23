@@ -1,12 +1,25 @@
+"use server"
 import Sidebar from "@/components/Sidebar";
+import { BASE_URL } from "@/db/config/constant";
 import React from "react";
 
-export default function page() {
+export default async function page() {
   // Simulating a more realistic rank data
-  const ranks = Array.from({ length: 100 }, (_, idx) => ({
-    name: `User ${idx + 1}`,
-    score: (idx + 1) * 200,
-  }));
+  // const ranks = Array.from({ length: 100 }, (_, idx) => ({
+  //   name: `User ${idx + 1}`,
+  //   score: (idx + 1) * 200,
+  // }));
+
+  const getLeader = async () => {
+    let res = await fetch(`${BASE_URL}/api/leaderboard`, {
+      cache: 'no-store'
+    })
+    let result = await res.json()
+
+    return result.data
+  }
+
+  let data = await getLeader()
 
   return (
     <>
@@ -47,11 +60,11 @@ export default function page() {
               </tr>
             </thead>
             <tbody className="h-[20%] overflow-y-auto overflow-x-hidden">
-              {ranks.map((rank, idx) => (
+              {data.map((rank, idx) => (
                 <tr className="text-left font-bold hover:bg-sky-200" key={idx}>
                   <td className="w-6 p-2 text-center">{idx + 1}</td>
-                  <td className="p-2 ">{rank.name}</td>
-                  <td className="p-2 ">{rank.score}</td>
+                  <td className="p-2 ">{rank.user.name}</td>
+                  <td className="p-2 text-black">{rank.totalScore}</td>
                 </tr>
               ))}
             </tbody>
