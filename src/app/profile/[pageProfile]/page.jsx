@@ -1,5 +1,5 @@
 "use client";
-import { profile } from "@/actions/actions";
+import { editProfile, profile } from "@/actions/actions";
 import ProfileNav from "@/components/ProfileNav";
 import { BentoGridSecondDemo } from "@/components/page/MyProfile";
 import MyProfile from "@/components/page/MyProgress";
@@ -27,7 +27,7 @@ const Page = () => {
 
   useEffect(() => {
     getProfile();
-  }, []);
+  }, [editProfile]);
   return (
     <>
       <main className="flex h-[54rem] flex-col items-center bg-white">
