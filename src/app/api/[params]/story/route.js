@@ -1,3 +1,4 @@
+import { ScoreModel } from "@/db/models/scoreModel";
 import { StoryModel } from "@/db/models/storyModel";
 import generateStory from "@/utils/geminiAI";
 import { NextResponse } from "next/server";
@@ -131,6 +132,10 @@ export async function POST(req, { params }) {
     result = result.replace("```", "")
     // console.log(result);
     const res = await StoryModel.addStory({ result: JSON.parse(result) });
+    const userId= req.headers.get('x-id-user')
+    console.log(userId, "<<<<<< user");
+    const storyId = res.insertedId
+    const score = await ScoreModel.addScore(res, userId, storyId)
 
     const story = await StoryModel.getStoryById(res.insertedId)
 
