@@ -19,7 +19,7 @@ export class ScoreModel {
         // console.log(text,"<<<<<<<<<<<<<<<");
         // console.log(userId, storyId, playDate);
         const idUser = new ObjectId(String(userId))
-        const idStory = new ObjectId(String("6627315836f20e5031518694"))
+        const idStory = new ObjectId(String(storyId))
         return await this.collection().insertOne({
             storyId: idStory,
             userId: idUser,
