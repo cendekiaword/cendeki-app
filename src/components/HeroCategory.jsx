@@ -15,7 +15,7 @@ export default function HeroCategory() {
           ratione.
         </p>
       </div>
-      <div className="mt-16 flex flex-nowrap gap-8 overflow-x-auto py-1">
+      <div className="mt-16 flex flex-nowrap gap-8 overflow-x-auto py-1 max-w-[80dvw] md:max-w-[80dvw] mx-auto">
         {categories.map((el, idx) => {
           return <HeroCard el={el} key={idx} />;
         })}
