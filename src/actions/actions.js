@@ -3,16 +3,22 @@ import { BASE_URL } from "@/db/config/constant";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-export async function profile(){
+export async function profile() {
+  try {
     let res = await fetch(`${BASE_URL}/api/profile`, {
       cache: 'no-store',
       headers: {
         Cookie: cookies().toString()
-    }
+      }
     })
+
+    console.log(res)
     let result = await res.json()
     return result.data
+  } catch (error) {
+    console.log(error)
   }
+}
 
 // get random story
 export async function getStory(params) {
@@ -42,6 +48,6 @@ export async function editProfile({ fullname, bio }) {
   return redirect('/profile/details')
 }
 
-export async function callAction(){
+export async function callAction() {
   return await getStory(params.journey)
 }

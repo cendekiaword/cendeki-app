@@ -12,7 +12,7 @@ export default function page() {
           {categories.map((el, idx) => {
             const category = el.name.toLowerCase();
             return (
-              <div className="col-span-2 flex min-h-80 flex-col overflow-clip rounded-xl bg-gray-800  hover:shadow-lg hover:shadow-blue-600">
+              <div key={idx} className="col-span-2 flex min-h-80 flex-col overflow-clip rounded-xl bg-gray-800  hover:shadow-lg hover:shadow-blue-600">
                 <img
                   src="https://images.pexels.com/photos/3958516/pexels-photo-3958516.jpeg"
                   alt=""
