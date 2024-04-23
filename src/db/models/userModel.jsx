@@ -32,6 +32,11 @@ export class UserModel {
     return this.collection().find().toArray();
   }
 
+  static async getUser(_id){
+    const user = await this.collection().findOne({_id})
+    return user
+  }
+
   static async checkUserEmail(email) {
     const checkEmail = await this.collection().findOne({ email });
     return checkEmail;

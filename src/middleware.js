@@ -9,13 +9,12 @@ export async function middleware(request) {
   const data = cookies(request).get('Authorization')
   const token = data?.value.split(" ")[1]
 
-  const data = cookies(request).get("Authorization");
   // console.log(typeof data);
   if (!data) {
     // console.log('masuk', "<<<<<");
     return NextResponse.redirect(new URL("/login", request.url));
   }
-  const token = data.value.split(" ")[1];
+
 
   // console.log(token, '<< ini token di middleware');
 
