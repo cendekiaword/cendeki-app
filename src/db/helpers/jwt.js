@@ -1,5 +1,6 @@
 
 import jwt from "jsonwebtoken";
+import * as jose from "jose"
 
 
 const key = process.env.NEXT_PUBLIC_JWT_SECRET || ""
