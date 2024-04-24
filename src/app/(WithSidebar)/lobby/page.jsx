@@ -1,6 +1,8 @@
+"use client";
 import React from "react";
 
 import Link from "next/link";
+import { AnimatedTooltip } from "@/components/ui/animated-tooltip";
 
 export default function page() {
   return (
@@ -13,22 +15,34 @@ export default function page() {
           {categories.map((el, idx) => {
             const category = el.name.toLowerCase();
             return (
-              <div key={idx} className="col-span-2 flex min-h-80 flex-col overflow-clip rounded-xl bg-gray-800  hover:shadow-lg hover:shadow-blue-600">
+              <div
+                key={idx}
+                className="col-span-2 flex min-h-80 flex-col overflow-clip rounded-xl bg-gray-800  hover:shadow-lg hover:shadow-blue-600"
+              >
                 <img
-                  src={`/${el.name}.png` }
+                  src={`/${el.name}.png`}
                   alt=""
-                  className="w-72 bg-cover h-60"
+                  className="h-60 w-96 bg-cover"
                 />
                 <div className="flex flex-col gap-4 py-4">
                   <p className="text-center text-xl font-semibold text-white">
                     {el.name}
                   </p>
-                  <Link
-                    href={`/${category}/new`}
-                    className="bg-primary mx-auto w-[80%] rounded-md py-2 text-center text-white"
-                  >
-                    + New Story
-                  </Link>
+                  {/* <AnimatedTooltip items={act} category={category} /> */}
+                  <div className="mx-auto flex w-full justify-evenly">
+                    <Link
+                      href={`/${category}/new`}
+                      className="bg-primary w-[30%] rounded-md py-2 text-center text-white hover:opacity-80"
+                    >
+                      New
+                    </Link>
+                    <Link
+                      className="bg-primary w-[30%] rounded-md py-2 text-center text-white hover:opacity-80"
+                      href={`/${category}/curated`}
+                    >
+                      Available
+                    </Link>
+                  </div>
                 </div>
               </div>
             );
@@ -38,6 +52,19 @@ export default function page() {
     </>
   );
 }
+
+const act = [
+  {
+    id: 1,
+    text: "+ New",
+    description: "",
+  },
+  {
+    id: 2,
+    text: "Available",
+    description: "",
+  },
+];
 
 const categories = [
   {

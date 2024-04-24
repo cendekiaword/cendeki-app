@@ -32,7 +32,7 @@ const EditProfile = ({ getProfile }) => {
         }}
         data-modal-target="crud-modal"
         data-modal-toggle="crud-modal"
-        className="flex h-8 w-36 items-center justify-center rounded-xl bg-white text-blue-300"
+        className="bg-primary h-12 w-48 rounded-lg mt-16 text-white text-xl font-bold"
         type="button"
         id="crud-modal"
       >

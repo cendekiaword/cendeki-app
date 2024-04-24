@@ -60,13 +60,18 @@ export default function page({ params }) {
       postScore(finalScore, storyId);
       Swal.fire({
         title: "Time's up!",
-        text: `Your final score is ${finalScore}`,
+        html: `<p class='leading-loose'>Your final score is ${finalScore} <br /> Do you want to see the correct answer ?</p>`,
         icon: "info",
-        confirmButtonColor: "#3085d6",
-        confirmButtonText: "okay",
+        showDenyButton: true,
+        confirmButtonColor: "#1860b6",
+        denyButtonColor: "#14b8a6",
+        confirmButtonText: "Yes",
+        denyButtonText: "No",
       }).then((result) => {
         if (result.isConfirmed) {
-          // router.push("/profile/history");
+          setDisplayComplete(true);
+        } else {
+          router.push("/leaderboard");
         }
       });
     }
@@ -164,7 +169,7 @@ export default function page({ params }) {
       </div>
 
       {generating && <LoadingSkeleton />}
-      {!loading && (
+      {!loading && !displayComplete && (
         <IncompleteJourney
           feedback={feedback}
           title={title}
@@ -179,7 +184,15 @@ export default function page({ params }) {
           handleSubmit={handleSubmit}
         />
       )}
-      {/* {displayComplete && <CompleteJourney journey={journey} />} */}
+      {displayComplete && (
+        <CompleteJourney
+          journey={journey}
+          correctAnswers={correctAnswers}
+          title={title}
+          finalScore={finalScore}
+          timer={timer}
+        />
+      )}
     </div>
   );
 }
