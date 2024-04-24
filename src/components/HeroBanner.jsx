@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import Cookies from "universal-cookie";
 
-
 export default function HeroBanner() {
   const cookies = new Cookies();
   const router = useRouter();

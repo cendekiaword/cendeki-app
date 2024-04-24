@@ -8,39 +8,34 @@ export const metadata = {
   description: "Interactive Learning Platform",
 };
 
-
 export default function RootLayout({ children }) {
   const findToken = async () => {
-    const data = cookies().get("Authorization") 
-    // console.log(data);
-    if(!data){
-      return <html lang="en">
-      <body className={inter.className}>
-        <div className="flex min-h-dvh">
-          {children}
-        </div>
-      </body>
-    </html>
+    const data = cookies().get("Authorization");
+    if (!data) {
+      return (
+        <html lang="en">
+          <body className={inter.className}>
+            <div className="flex min-h-dvh">{children}</div>
+          </body>
+        </html>
+      );
     } else {
-      
     }
-    let token = data.value.split(" ")[1]
+    let token = data.value.split(" ")[1];
     // console.log(token);
-    if(token){
-      return <html lang="en">
-      <body className={inter.className}>
-        <div className="flex min-h-dvh">
-          <Sidebar/>
-          {children}
-        </div>
-      </body>
-    </html>
-    } 
-  }
-  
-  return (
-    <>
-    {findToken()}
-    </>
-  );
+    if (token) {
+      return (
+        <html lang="en">
+          <body className={inter.className}>
+            <div className="flex min-h-dvh">
+              <Sidebar />
+              {children}
+            </div>
+          </body>
+        </html>
+      );
+    }
+  };
+
+  return <>{findToken()}</>;
 }

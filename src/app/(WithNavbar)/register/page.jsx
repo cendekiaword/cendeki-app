@@ -13,7 +13,8 @@ const Page = () => {
   async function submitAction(formData) {
     const email = formData.get("email");
     const password = formData.get("password");
-    const fullname = formData.get("fullname");
+    const firstname = formData.get("firstname");
+    const lastname = formData.get("lastname");
     const age = formData.get("age");
     // console.log(email, password);
     if (!email) {
@@ -36,13 +37,11 @@ const Page = () => {
     let res = await fetch(`${BASE_URL}/api/register`, {
       cache: "no-store",
       method: "POST",
-      body: JSON.stringify({ email, password, fullname, age }),
+      body: JSON.stringify({ email, password, firstname, lastname, age }),
       headers: {
         "Content-Type": "application/json",
       },
     });
-
-    // await res.json();
 
     if (!res.ok) {
       return Swal.fire({
@@ -63,7 +62,10 @@ const Page = () => {
   }
   return (
     <>
-      <div className="mx-auto flex max-w-[30dvw] flex-col justify-center gap-3">
+      <form
+        action={submitAction}
+        className="mx-auto flex max-w-[30dvw] flex-col justify-center gap-3"
+      >
         <h2 className="text-center text-2xl font-bold">Registration</h2>
         <form action={submitAction} className="flex flex-col gap-3">
           <label>Full name</label>

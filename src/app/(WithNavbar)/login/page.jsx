@@ -91,7 +91,7 @@ const Page = () => {
               className="bg-accent h-12 w-full rounded px-4 placeholder:text-sky-600"
             />
             <input
-              type="text"
+              type="password"
               placeholder="Password"
               name="password"
               className="bg-accent h-12 w-full rounded px-4 placeholder:text-sky-600"

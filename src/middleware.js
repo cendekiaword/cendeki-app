@@ -5,7 +5,6 @@ import { verifyToken } from "./db/helpers/jwt";
 // Middleware function
 export async function middleware(request) {
   // Get the token from the cookie
-  // console.log('masuk middleware');
   const data = cookies(request).get('Authorization')
   if (!data) {
     return NextResponse.redirect(new URL("/login", request.url));
