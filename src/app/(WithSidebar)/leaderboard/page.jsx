@@ -23,45 +23,6 @@ export default function page() {
     getLeader()
   },[])
 
-  // useEffect(() => {
-  //   function onConnect() {
-  //     setIsConnected(true);
-  //     setTransport(socket.io.engine.transport.name);
-
-  //     socket.io.engine.on("upgrade", (transport) => {
-  //       setTransport(transport.name);
-  //     });
-  //   }
-
-  //   function onDisconnect() {
-  //     setIsConnected(false);
-  //     setTransport("N/A");
-  //   }
-
-  //   socket.on("connect", onConnect);
-  //   socket.on("disconnect", onDisconnect);
-
-  //   socket.on("hello", (value) => {
-  //     console.log(value);
-  //   })
-
-  //   socket.emit("coba", champ)
-  //   socket.on("leader", (value) => {
-  //     console.log(value);
-  //   })
-
-  //   console.log('lewat');
-  //   socket.on("send", (value) => {
-  //     console.log(value);
-  //   })
-    
-
-  //   return () => {
-  //     socket.off("connect", onConnect);
-  //     socket.off("disconnect", onDisconnect);
-  //   };
-  // }, [champ]);
-
 
 
   let date = new Date().toLocaleDateString()
