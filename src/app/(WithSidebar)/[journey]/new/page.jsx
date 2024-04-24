@@ -10,6 +10,10 @@ import { ImSpinner9 } from "react-icons/im";
 import PromptAPI from "@/components/PromptAPI";
 import JourneyTitle from "@/components/JourneyTitle";
 import CompleteJourney from "@/components/CompleteJourney";
+import { CorrectFeedback, IncorrectFeedback } from "@/components/Feedback";
+import IncompleteJourney from "@/components/IncompleteJourney";
+import LoadingSkeleton from "@/components/LoadingSkeleton";
+import { capitalize, clearTimer, getTimeUp, onClickStart, postScore } from "../actions";
 
 export default function page({ params }) {
   const Ref = useRef(null);
@@ -60,12 +64,12 @@ export default function page({ params }) {
 
         console.log(result, "RESULT PROMPT");
         setJourney(result.story);
-        setStoryId(result._id)
+        setStoryId(result._id);
         // setHistory([{ question, answer: result.answer.story }, ...history]);
         setCorrectAnswers(result.answer);
         setAnswers(Array(result.answer.length).fill(""));
         setScores(Array(result.answer.length).fill(0));
-        setQuestion();
+        // setQuestion();
         setTitle(result.title);
         setGenerating(false);
         setLoading(false);
@@ -85,7 +89,7 @@ export default function page({ params }) {
         }
         const { answer: result } = await res.json();
         setJourney(result.story);
-        setStoryId(result._id)
+        setStoryId(result._id);
         // setHistory([{ question, answer: result.answer.story }, ...history]);
         setCorrectAnswers(result.answer);
         setAnswers(Array(result.answer.length).fill(""));
@@ -99,39 +103,15 @@ export default function page({ params }) {
     }
   };
 
-  const toUpperCase = (word) => {
-    const firstLetter = word.charAt(0);
-
-    const firstLetterCap = firstLetter.toUpperCase();
-
-    const remainingLetters = word.slice(1);
-
-    const capitalizedWord = firstLetterCap + remainingLetters;
-    setCategory(capitalizedWord);
+  const onClickStart = () => {
+    clearTimer(getTimeUp(), setTimer, setGameEnd, Ref);
   };
 
   const router = useRouter();
-  const getTimeRemaining = (e) => {
-    const total = Date.parse(e) - Date.parse(new Date());
-    if (!isNaN(total)) {
-      const minutes = Math.floor((total / 1000 / 60) % 60);
-      const seconds = Math.floor((total / 1000) % 60);
-      return {
-        total,
-        minutes,
-        seconds,
-      };
-    }
-    return {
-      total: 0,
-      minutes: 0,
-      seconds: 0,
-    };
-  };
 
   useEffect(() => {
     if (gameEnd) {
-      postScore();
+      postScore(finalScore, storyId);
       Swal.fire({
         title: "Time's up!",
         text: `Your final score is ${finalScore}`,
@@ -151,61 +131,13 @@ export default function page({ params }) {
   useEffect(() => {
     // clearTimer();
     // Initialize timer
-    toUpperCase(params.journey);
+    capitalize(params.journey, setCategory);
     return () => {
       if (Ref.current) {
         clearInterval(Ref.current);
       }
     };
   }, []);
-
-  async function postScore() {
-    const cookies = new Cookies();
-    return await fetch(`${BASE_URL}/api/scoring`, {
-      cache: "no-store",
-      headers: {
-        Cookie: cookies.toString(),
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-      body: JSON.stringify({ finalScore, storyId }),
-    });
-  }
-
-  const startTimer = (endtime) => {
-    let { total, minutes, seconds } = getTimeRemaining(endtime);
-    if (total <= 0) {
-      if (Ref.current) clearInterval(Ref.current);
-      setTimer("00:00");
-      setGameEnd(true);
-    } else {
-      setTimer(
-        (minutes > 9 ? minutes : "0" + minutes) +
-          ":" +
-          (seconds > 9 ? seconds : "0" + seconds),
-      );
-    }
-  };
-
-  const clearTimer = (endtime) => {
-    if (Ref.current) clearInterval(Ref.current);
-    setTimer("00:10");
-
-    const id = setInterval(() => {
-      startTimer(endtime);
-    }, 1000);
-    Ref.current = id;
-  };
-
-  const getTimeUp = () => {
-    let timeup = new Date();
-    timeup.setSeconds(timeup.getSeconds() + 10);
-    return timeup;
-  };
-
-  const onClickStart = () => {
-    clearTimer(getTimeUp());
-  };
 
   function handleSubmit(e) {
     if (e.key == "Enter") {
@@ -226,7 +158,7 @@ export default function page({ params }) {
 
         let borderClass = "";
         if (res === "Correct") {
-          borderClass = "border-b-2 border-teal-400";
+          borderClass = "correct-answer";
         } else if (res === "Incorrect" && answer && answer.length !== 0) {
           borderClass = "border-b-2 border-rose-400";
         } else {
@@ -279,6 +211,7 @@ export default function page({ params }) {
         {!loading && (
           <IncompleteJourney
             feedback={feedback}
+            title={title}
             journey={journey}
             answers={answers}
             border={border}
@@ -293,125 +226,5 @@ export default function page({ params }) {
         {displayComplete && <CompleteJourney journey={journey} />}
       </div>
     </>
-  );
-}
-
-function IncompleteJourney({
-  journey,
-  answers,
-  border,
-  scores,
-  timer,
-  finalScore,
-  setAnswers,
-  onClickStart,
-  feedback,
-  handleSubmit,
-}) {
-  console.log(journey, "INCOMPLETE JOURNEY");
-  const questions = journey.split("----").map((question, idx) => {
-    if (idx !== journey.split("----").length - 1) {
-      return (
-        <React.Fragment key={idx}>
-          <span className="">{question}</span>
-          <span className="correct-answer relative font-bold italic">
-            <input
-              type="text"
-              placeholder="- - - -"
-              value={answers[idx]}
-              onKeyDown={handleSubmit}
-              onChange={(e) => {
-                const newAnswers = [...answers];
-                newAnswers[idx] = e.target.value;
-                setAnswers(newAnswers);
-              }}
-              className={
-                "inline h-6 w-40 max-w-fit rounded-full border-b-2 border-sky-400 px-3 " +
-                (border[idx] !== "" ? border[idx] : " bg-opacity-70")
-              }
-            />
-            {feedback[idx] == "Correct" && (
-              <>
-                <span className="absolute right-6 top-0 text-sm">
-                  {scores[idx]}
-                </span>
-                <FaCircleCheck className="absolute right-1 top-[0.1rem] size-4 text-xl text-cyan-500" />
-              </>
-            )}
-            {border[idx] == "border-b-2 border-rose-400" && (
-              <>
-                <span className="absolute right-6 top-0 text-sm text-rose-500">
-                  {scores[idx]}
-                </span>
-                <FaCircleXmark className="absolute right-1 top-[0.1rem] size-4 text-xl text-rose-500" />
-              </>
-            )}
-          </span>
-        </React.Fragment>
-      );
-    } else {
-      return (
-        <span className="" key={"q" + idx}>
-          {question}
-        </span>
-      );
-    }
-  });
-
-  return (
-    <div className="border-primary mx-auto max-w-[80dvw] rounded-lg border p-4 md:max-w-[60dvw]">
-      <div className="flex items-center justify-between">
-        <div className="flex flex-col justify-center gap-1">
-          <JourneyTitle title={journey.title} />
-          <p>Fill the missing blank down below</p>
-        </div>
-        <button
-          onClick={onClickStart}
-          className="border-primary h-12 w-32 rounded-xl border hover:shadow hover:shadow-sky-400"
-        >
-          Start
-        </button>
-      </div>
-      <div className="border-primary mt-4 rounded-lg border">
-        <p className="p-4 text-justify indent-10 leading-loose tracking-tight">
-          {questions}
-        </p>
-        <div className="bg-primary flex w-full justify-between">
-          <p className="px-4 py-2 font-bold text-white">Score: {finalScore}</p>
-          <p className="px-4 py-2 font-bold text-white">Time: {timer}</p>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function LoadingSkeleton() {
-  return (
-    <div className="mx-auto max-w-[80dvw] rounded-lg border bg-opacity-30 p-4 md:max-w-[60dvw]">
-      <div className="flex items-center justify-between">
-        <div className="flex flex-col justify-center gap-1">
-          <JourneyTitle />
-          <Skeleton className="rounded-md text-gray-300">
-            Fill the missing blank down below
-          </Skeleton>
-        </div>
-      </div>
-      <div className="border-primary mt-4 rounded-lg border">
-        <Skeleton className="relative flex min-h-60 items-center justify-center rounded-md py-8">
-          <ImSpinner9 className="size-60 animate-spin text-blue-400" />
-          <p className="absolute text-2xl font-bold">Generating</p>
-        </Skeleton>
-        {/* {correctAnswers?.length != 1 ? (
-          <div className="p-4 text-justify indent-10 leading-loose tracking-tight">
-            {questions}
-          </div>
-        ) : (
-        )} */}
-        <Skeleton className="bg-primary flex w-full justify-between rounded-b">
-          <p className="px-4 py-2 font-bold text-white">Score: 0</p>
-          <p className="px-4 py-2 font-bold text-white">Time: 00:00</p>
-        </Skeleton>
-      </div>
-    </div>
   );
 }
