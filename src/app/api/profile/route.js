@@ -12,15 +12,28 @@ export async function GET(){
 }
 
 export async function PATCH(request){
-    const idUser = headers().get('x-id-user')
-    // console.log('masuk');
-    let body = await request.json();
-    const { fullname, bio} = body
-    const profile = await UserModel.updateProfile({idUser, fullname, bio})
-    const data = await UserModel.findProfile(idUser)
-    return NextResponse.json({
-        status: 201,
-        data
-    })
+    try {
+        const idUser = headers().get('x-id-user')
+        let body = await request.json();
+        const { fullname, bio} = body
+        if(!bio){
+            await UserModel.updateProfile({idUser, fullname})
+        }
+        
+        if(!fullname){
+            await UserModel.updateProfile({idUser, bio})
+        }
+        if(fullname && bio){
+            await UserModel.updateProfile({idUser, fullname, bio})
+        }
+        
+        const data = await UserModel.findProfile(idUser)
+        return NextResponse.json({
+            status: 201,
+            data
+        })
+    } catch (error) {
+        console.log(error);
+    }
     // console.log(profile);
 }

@@ -7,16 +7,16 @@ import { redirect } from "next/navigation";
 export async function profile() {
   try {
     let res = await fetch(`${BASE_URL}/api/profile`, {
-      cache: 'no-store',
+      cache: "no-store",
       headers: {
-        Cookie: cookies().toString()
-      }
-    })
+        Cookie: cookies().toString(),
+      },
+    });
 
     let result = await res.json();
-    return result.data
+    return result.data;
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 }
 
@@ -45,13 +45,14 @@ export async function editProfile({ fullname, bio }) {
     },
   });
   // console.log(res);
-  if(!res.ok){
-    return "Failed"
+  if (!res.ok) {
+    return "Failed";
   }
   const result = await res.json();
-  return redirect('/profile/details')
+  return redirect("/profile/details");
 }
 
 export async function callAction() {
-  return await getStory(params.journey)
+  return await getStory(params.journey);
 }
+

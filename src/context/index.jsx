@@ -1,5 +1,5 @@
 "use client"
-import { profile } from "@/actions/actions"
+import { editProfile, profile } from "@/actions/actions"
 import { createContext, useContext, useEffect, useState } from "react"
 
 
@@ -9,7 +9,6 @@ const AppContext = createContext()
 
 export function AppWrapper({children}){
     const [state, setState] = useState({})
-    const statis = ""
 
     async function getProfile(){
         let res = await profile()
@@ -18,11 +17,10 @@ export function AppWrapper({children}){
 
     useEffect(() => {
         getProfile()
-      },[])
-    // setState(getProfile())
+      },[editProfile])
 
     return (
-        <AppContext.Provider value={state}>
+        <AppContext.Provider value={{state, getProfile}}>
             {children}
         </AppContext.Provider>
     )

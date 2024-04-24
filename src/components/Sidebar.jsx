@@ -27,7 +27,7 @@ export default function Sidebar() {
 
 
   const dataProfile = useAppContext();
-  // console.log(dataProfile);
+  // console.log(dataProfile.getProfile);
 
 
   return (
@@ -67,8 +67,8 @@ export default function Sidebar() {
               alt=""
             />
             <div>
-              <p className="font-bold">{dataProfile?.fullname}</p>
-              <p className="text-gray-500">{dataProfile?.email}</p>
+              <p className="font-bold">{dataProfile?.state?.fullname}</p>
+              <p className="text-gray-500">{dataProfile?.state?.email}</p>
             </div>
           </Link>
           <button

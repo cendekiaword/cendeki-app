@@ -61,9 +61,7 @@ const Page = () => {
   }
   return (
     <>
-      <div
-        className="mx-auto flex max-w-[30dvw] flex-col justify-center gap-3"
-      >
+      <div className="mx-auto flex max-w-[30dvw] flex-col justify-center gap-3">
         <h2 className="text-center text-2xl font-bold">Registration</h2>
         <form action={submitAction} className="flex flex-col gap-3">
           <label>Full name</label>
@@ -93,15 +91,20 @@ const Page = () => {
             <span className="cursor-pointer underline hover:font-semibold">
               privacy policy
             </span>
+            <div>
+              Already have an account?{" "}
+              <Link href={"/login"} className="text-blue-500 underline hover:font-semibold">Back to Login</Link>
+            </div>
           </div>
-          <button className="bg-primary h-12 w-full rounded px-4 font-semibold text-white hover:shadow-lg hover:shadow-blue-300" type="submit">
+          <button
+            className="bg-primary h-12 w-full rounded px-4 font-semibold text-white hover:shadow-lg hover:shadow-blue-300"
+            type="submit"
+          >
             Register
           </button>
         </form>
-        <div className="flex w-full justify-center">
-          Or Register With
-        </div>
-        <GoogleButton/>
+        <div className="flex w-full justify-center">Or Register With</div>
+        <GoogleButton />
       </div>
     </>
   );

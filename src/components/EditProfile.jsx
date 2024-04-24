@@ -1,11 +1,10 @@
 "use client";
-import { editProfile } from "@/actions/actions";
+import { editProfile, profile } from "@/actions/actions";
 import { BASE_URL } from "@/db/config/constant";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-const EditProfile = ({getProfile}) => {
-  const router = useRouter();
+const EditProfile = ({ getProfile }) => {
   const [modal, setModal] = useState("hidden");
   const toggleModal = () => {
     if (modal === "hidden") {
@@ -20,8 +19,8 @@ const EditProfile = ({getProfile}) => {
   async function submitAction(formData) {
     const fullname = formData.get("fullname");
     const bio = formData.get("bio");
-    let res = await editProfile({ fullname, bio });
-    return getProfile()
+    await editProfile({ fullname, bio });
+    return getProfile();
   }
 
   return (

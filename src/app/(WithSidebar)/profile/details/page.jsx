@@ -3,6 +3,7 @@ import { editProfile, profile } from "@/actions/actions";
 import ProfileNav from "@/components/ProfileNav";
 import { BentoGridSecondDemo } from "@/components/page/MyProfile";
 import MyProfile from "@/components/page/MyProgress";
+import { useAppContext } from "@/context";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -19,18 +20,16 @@ const Page = () => {
   const params = useParams();
   const { pageProfile } = params;
 
-  async function getProfile() {
-    let prof = await profile();
-    setData(prof);
-  }
-
+  let context = useAppContext()
+  let {getProfile, state} = context
+  // console.log(state);
   useEffect(() => {
     getProfile();
   }, [editProfile]);
   return (
     <>
       <main className="flex h-[54rem] flex-col items-center bg-white">
-        <ProfileNav profile={data} getProfile={getProfile}/>
+        <ProfileNav profile={state} getProfile={getProfile}/>
         <div className="grid h-full w-[70%] grid-cols-3 px-5 py-2">
           <div className=" flex flex-col p-6 px-10 py-8">
             <div className="text-sm font-semibold text-gray-300">

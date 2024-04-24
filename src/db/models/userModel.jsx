@@ -146,12 +146,29 @@ export class UserModel {
 
   static async updateProfile({ idUser, fullname, bio }) {
     const id = new ObjectId(String(idUser));
-    const res = await this.collection().updateOne(
-      { _id: id },
-      { $set: { fullname: fullname, bio: bio } },
-    );
-    // console.log(res);
-    return res;
+    if(!fullname){
+      const res = await this.collection().updateOne(
+        { _id: id },
+        { $set: { bio: bio } },
+      );
+      return res;
+    }
+
+    if(!bio){
+      const res = await this.collection().updateOne(
+        { _id: id },
+        { $set: { fullname } },
+      );
+      return res;
+    }
+
+    if(bio && fullname){
+      const res = await this.collection().updateOne(
+        { _id: id },
+        { $set: { fullname: fullname, bio: bio } },
+      );
+      return res;
+    }
   }
 
   static async googleLogin(data) {
