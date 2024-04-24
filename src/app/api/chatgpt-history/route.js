@@ -10,8 +10,8 @@ export async function POST(req, res) {
     const prompt = `ceritakan sejarah tentang ${query} sesuai dengan cerita aslinya dengan bentuk json dengan properti sebagai berikut , 
     {
      "fullStory": cerita dengan panjang 5 kalimat,
-     "story": fullStory yang dihilangkan  2 kata pada tiap kalimat dari fullStory kata tersebut dan tidak berdekatan kemudian kata yang hilang diganti dengan  '----',
-     "answer": [kata yang dihilangkan]
+     "story": fullStory yang dihilangkan 2 kata pada tiap kalimat dari fullStory kata tersebut dan tidak berdekatan kemudian kata yang hilang diganti dengan  '----', ingat
+     "answer": [kata yang dihilangkan dari story, jumlah jawaban harus sama dengan kata yang dihilangkan, urutkan berdasarkan yang dihilangkan lebih dahulu]
      }`;
 
     if (req.method !== "POST")
