@@ -11,8 +11,8 @@ export async function POST(req, res) {
     const prompt = `make a story using english with ${query} as topic in object with property like below and not json, 
     {
      "fullStory": story in 5 senteces,
-     "story": fullStory that remove 2 words in every sentece from fullStory, and that words not side by side then the word that removed replace by  '----',
-     "answer": [words that removed]
+     "story": fullStory that remove 2 words in every sentece from fullStory replace by '----' dont remove person's name, and that words not side by side then the word that removed replaced word by '----' rembember replace it with '----',
+     "answer": [words that removed, order by what removed first]
      }
 {
 "fullStory": string,
@@ -53,7 +53,7 @@ export async function POST(req, res) {
     const object = JSON.parse(data.choices[0].message.content);
     console.log(object);
     object.title = query
-    object.category = 'languange'
+    object.category = 'language'
     let res =  await StoryModel.addStory(object)
     const { insertedId } = res
     let result = await StoryModel.getStoryById(insertedId)

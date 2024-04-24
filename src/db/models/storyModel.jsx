@@ -12,32 +12,33 @@ export class StoryModel {
   }
 
   static async addStory(text) {
-    console.log(text, 'Storymodel');
-        return await this.collection().insertOne({
-          title: text.result.title,
-            fullStory: text.result.fullStory,
-            story: text.result.story,
-            answer: text.result.answer,
-            category: text.result.category,
-          })
-    }
-  
-    static async randomFind(category){
-      const agg = [
-        {
-          '$match': {
-            category
-          }
-        }, {
-          '$sample': {
-            'size': 1
-          }
-        }
-      ];
-      const cursor = this.collection().aggregate(agg);
-      const result = await cursor.toArray();
-      return result
-    }
+    console.log(text, "Storymodel");
+    return await this.collection().insertOne({
+      title: text.title,
+      fullStory: text.fullStory,
+      story: text.story,
+      answer: text.answer,
+      category: text.category,
+    });
+  }
+
+  static async randomFind(category) {
+    const agg = [
+      {
+        $match: {
+          category,
+        },
+      },
+      {
+        $sample: {
+          size: 1,
+        },
+      },
+    ];
+    const cursor = this.collection().aggregate(agg);
+    const result = await cursor.toArray();
+    return result;
+  }
 
   static async getStoryById(_id) {
     const result = await this.collection().findOne({ _id });

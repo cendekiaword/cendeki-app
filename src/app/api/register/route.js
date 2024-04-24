@@ -7,7 +7,7 @@ export async function POST(request) {
     let body = await request.json();
     const age = Number(body.age)
     const checkUserEmail = await UserModel.checkUserEmail(body.email);
-    console.log(body, "USER SCHEMA");
+    // console.log(body, "USER SCHEMA");
     if (checkUserEmail) {
       return NextResponse.json(
         {

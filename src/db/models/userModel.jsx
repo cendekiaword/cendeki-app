@@ -11,24 +11,17 @@ import { ObjectId } from "mongodb";
 //   password: string
 // }
 
-// const AddUserSchema = z.object({
-//   fullname: z.string(),
-//   email: z.string().email(),
-//   password: z.string().min(5).max(10),
-//   age: z.number(),
-// });
-
 const AddUserSchema = z.object({
-  firstname: z.string(),
-  lastname: z.string(),
+  fullname: z.string(),
   email: z.string().email(),
   password: z.string().min(5),
   age: z.number(),
 });
 
+
 const LoginUserSchema = z.object({
   email: z.string().email(),
-  password: z.string().min(5).max(10),
+  password: z.string().min(5),
 });
 
 export class UserModel {
@@ -51,7 +44,6 @@ export class UserModel {
   }
 
   static async addUser(user) {
-
     const validation = AddUserSchema.safeParse(user);
     if (!validation.success) {
       console.log(validation);
