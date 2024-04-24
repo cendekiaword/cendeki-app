@@ -12,7 +12,7 @@ export async function POST(req, res) {
     {
      "fullStory": story in 5 senteces,
      "story": fullStory that remove 2 words in every sentece from fullStory replace by '----' dont remove person's name, and that words not side by side then the word that removed replaced word by '----' rembember replace it with '----',
-     "answer": [words that removed, order by what removed first]
+     "answer": [words that removed from story, the total must be same with the word that removed, order by what removed first]
      }
 {
 "fullStory": string,

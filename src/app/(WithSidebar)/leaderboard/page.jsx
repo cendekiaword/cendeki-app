@@ -4,12 +4,6 @@ import { BASE_URL } from "@/db/config/constant";
 import React from "react";
 
 export default async function page() {
-  // Simulating a more realistic rank data
-  // const ranks = Array.from({ length: 100 }, (_, idx) => ({
-  //   name: `User ${idx + 1}`,
-  //   score: (idx + 1) * 200,
-  // }));
-
   const getLeader = async () => {
     let res = await fetch(`${BASE_URL}/api/leaderboard`, {
       cache: 'no-store'
@@ -25,13 +19,15 @@ export default async function page() {
     return  data.map(({ totalScore, user }) => ({ totalScore, name: user.name }))
   }
 
+  let date = new Date().toLocaleDateString()
+
   let champ = highest()
 
   return (
     <>
       <div className="flex w-full flex-col items-center justify-center md:max-h-dvh">
         <h1 className="text-center text-4xl font-bold">Global Leaderboard</h1>
-        <p>Latest update: 22/04/2024</p>
+        <p>Latest update: {date}</p>
 
         <div className="my-8 flex items-end">
           <div className="flex h-44 w-32 flex-col">

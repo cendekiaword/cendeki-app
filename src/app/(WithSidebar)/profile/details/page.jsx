@@ -22,7 +22,7 @@ const Page = () => {
 
   let context = useAppContext()
   let {getProfile, state} = context
-  // console.log(state);
+
   useEffect(() => {
     getProfile();
   }, [editProfile]);
