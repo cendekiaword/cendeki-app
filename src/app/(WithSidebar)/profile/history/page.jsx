@@ -75,7 +75,7 @@ export default async function page() {
                     <h2 className="text-xl font-bold">
                       {el.title}
                     </h2>
-                    <p className="">{el.playDate}</p>
+                    <p className="">{el.playDate.split("T")[0]}</p>
                   </div>
                   <div className="flex justify-between">
                     <div className="rounded-md bg-sky-300 px-4 py-1 text-xl font-bold">

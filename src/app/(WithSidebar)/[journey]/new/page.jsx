@@ -13,7 +13,13 @@ import CompleteJourney from "@/components/CompleteJourney";
 import { CorrectFeedback, IncorrectFeedback } from "@/components/Feedback";
 import IncompleteJourney from "@/components/IncompleteJourney";
 import LoadingSkeleton from "@/components/LoadingSkeleton";
-import { capitalize, clearTimer, getTimeUp, onClickStart, postScore } from "../actions";
+import {
+  capitalize,
+  clearTimer,
+  getTimeUp,
+  onClickStart,
+  postScore,
+} from "../actions";
 
 export default function page({ params }) {
   const Ref = useRef(null);
@@ -46,60 +52,50 @@ export default function page({ params }) {
       setLoading(true);
       setQuestion("");
       setJourney("");
-      if (params.journey === "history") {
-        const res = await fetch(
-          `${BASE_URL}/api/chatgpt-history?query=${question}`,
-          {
-            method: "POST",
-            cache: "no-store",
-          },
-        );
-        if (!res.ok) {
-          alert();
-          setLoading(false);
-          return;
-        }
-        // const {fullStory, story, answer, title, category} = await res.json();
-        const { answer: result } = await res.json();
 
-        console.log(result, "RESULT PROMPT");
-        setJourney(result.story);
-        setStoryId(result._id);
-        // setHistory([{ question, answer: result.answer.story }, ...history]);
-        setCorrectAnswers(result.answer);
-        setAnswers(Array(result.answer.length).fill(""));
-        setScores(Array(result.answer.length).fill(0));
-        // setQuestion();
-        setTitle(result.title);
-        setGenerating(false);
-        setLoading(false);
-      }
-      if (params.journey === "language") {
-        const res = await fetch(
-          `${BASE_URL}/api/chatgpt-language?query=${question}`,
-          {
-            method: "POST",
-            cache: "no-store",
-          },
-        );
-        if (!res.ok) {
-          alert();
+      let res;
+      switch (params.journey) {
+        case "history":
+          res = await fetch(
+            `${BASE_URL}/api/chatgpt-history?query=${question}`,
+            {
+              method: "POST",
+              cache: "no-store",
+            },
+          );
+          break;
+
+        case "language":
+          res = await fetch(
+            `${BASE_URL}/api/chatgpt-language?query=${question}`,
+            {
+              method: "POST",
+              cache: "no-store",
+            },
+          );
+          break;
+        default:
           setLoading(false);
-          return;
-        }
-        const { answer: result } = await res.json();
-        setJourney(result.story);
-        setStoryId(result._id);
-        // setHistory([{ question, answer: result.answer.story }, ...history]);
-        setCorrectAnswers(result.answer);
-        setAnswers(Array(result.answer.length).fill(""));
-        setScores(Array(result.answer.length).fill(0));
-        setTitle(result.title);
-        setGenerating(false);
-        setLoading(false);
+          break;
       }
+      if (!res.ok) {
+        alert();
+        setLoading(false);
+        return;
+      }
+      const { answer: result } = await res.json();
+
+      console.log(result, "RESULT PROMPT");
+      setJourney(result.story);
+      setStoryId(result._id);
+      // setHistory([{ question, answer: result.answer.story }, ...history]);
+      setCorrectAnswers(result.answer);
+      setAnswers(Array(result.answer.length).fill(""));
+      setScores(Array(result.answer.length).fill(0));
+      // setQuestion();
+      setTitle(result.title);
+      setGenerating(false);
       setLoading(false);
-      return;
     }
   };
 
@@ -114,13 +110,18 @@ export default function page({ params }) {
       postScore(finalScore, storyId);
       Swal.fire({
         title: "Time's up!",
-        text: `Your final score is ${finalScore}`,
+        html: `<p class='leading-loose'>Your final score is ${finalScore} <br /> Do you want to see the correct answer ?</p>`,
         icon: "info",
-        confirmButtonColor: "#3085d6",
-        confirmButtonText: "okay",
+        showDenyButton: true,
+        confirmButtonColor: "#1860b6",
+        denyButtonColor: "#14b8a6",
+        confirmButtonText: "Yes",
+        denyButtonText: "No",
       }).then((result) => {
         if (result.isConfirmed) {
-          // router.push("/profile/history");
+          setDisplayComplete(true);
+        } else {
+          router.push("/leaderboard");
         }
       });
     }
@@ -208,7 +209,7 @@ export default function page({ params }) {
         </div>
 
         {generating && <LoadingSkeleton />}
-        {!loading && (
+        {!loading && !displayComplete && (
           <IncompleteJourney
             feedback={feedback}
             title={title}
@@ -223,7 +224,15 @@ export default function page({ params }) {
             handleSubmit={handleSubmit}
           />
         )}
-        {displayComplete && <CompleteJourney journey={journey} />}
+        {displayComplete && (
+          <CompleteJourney
+            journey={journey}
+            correctAnswers={correctAnswers}
+            title={title}
+            finalScore={finalScore}
+            timer={timer}
+          />
+        )}
       </div>
     </>
   );

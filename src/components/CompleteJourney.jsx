@@ -1,14 +1,21 @@
 import React from "react";
 import JourneyTitle from "./JourneyTitle";
+import Link from "next/link";
 
-export default function CompleteJourney({ journey }) {
-  const questions = journey.story?.split("----").map((question, idx) => {
-    if (idx !== journey.story?.split("----").length - 1) {
+export default function CompleteJourney({
+  journey,
+  correctAnswers,
+  title,
+  finalScore,
+  timer,
+}) {
+  const questions = journey.split("----").map((question, idx) => {
+    if (idx !== journey.split("----").length - 1) {
       return (
         <React.Fragment key={idx}>
           <span className="">{question}</span>
           <span className="correct-answer relative font-bold italic">
-            {journey.answer[idx]}
+            {correctAnswers[idx]}
           </span>
         </React.Fragment>
       );
@@ -21,15 +28,15 @@ export default function CompleteJourney({ journey }) {
     <div className="border-primary mx-auto max-w-[80dvw] rounded-lg border p-4 md:max-w-[60dvw]">
       <div className="flex items-center justify-between">
         <div className="flex flex-col justify-center gap-1">
-          <JourneyTitle title={journey.title} />
+          <JourneyTitle title={title} />
           <p>Fill the missing blank down below</p>
         </div>
-        <button
-          onClick={onClickStart}
-          className="border-primary h-12 w-32 rounded-xl border hover:shadow hover:shadow-sky-400"
+        <Link
+          href="/leaderboard"
+          className="border-primary h-12 w-48 content-center rounded-xl border text-center hover:shadow hover:shadow-sky-400"
         >
-          Start
-        </button>
+          To Leaderboard
+        </Link>
       </div>
       <div className="border-primary mt-4 rounded-lg border">
         <p className="p-4 text-justify indent-10 leading-loose tracking-tight">
