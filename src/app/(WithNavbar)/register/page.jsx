@@ -13,8 +13,7 @@ const Page = () => {
   async function submitAction(formData) {
     const email = formData.get("email");
     const password = formData.get("password");
-    const firstname = formData.get("firstname");
-    const lastname = formData.get("lastname");
+    const fullname = formData.get("fullname");
     const age = formData.get("age");
     // console.log(email, password);
     if (!email) {
@@ -37,7 +36,7 @@ const Page = () => {
     let res = await fetch(`${BASE_URL}/api/register`, {
       cache: "no-store",
       method: "POST",
-      body: JSON.stringify({ email, password, firstname, lastname, age }),
+      body: JSON.stringify({ email, password, fullname, age }),
       headers: {
         "Content-Type": "application/json",
       },
@@ -62,8 +61,7 @@ const Page = () => {
   }
   return (
     <>
-      <form
-        action={submitAction}
+      <div
         className="mx-auto flex max-w-[30dvw] flex-col justify-center gap-3"
       >
         <h2 className="text-center text-2xl font-bold">Registration</h2>

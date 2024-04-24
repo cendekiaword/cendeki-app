@@ -10,45 +10,35 @@ import Skeleton from "@/components/ui/skeleton";
 import { ImSpinner9 } from "react-icons/im";
 
 export default function page({ params }) {
-  // const [question, setQuestion] = useState("");
+  const Ref = useRef(null);
+  const [journey, setJourney] = useState({
+    title: "",
+    fullStory: "",
+    story: "",
+    answer: [""],
+  });
+  const [answers, setAnswers] = useState([]);
+  const [feedback, setFeedback] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [skel, setSkel] = useState(false);
+  const [border, setBorder] = useState([]);
+  const [scores, setScores] = useState([]);
+  const [category, setCategory] = useState("");
+  const [finalScore, setFinalScore] = useState(0);
+  const [gameEnd, setGameEnd] = useState(false);
+  const [timer, setTimer] = useState("00:10");
+  const [question, setQuestion] = useState("");
+  const [questionPreview, setQuestionPreview] = useState("");
+  const [history, setHistory] = useState([]);
   // const [loading, setLoading] = useState(false);
-  // const [questionPreview, setQuestionPreview] = useState("");
   // const [journey, setJourney] = useState();
-  // const [history, setHistory] = useState([]);
 
-  // const enterHit = (e) => {
-  //   if (e.key === "Enter") {
-  //     generateAnswer();
-  //   }
-  // };
-
-  // const generateAnswer = async () => {
-  //   try {
-  //     setLoading(true);
-  //     setQuestionPreview(question);
-  //     setQuestion("");
-  //     setAnswer("");
-  //     const res = await fetch(`${BASE_URL}/api/chatgpt-history?query=${question}`,{
-  //       method: 'POST',
-  //       cache: 'no-store'
-  //     });
-  //     // console.log(res);
-  //     const result = await res.json()
-  //     // console.log(result);
-  //     if (!res.ok) {
-  //       alert();
-  //       setLoading(false);
-  //       return;
-  //     }
-  //     setLoading(false);
-  //     setJourney(result.answer.story);
-  //     setHistory([{ question, answer: result.answer.story }, ...history]);
-  //     // console.log(result.content);
-  //   } catch (error) {
-  //     console.log(error);
-  //     alert(error);
-  //   }
-  // };
+  const generatePrompt = (e) => {
+    // console.log('masuk hit');
+    if (e.key === "Enter") {
+      onClickGenerate();
+    }
+  };
 
   const toUpperCase = (word) => {
     const firstLetter = word.charAt(0);
@@ -61,25 +51,7 @@ export default function page({ params }) {
     setCategory(capitalizedWord);
   };
 
-  const Ref = useRef(null);
-  const [journey, setJourney] = useState({
-    title: "",
-    fullStory: "",
-    story: "",
-    answer: [""],
-  });
-  const [answers, setAnswers] = useState(Array(journey.answer.length));
-  const [feedback, setFeedback] = useState(
-    Array(journey.answer.length).fill(""),
-  );
-  const [loading, setLoading] = useState(true);
-  const [skel, setSkel] = useState(false);
-  const [border, setBorder] = useState(Array(journey.answer.length).fill(""));
-  const [scores, setScores] = useState(Array(journey.answer.length).fill(0));
-  const [category, setCategory] = useState("");
-  const [finalScore, setFinalScore] = useState(0);
-  const [gameEnd, setGameEnd] = useState(false);
-  const [timer, setTimer] = useState("00:10");
+ 
   const router = useRouter();
   const getTimeRemaining = (e) => {
     const total = Date.parse(e) - Date.parse(new Date());
@@ -178,29 +150,52 @@ export default function page({ params }) {
     clearTimer(getTimeUp());
   };
 
-  const onClickGenerate = () => {
-    setJourney({
-      fullStory:
-        "Tengu are mythical creatures found in Japanese folklore, often depicted as bird-like humanoids with both human and avian characteristics. Historically, they were thought to be disruptive demons and harbingers of war, but over time their image transformed into protective deities of the mountains and forests. Tengu are typically portrayed with red faces and long noses, and they are known to be skilled warriors. The Tengu are associated with the Shugendo tradition, where they are considered both protective deities and teachers of martial arts. They inhabit sacred mountains, guarding Shinto shrines and Buddhist temples. According to legends, Tengu can move swiftly through the air, wield magical powers, and have the ability to shape-shift. Their lore is rich with stories of encounters with samurai and monks, where they often impart wisdom or serve as formidable opponents.",
-      story:
-        "Tengu are mythical creatures found in Japanese folklore, often depicted as ---- humanoids with both human and avian characteristics. Historically, they were thought to be disruptive ---- and harbingers of war, but over time their image transformed into protective ---- of the mountains and forests. Tengu are typically portrayed with ---- faces and long noses, and they are known to be skilled ----. The Tengu are associated with the ---- tradition, where they are considered both protective deities and teachers of ---- arts. They inhabit sacred mountains, guarding Shinto ---- and Buddhist temples. According to legends, Tengu can move swiftly through the ----, wield magical powers, and have the ability to ----. Their lore is rich with stories of encounters with samurai and monks, where they often impart wisdom or serve as formidable opponents.",
-      answer: [
-        "bird-like",
-        "demons",
-        "deities",
-        "red",
-        "warriors",
-        "Shugendo",
-        "martial",
-        "shrines",
-        "air",
-        "shape-shift",
-      ],
-      references: [
-        "https://www.britannica.com/topic/tengu",
-        "https://yokai.com/tengu/",
-      ],
-    });
+  const onClickGenerate = async () => {
+    console.log('masuk generate');
+    setLoading(true);
+    setQuestionPreview(question);
+    setQuestion("");
+    setJourney("");
+    if(params.journey === 'history'){
+      const res = await fetch(
+        `${BASE_URL}/api/chatgpt-history?query=${question}`,
+        {
+          method: "POST",
+          cache: "no-store",
+        },
+      );
+      const result = await res.json();
+      if (!res.ok) {
+        alert();
+        setLoading(false);
+        return;
+      }
+      setLoading(false);
+      setJourney(result.answer.story);
+      setHistory([{ question, answer: result.answer.story }, ...history]);
+      setAnswers(result.answer.answer)
+    }
+    if(params.journey === 'language'){
+      const res = await fetch(
+        `${BASE_URL}/api/chatgpt-language?query=${question}`,
+        {
+          method: "POST",
+          cache: "no-store",
+        },
+      );
+      const result = await res.json();
+      if (!res.ok) {
+        alert();
+        setLoading(false);
+        return;
+      }
+      setLoading(false);
+      setJourney(result.answer.story);
+      setHistory([{ question, answer: result.answer.story }, ...history]);
+      setAnswers(result.answer.answer)
+    }
+    return
+    // console.log(res);
   };
 
   function handleSubmit(e) {
@@ -253,12 +248,12 @@ export default function page({ params }) {
     }
   }
 
-  const questions = journey.story.split("----").map((question, idx) => {
-    if (idx !== journey.story.split("----").length - 1) {
+  const questions = journey.story?.split("----").map((question, idx) => {
+    if (idx !== journey.story?.split("----").length - 1) {
       return (
         <React.Fragment key={idx}>
           <span className="">{question}</span>
-          <span className="relative correct-answer font-bold italic">
+          <span className="correct-answer relative font-bold italic">
             {/* <input
               type="text"
               placeholder="- - - -"
@@ -324,12 +319,15 @@ export default function page({ params }) {
             <input
               type="text"
               className="border-primary h-8 w-[35%] max-w-[60%] rounded-lg border text-center"
-              placeholder="The rise and fall of roman empire"
+              onKeyDown={generatePrompt}
+              placeholder="Ask any someone/something history..."
+              onChange={(e) => setQuestion(e.target.value)}
+              value={question}
             />
             <div className="mt-4 flex items-center gap-16">
               <button
-                onClick={onClickGenerate}
                 className="border-primary w-48 rounded-md border px-1 hover:shadow-md hover:shadow-sky-400"
+                onClick={onClickGenerate}
               >
                 Generate
               </button>
@@ -347,12 +345,16 @@ export default function page({ params }) {
         )}
       </div>
 
-      {false && (
+      {loading && (
         <div className="mx-auto max-w-[80dvw] rounded-lg border bg-opacity-30 p-4 md:max-w-[60dvw]">
           <div className="flex items-center justify-between">
             <div className="flex flex-col justify-center gap-1">
-              <Skeleton className="text-2xl font-bold bg-gray-300 rounded-md"><p className="invisible w-96">placeholder</p></Skeleton>
-              <Skeleton className="text-gray-300 rounded-md">Fill the missing blank down below</Skeleton>
+              <Skeleton className="rounded-md bg-gray-300 text-2xl font-bold">
+                <p className="invisible w-96">placeholder</p>
+              </Skeleton>
+              <Skeleton className="rounded-md text-gray-300">
+                Fill the missing blank down below
+              </Skeleton>
             </div>
             <button
               onClick={onClickStart}
@@ -362,12 +364,12 @@ export default function page({ params }) {
             </button>
           </div>
           <div className="border-primary mt-4 rounded-lg border">
-            {journey.answer.length != 1 ? (
+            {journey.answer?.length != 1 ? (
               <div className="p-4 text-justify indent-10 leading-loose tracking-tight">
                 {questions}
               </div>
             ) : (
-              <Skeleton className="relative flex items-center justify-center min-h-60 py-8 rounded-md">
+              <Skeleton className="relative flex min-h-60 items-center justify-center rounded-md py-8">
                 <ImSpinner9 className="size-60 animate-spin text-blue-400" />
                 <p className="absolute text-2xl font-bold">Generating</p>
               </Skeleton>
