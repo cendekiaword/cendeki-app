@@ -57,6 +57,23 @@
   }
 }
 
+.loading-color {
+  background-color: #93c5fd;
+}
+
 .correct-answer {
   color: #14b8a6;
+  --tw-border-opacity: 1;
+  border-color: rgb(45 212 191 / var(--tw-border-opacity));
+  border-bottom-width: 2px;
+}
+
+.correct-feedback {
+  --tw-text-opacity: 1;
+  color: rgb(6 182 212 / var(--tw-text-opacity));
+}
+
+.incorrect-feedback {
+  --tw-text-opacity: 1;
+  color: rgb(244 63 94 / var(--tw-text-opacity));
 }

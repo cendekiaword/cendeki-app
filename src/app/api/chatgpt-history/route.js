@@ -20,7 +20,6 @@ export async function POST(req, res) {
         message: `${req.method} Method Not Allowed`,
       });
 
-    console.log(query);
     const options = {
       method: "POST",
       url: "https://chatgpt-best-price.p.rapidapi.com/v1/chat/completions",
@@ -42,7 +41,7 @@ export async function POST(req, res) {
     // console.log(RAPID_API);
 
     const { data } = await axios.request(options);
-    // console.log(data.choices[0].message.content);
+    console.log(data.choices[0].message.content, "API");
     const object = JSON.parse(data.choices[0].message.content);
     // console.log(object);
     object.title = query

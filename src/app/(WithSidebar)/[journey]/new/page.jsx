@@ -1,0 +1,230 @@
+"use client";
+import React, { useEffect, useRef, useState } from "react";
+import { FaCircleCheck, FaCircleXmark } from "react-icons/fa6";
+import { useRouter } from "next/navigation";
+import Swal from "sweetalert2";
+import { BASE_URL } from "@/db/config/constant";
+import Cookies from "universal-cookie";
+import Skeleton from "@/components/ui/skeleton";
+import { ImSpinner9 } from "react-icons/im";
+import PromptAPI from "@/components/PromptAPI";
+import JourneyTitle from "@/components/JourneyTitle";
+import CompleteJourney from "@/components/CompleteJourney";
+import { CorrectFeedback, IncorrectFeedback } from "@/components/Feedback";
+import IncompleteJourney from "@/components/IncompleteJourney";
+import LoadingSkeleton from "@/components/LoadingSkeleton";
+import { capitalize, clearTimer, getTimeUp, onClickStart, postScore } from "../actions";
+
+export default function page({ params }) {
+  const Ref = useRef(null);
+  const [journey, setJourney] = useState({
+    title: "",
+    fullStory: "",
+    story: "",
+    answer: [""],
+  });
+  const [answers, setAnswers] = useState([]);
+  const [storyId, setStoryId] = useState("");
+  const [correctAnswers, setCorrectAnswers] = useState([]);
+  const [feedback, setFeedback] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [generating, setGenerating] = useState(false);
+  const [displayComplete, setDisplayComplete] = useState(false);
+  const [border, setBorder] = useState([]);
+  const [scores, setScores] = useState([]);
+  const [category, setCategory] = useState("");
+  const [finalScore, setFinalScore] = useState(0);
+  const [gameEnd, setGameEnd] = useState(false);
+  const [timer, setTimer] = useState("00:10");
+  const [question, setQuestion] = useState("");
+  const [title, setTitle] = useState("");
+  const [history, setHistory] = useState([]);
+
+  const generatePrompt = async (e) => {
+    if (e.key === "Enter" || e.type == "click") {
+      setGenerating(true);
+      setLoading(true);
+      setQuestion("");
+      setJourney("");
+      if (params.journey === "history") {
+        const res = await fetch(
+          `${BASE_URL}/api/chatgpt-history?query=${question}`,
+          {
+            method: "POST",
+            cache: "no-store",
+          },
+        );
+        if (!res.ok) {
+          alert();
+          setLoading(false);
+          return;
+        }
+        // const {fullStory, story, answer, title, category} = await res.json();
+        const { answer: result } = await res.json();
+
+        console.log(result, "RESULT PROMPT");
+        setJourney(result.story);
+        setStoryId(result._id);
+        // setHistory([{ question, answer: result.answer.story }, ...history]);
+        setCorrectAnswers(result.answer);
+        setAnswers(Array(result.answer.length).fill(""));
+        setScores(Array(result.answer.length).fill(0));
+        // setQuestion();
+        setTitle(result.title);
+        setGenerating(false);
+        setLoading(false);
+      }
+      if (params.journey === "language") {
+        const res = await fetch(
+          `${BASE_URL}/api/chatgpt-language?query=${question}`,
+          {
+            method: "POST",
+            cache: "no-store",
+          },
+        );
+        if (!res.ok) {
+          alert();
+          setLoading(false);
+          return;
+        }
+        const { answer: result } = await res.json();
+        setJourney(result.story);
+        setStoryId(result._id);
+        // setHistory([{ question, answer: result.answer.story }, ...history]);
+        setCorrectAnswers(result.answer);
+        setAnswers(Array(result.answer.length).fill(""));
+        setScores(Array(result.answer.length).fill(0));
+        setTitle(result.title);
+        setGenerating(false);
+        setLoading(false);
+      }
+      setLoading(false);
+      return;
+    }
+  };
+
+  const onClickStart = () => {
+    clearTimer(getTimeUp(), setTimer, setGameEnd, Ref);
+  };
+
+  const router = useRouter();
+
+  useEffect(() => {
+    if (gameEnd) {
+      postScore(finalScore, storyId);
+      Swal.fire({
+        title: "Time's up!",
+        text: `Your final score is ${finalScore}`,
+        icon: "info",
+        confirmButtonColor: "#3085d6",
+        confirmButtonText: "okay",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // router.push("/profile/history");
+        }
+      });
+    }
+    const sum = scores.reduce((acc, score) => acc + score, 0);
+    setFinalScore(sum);
+  }, [scores, gameEnd]);
+
+  useEffect(() => {
+    // clearTimer();
+    // Initialize timer
+    capitalize(params.journey, setCategory);
+    return () => {
+      if (Ref.current) {
+        clearInterval(Ref.current);
+      }
+    };
+  }, []);
+
+  function handleSubmit(e) {
+    if (e.key == "Enter") {
+      const newFeedback = answers.map((answer, idx) => {
+        if (scores[idx] > 0) {
+          return;
+        }
+        const res =
+          answer?.toLowerCase() === correctAnswers[idx]?.toLowerCase()
+            ? "Correct"
+            : "Incorrect";
+
+        setFeedback((prev) => {
+          const updatedFeedback = [...prev];
+          updatedFeedback[idx] = res;
+          return updatedFeedback;
+        });
+
+        let borderClass = "";
+        if (res === "Correct") {
+          borderClass = "correct-answer";
+        } else if (res === "Incorrect" && answer && answer.length !== 0) {
+          borderClass = "border-b-2 border-rose-400";
+        } else {
+          borderClass = "";
+        }
+        setBorder((prev) => {
+          const updatedBorder = [...prev];
+          updatedBorder[idx] = borderClass;
+          return updatedBorder;
+        });
+
+        let score = 0;
+        if (res === "Correct") {
+          score += timer.split(":")[1] * 10;
+        } else if (res === "Incorrect" && answer && answer.length !== 0) {
+          score = 0;
+        } else {
+          score = 0;
+        }
+        setScores((prev) => {
+          const updateScore = [...prev];
+          updateScore[idx] = score;
+          return updateScore;
+        });
+
+        return res;
+      });
+    }
+  }
+
+  return (
+    <>
+      <div className="mx-auto">
+        <div className="mx-auto mb-8 mt-8 flex max-w-[80dvw] flex-col gap-8 md:max-w-[60dvw]">
+          <h1 className="text-center text-4xl font-bold md:text-7xl 2xl:text-8xl">
+            Test Your Knowledge
+          </h1>
+        </div>
+        <div className="mb-10 flex w-full flex-col items-center justify-center gap-2">
+          {category && (
+            <PromptAPI
+              setQuestion={setQuestion}
+              category={category}
+              generatePrompt={generatePrompt}
+            />
+          )}
+        </div>
+
+        {generating && <LoadingSkeleton />}
+        {!loading && (
+          <IncompleteJourney
+            feedback={feedback}
+            title={title}
+            journey={journey}
+            answers={answers}
+            border={border}
+            scores={scores}
+            timer={timer}
+            finalScore={finalScore}
+            setAnswers={setAnswers}
+            onClickStart={onClickStart}
+            handleSubmit={handleSubmit}
+          />
+        )}
+        {displayComplete && <CompleteJourney journey={journey} />}
+      </div>
+    </>
+  );
+}
