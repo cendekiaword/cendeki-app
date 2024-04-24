@@ -98,7 +98,7 @@ const Page = () => {
             Register
           </button>
         </form>
-        <div>
+        <div className="flex w-full justify-center">
           Or Register With
         </div>
         <GoogleButton/>
