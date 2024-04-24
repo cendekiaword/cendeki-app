@@ -1,6 +1,7 @@
 import { Inter } from "next/font/google";
 import Sidebar from "@/components/Sidebar";
 import { cookies } from "next/headers";
+import { AppWrapper } from "@/context";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -28,8 +29,10 @@ export default function RootLayout({ children }) {
         <html lang="en">
           <body className={inter.className}>
             <div className="flex min-h-dvh">
-              <Sidebar />
-              {children}
+              <AppWrapper>
+                <Sidebar />
+                {children}
+              </AppWrapper>
             </div>
           </body>
         </html>

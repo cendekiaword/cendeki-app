@@ -1,5 +1,6 @@
-"use client"
+"use client";
 import { profile } from "@/actions/actions";
+import { useAppContext } from "@/context";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -7,36 +8,31 @@ import Swal from "sweetalert2";
 import Cookies from "universal-cookie";
 
 export default function Sidebar() {
-  const [dataProfile, setDataProfile] = useState({})
-  const router = useRouter()
+  // const [dataProfile, setDataProfile] = useState({});
+  const router = useRouter();
   const cookies = new Cookies();
   async function logout() {
-    let token = cookies.get("Authorization")
+    let token = cookies.get("Authorization");
     if (!token) {
-        return Swal.fire({
-            title: 'You are not login yet',
-            showConfirmButton: false,
-            timer: 1500,
-            icon: 'warning'
-        })
+      return Swal.fire({
+        title: "You are not login yet",
+        showConfirmButton: false,
+        timer: 1500,
+        icon: "warning",
+      });
     }
     cookies.remove("Authorization");
-    return router.push("/")
-}
+    return router.push("/");
+  }
 
-async function getProfile(){
-  let res = await profile()
-  setDataProfile(res)
-}
 
-useEffect(() => {
-  getProfile()
-},[])
+  const dataProfile = useAppContext();
+  // console.log(dataProfile);
 
 
   return (
     <div>
-      <div className="sticky left-0 top-0 flex min-h-dvh max-h-dvh max-w-[20dvw] flex-col justify-between shadow-lg shadow-blue-600 md:min-w-[20dvw]">
+      <div className="sticky left-0 top-0 flex max-h-dvh min-h-dvh max-w-[20dvw] flex-col justify-between shadow-lg shadow-blue-600 md:min-w-[20dvw]">
         <div>
           <Link href="/" className="my-8 mb-8 flex items-center justify-center">
             <img src="/logo.png" alt="" />
@@ -75,7 +71,10 @@ useEffect(() => {
               <p className="text-gray-500">{dataProfile?.email}</p>
             </div>
           </Link>
-          <button onClick={logout} className="my-4 rounded-md bg-sky-200 py-1 text-center font-bold">
+          <button
+            onClick={logout}
+            className="my-4 rounded-md bg-sky-200 py-1 text-center font-bold"
+          >
             Log out
           </button>
         </div>
@@ -98,6 +97,6 @@ const menus = [
   {
     name: "Previous Journey",
     icon: "",
-    href: "/profile/history"
+    href: "/profile/history",
   },
 ];
