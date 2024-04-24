@@ -12,7 +12,8 @@ const Page = () => {
   async function submitAction(formData) {
     const email = formData.get("email");
     const password = formData.get("password");
-    const fullname = formData.get("fullname");
+    const firstname = formData.get("firstname");
+    const lastname = formData.get("lastname");
     const age = formData.get("age");
     // console.log(email, password);
     if (!email) {
@@ -35,13 +36,11 @@ const Page = () => {
     let res = await fetch(`${BASE_URL}/api/register`, {
       cache: "no-store",
       method: "POST",
-      body: JSON.stringify({ email, password, fullname, age }),
+      body: JSON.stringify({ email, password, firstname, lastname, age }),
       headers: {
         "Content-Type": "application/json",
       },
     });
-
-    // await res.json();
 
     if (!res.ok) {
       return Swal.fire({
@@ -63,7 +62,10 @@ const Page = () => {
   }
   return (
     <>
-      <div className="mx-auto flex max-w-[30dvw] flex-col justify-center gap-3">
+      <form
+        action={submitAction}
+        className="mx-auto flex max-w-[30dvw] flex-col justify-center gap-3"
+      >
         <h2 className="text-center text-2xl font-bold">Registration</h2>
         <div className="flex gap-6">
           <div>
@@ -92,6 +94,13 @@ const Page = () => {
           name="email"
           className="bg-accent h-12 w-full rounded px-4 placeholder:text-sky-600"
         />
+        <label>Age</label>
+        <input
+          type="text"
+          placeholder="Enter Age"
+          name="age"
+          className="bg-accent h-12 w-full rounded px-4 placeholder:text-sky-600"
+        />
         <label>Password</label>
         <input
           type="password"
@@ -109,7 +118,7 @@ const Page = () => {
         <button className="bg-primary h-12 w-full rounded px-4 font-semibold text-white hover:shadow-lg hover:shadow-blue-300">
           Register
         </button>
-      </div>
+      </form>
     </>
   );
 };
