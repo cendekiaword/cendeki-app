@@ -47,22 +47,22 @@ export default function Teaser({ animationData }) {
     if (e.key == "Enter") {
       const newFeedback = answers.map((answer, idx) => {
         const res =
-        answer?.toLowerCase() === journey.answer[idx]?.toLowerCase()
-        ? "Correct"
-        : "Incorrect";
-        
+          answer?.toLowerCase() === journey.answer[idx]?.toLowerCase()
+            ? "Correct"
+            : "Incorrect";
+
         setFeedback((prev) => {
           const updatedFeedback = [...prev];
           updatedFeedback[idx] = res;
           return updatedFeedback;
         });
-        
+
         let borderClass = "";
         if (res === "Correct") {
           borderClass = "border-b-2 border-teal-400 placeholder:invert";
         } else if (res == "Incorrect" && answer && answer.length !== 0) {
           borderClass = "border-b-2 border-rose-400 placeholder:invert";
-          console.log(borderClass, idx)
+          console.log(borderClass, idx);
         } else {
           borderClass = "";
         }
@@ -94,11 +94,9 @@ export default function Teaser({ animationData }) {
   const questions = journey.story.split("----").map((question, idx) => {
     if (idx !== journey.story.split("----").length - 1) {
       return (
-        <>
-          <span className="" key={"q" + idx}>
-            {question}
-          </span>
-          <span key={idx} className="relative">
+        <React.Fragment key={idx}>
+          <span className="">{question}</span>
+          <span className="relative">
             <input
               type="text"
               placeholder="- - - -"
@@ -131,15 +129,13 @@ export default function Teaser({ animationData }) {
               </>
             )}
           </span>
-        </>
+        </React.Fragment>
       );
     } else {
       return (
-        <>
-          <span className="invert" key={"q" + idx}>
-            {question}
-          </span>
-        </>
+        <span className="invert" key={idx}>
+          {question}
+        </span>
       );
     }
   });

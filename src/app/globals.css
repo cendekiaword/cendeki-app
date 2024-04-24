@@ -57,6 +57,10 @@
   }
 }
 
+.loading-color {
+  background-color: #93c5fd;
+}
+
 .correct-answer {
   color: #14b8a6;
 }
