@@ -302,7 +302,6 @@ export default function page({ params }) {
       );
     }
   });
-  // console.log(skel, "SKEL");
   return (
     <>
       <div className="mx-auto mb-8 mt-8 flex max-w-[80dvw] flex-col gap-8 md:max-w-[60dvw]">
@@ -324,7 +323,7 @@ export default function page({ params }) {
             </p>
             <input
               type="text"
-              className="border-primary h-8 w-[60%] rounded-lg border text-center"
+              className="border-primary h-8 w-[35%] max-w-[60%] rounded-lg border text-center"
               placeholder="The rise and fall of roman empire"
             />
             <div className="mt-4 flex items-center gap-16">
@@ -348,7 +347,7 @@ export default function page({ params }) {
         )}
       </div>
 
-      {true && (
+      {false && (
         <div className="mx-auto max-w-[80dvw] rounded-lg border bg-opacity-30 p-4 md:max-w-[60dvw]">
           <div className="flex items-center justify-between">
             <div className="flex flex-col justify-center gap-1">
