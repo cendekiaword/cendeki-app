@@ -44,4 +44,17 @@ export class StoryModel {
     const result = await this.collection().findOne({ _id });
     return result;
   }
+
+  static async getStoryByCategory(category){
+    const agg = [
+      {
+        $match: {
+          category,
+        },
+      },
+    ]
+    const cursor = this.collection().aggregate(agg);
+    const result = await cursor.toArray();
+    return result;
+  }
 }
