@@ -33,7 +33,7 @@ export default function page({ params }) {
   // const [loading, setLoading] = useState(false);
   // const [journey, setJourney] = useState();
 
-  const enterHit = (e) => {
+  const generatePrompt = (e) => {
     // console.log('masuk hit');
     if (e.key === "Enter") {
       onClickGenerate();
@@ -297,7 +297,6 @@ export default function page({ params }) {
       );
     }
   });
-  // console.log(skel, "SKEL");
   return (
     <>
       <div className="mx-auto mb-8 mt-8 flex max-w-[80dvw] flex-col gap-8 md:max-w-[60dvw]">
@@ -319,8 +318,8 @@ export default function page({ params }) {
             </p>
             <input
               type="text"
-              className="border-primary h-8 w-[60%] rounded-lg border text-center"
-              onKeyDown={enterHit}
+              className="border-primary h-8 w-[35%] max-w-[60%] rounded-lg border text-center"
+              onKeyDown={generatePrompt}
               placeholder="Ask any someone/something history..."
               onChange={(e) => setQuestion(e.target.value)}
               value={question}
