@@ -71,7 +71,7 @@ const Page = () => {
             Learning Platform
           </h1>
           <p className="leading-relaxed">
-            If you don't have an account <br />
+            If you don&apos;t have an account <br />
             You can{" "}
             <Link
               href="/register"
