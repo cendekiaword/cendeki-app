@@ -11,10 +11,18 @@ import { ObjectId } from "mongodb";
 //   password: string
 // }
 
+// const AddUserSchema = z.object({
+//   fullname: z.string(),
+//   email: z.string().email(),
+//   password: z.string().min(5).max(10),
+//   age: z.number(),
+// });
+
 const AddUserSchema = z.object({
-  fullname: z.string(),
+  firstname: z.string(),
+  lastname: z.string(),
   email: z.string().email(),
-  password: z.string().min(5).max(10),
+  password: z.string().min(5),
   age: z.number(),
 });
 
@@ -32,9 +40,9 @@ export class UserModel {
     return this.collection().find().toArray();
   }
 
-  static async getUser(_id){
-    const user = await this.collection().findOne({_id})
-    return user
+  static async getUser(_id) {
+    const user = await this.collection().findOne({ _id });
+    return user;
   }
 
   static async checkUserEmail(email) {
@@ -43,16 +51,17 @@ export class UserModel {
   }
 
   static async addUser(user) {
+
     const validation = AddUserSchema.safeParse(user);
     if (!validation.success) {
+      console.log(validation);
       throw validation.error;
     }
-
+    
     const result = await this.collection().insertOne({
       ...user,
       password: hashPassword(user.password),
     });
-    console.log(result);
     return {
       _id: result.insertedId,
       ...user,
@@ -151,5 +160,14 @@ export class UserModel {
     );
     // console.log(res);
     return res;
+  }
+
+  static async googleLogin(data) {
+    const user = await this.collection().findOne({ email: data.email })
+    if (!user) {
+      console.log(data);
+      return await this.addUser(data)
+    }
+    return user
   }
 }

@@ -1,12 +1,31 @@
+"use server"
 import Sidebar from "@/components/Sidebar";
+import { BASE_URL } from "@/db/config/constant";
 import React from "react";
 
-export default function page() {
+export default async function page() {
   // Simulating a more realistic rank data
-  const ranks = Array.from({ length: 100 }, (_, idx) => ({
-    name: `User ${idx + 1}`,
-    score: (idx + 1) * 200,
-  }));
+  // const ranks = Array.from({ length: 100 }, (_, idx) => ({
+  //   name: `User ${idx + 1}`,
+  //   score: (idx + 1) * 200,
+  // }));
+
+  const getLeader = async () => {
+    let res = await fetch(`${BASE_URL}/api/leaderboard`, {
+      cache: 'no-store'
+    })
+    let result = await res.json()
+
+    return result.data
+  }
+
+  let data = await getLeader()
+
+  const highest = () => {
+    return  data.map(({ totalScore, user }) => ({ totalScore, name: user.name }))
+  }
+
+  let champ = highest()
 
   return (
     <>
@@ -17,22 +36,22 @@ export default function page() {
         <div className="my-8 flex items-end">
           <div className="flex h-44 w-32 flex-col">
             <img src="logo.png" alt="" className="mb-2 size-12 self-center" />
-            <p className="text-center font-extrabold">User 2</p>
-            <p className="text-center font-bold">1000 Poin</p>
+            <p className="text-center font-extrabold">{champ[1]?.name}</p>
+            <p className="text-center font-bold">{champ[1]?.totalScore}</p>
             <div className="h-full bg-sky-400"></div>
           </div>
           <div className="flex h-52 w-32 flex-col">
             <img src="logo.png" alt="" className="size-12 self-center" />
 
-            <p className="text-center font-extrabold">User 1</p>
-            <p className="text-center font-bold">2000 Poin</p>
+            <p className="text-center font-extrabold">{champ[0]?.name}</p>
+            <p className="text-center font-bold">{champ[0]?.totalScore}</p>
             <div className="h-full bg-sky-600"></div>
           </div>
           <div className="flex h-36 w-32 flex-col">
             <img src="logo.png" alt="" className="size-12 self-center" />
 
-            <p className="text-center font-extrabold">User 3</p>
-            <p className="text-center font-bold">500 Poin</p>
+            <p className="text-center font-extrabold">{champ[2]?.name}</p>
+            <p className="text-center font-bold">{champ[2]?.totalScore}</p>
             <div className="h-full bg-sky-200"></div>
           </div>
         </div>
@@ -47,11 +66,11 @@ export default function page() {
               </tr>
             </thead>
             <tbody className="h-[20%] overflow-y-auto overflow-x-hidden">
-              {ranks.map((rank, idx) => (
+              {data.map((rank, idx) => (
                 <tr className="text-left font-bold hover:bg-sky-200" key={idx}>
                   <td className="w-6 p-2 text-center">{idx + 1}</td>
-                  <td className="p-2 ">{rank.name}</td>
-                  <td className="p-2 ">{rank.score}</td>
+                  <td className="p-2 ">{rank.user.name}</td>
+                  <td className="p-2 text-black">{rank.totalScore}</td>
                 </tr>
               ))}
             </tbody>

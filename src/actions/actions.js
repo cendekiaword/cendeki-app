@@ -1,20 +1,23 @@
 "use server";
 import { BASE_URL } from "@/db/config/constant";
+import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export async function profile() {
-  // console.log(cookies());
-  let res = await fetch(`${BASE_URL}/api/profile`, {
-    cache: "no-store",
-    headers: {
-      Cookie: cookies().toString(),
-    },
-  });
-  // console.log(res);
-  let result = await res.json();
-  // console.log(result);
-  return result.data;
+  try {
+    let res = await fetch(`${BASE_URL}/api/profile`, {
+      cache: 'no-store',
+      headers: {
+        Cookie: cookies().toString()
+      }
+    })
+
+    let result = await res.json();
+    return result.data
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 // get random story
@@ -42,7 +45,13 @@ export async function editProfile({ fullname, bio }) {
     },
   });
   // console.log(res);
+  if(!res.ok){
+    return "Failed"
+  }
   const result = await res.json();
-  // console.log(result);
   return redirect('/profile/details')
+}
+
+export async function callAction() {
+  return await getStory(params.journey)
 }

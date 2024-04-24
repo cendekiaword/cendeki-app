@@ -1,8 +1,6 @@
 "use client"
 import React, { Fragment, useState } from "react";
-import axios from "axios";
 import { BASE_URL } from "@/db/config/constant";
-// import Head from "next/head";
 
 const ApnaChatGpt = () => {
   const [question, setQuestion] = useState("");
@@ -17,10 +15,6 @@ const ApnaChatGpt = () => {
     }
   };
 
-  const handleQuestion = (e) => {
-
-  }
-
   const generateAnswer = async () => {
     try {
       setLoading(true);
@@ -33,7 +27,7 @@ const ApnaChatGpt = () => {
       });
       // console.log(res);
       const result = await res.json()
-      console.log(result);
+      // console.log(result);
       if (!res.ok) {
         alert();
         setLoading(false);

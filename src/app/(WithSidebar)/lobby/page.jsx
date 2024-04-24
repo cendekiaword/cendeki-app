@@ -1,6 +1,6 @@
 import React from "react";
-import Sidebar from "@/components/Sidebar";
-import Image from "next/image";
+
+import Link from "next/link";
 
 export default function page() {
   return (
@@ -11,8 +11,9 @@ export default function page() {
         </h1>
         <div className="flex min-h-[60%] max-w-[80%] flex-wrap items-center justify-center gap-8">
           {categories.map((el, idx) => {
+            const category = el.name.toLowerCase();
             return (
-              <div className="col-span-2 flex min-h-80 flex-col overflow-clip rounded-xl bg-gray-800  hover:shadow-lg hover:shadow-blue-600">
+              <div key={idx} className="col-span-2 flex min-h-80 flex-col overflow-clip rounded-xl bg-gray-800  hover:shadow-lg hover:shadow-blue-600">
                 <img
                   src={`/${el.name}.png` }
                   alt=""
@@ -22,9 +23,12 @@ export default function page() {
                   <p className="text-center text-xl font-semibold text-white">
                     {el.name}
                   </p>
-                  <button className="bg-primary mx-auto w-[80%] rounded-md py-2 text-center text-white">
+                  <Link
+                    href={`/${category}/new`}
+                    className="bg-primary mx-auto w-[80%] rounded-md py-2 text-center text-white"
+                  >
                     + New Story
-                  </button>
+                  </Link>
                 </div>
               </div>
             );

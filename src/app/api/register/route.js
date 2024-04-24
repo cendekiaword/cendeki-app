@@ -7,7 +7,7 @@ export async function POST(request) {
     let body = await request.json();
     const age = Number(body.age)
     const checkUserEmail = await UserModel.checkUserEmail(body.email);
-
+    console.log(body, "USER SCHEMA");
     if (checkUserEmail) {
       return NextResponse.json(
         {
@@ -22,6 +22,7 @@ export async function POST(request) {
     body.age = age
     
     const result = await UserModel.addUser(body);
+
     return NextResponse.json({ data: result }, { status: 201 });
   } catch (error) {
     if (error instanceof ZodError) {
