@@ -75,3 +75,24 @@ export const capitalize = (word, setCategory) => {
   const capitalizedWord = firstLetterCap + remainingLetters;
   setCategory(capitalizedWord);
 };
+
+export const getAllStoryFromCategory = async (category, setJourneyList) => {
+  try {
+    const res = await fetch(
+      `${BASE_URL}/api/journey/collect?journey=${category}`,
+      {
+        method: "GET",
+        cache: "no-store",
+      },
+    );
+    if (!res.ok) {
+      alert();
+      // setLoading(false);
+      return;
+    }
+    const { data } = await res.json();
+    setJourneyList(data)
+  } catch (error) {
+    console.log(error)
+  }
+};
