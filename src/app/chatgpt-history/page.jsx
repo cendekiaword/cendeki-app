@@ -1,8 +1,6 @@
 "use client"
 import React, { Fragment, useState } from "react";
-import axios from "axios";
 import { BASE_URL } from "@/db/config/constant";
-// import Head from "next/head";
 
 const ApnaChatGpt = () => {
   const [question, setQuestion] = useState("");
