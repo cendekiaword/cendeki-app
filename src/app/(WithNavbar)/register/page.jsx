@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import Swal from "sweetalert2";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook, FaApple } from "react-icons/fa";
+import { GoogleButton } from "@/components/GoogleButton";
 
 const Page = () => {
   const router = useRouter();
@@ -57,7 +58,6 @@ const Page = () => {
       timer: 1500,
       icon: "success",
     });
-    // cookies.set("Authorization", `Bearer ${result.data.token}`)
     return router.push("/login");
   }
   return (
@@ -67,58 +67,44 @@ const Page = () => {
         className="mx-auto flex max-w-[30dvw] flex-col justify-center gap-3"
       >
         <h2 className="text-center text-2xl font-bold">Registration</h2>
-        <div className="flex gap-6">
-          <div>
-            <label>First name</label>
-            <input
-              type="text"
-              placeholder="First name"
-              name="firstname"
-              className="bg-accent h-12 w-full rounded px-4 placeholder:text-sky-600"
-            />
+        <form action={submitAction} className="flex flex-col gap-3">
+          <label>Full name</label>
+          <input
+            type="text"
+            placeholder="First name"
+            name="fullname"
+            className="bg-accent h-12 w-full rounded px-4 placeholder:text-sky-600"
+          />
+          <label>Email</label>
+          <input
+            type="text"
+            placeholder="Enter email"
+            name="email"
+            className="bg-accent h-12 w-full rounded px-4 placeholder:text-sky-600"
+          />
+          <label>Password</label>
+          <input
+            type="password"
+            placeholder="Password"
+            name="password"
+            className="bg-accent h-12 w-full rounded px-4 placeholder:text-sky-600"
+          />
+          <div className="my-3 text-sm text-gray-500">
+            <input type="checkbox" className="me-2" />
+            You agree to our friendly{" "}
+            <span className="cursor-pointer underline hover:font-semibold">
+              privacy policy
+            </span>
           </div>
-          <div>
-            <label>Last name</label>
-            <input
-              type="text"
-              placeholder="Last name"
-              name="lastname"
-              className="bg-accent h-12 w-full rounded px-4 placeholder:text-sky-600"
-            />
-          </div>
+          <button className="bg-primary h-12 w-full rounded px-4 font-semibold text-white hover:shadow-lg hover:shadow-blue-300" type="submit">
+            Register
+          </button>
+        </form>
+        <div className="flex w-full justify-center">
+          Or Register With
         </div>
-        <label>Email</label>
-        <input
-          type="text"
-          placeholder="Enter email"
-          name="email"
-          className="bg-accent h-12 w-full rounded px-4 placeholder:text-sky-600"
-        />
-        <label>Age</label>
-        <input
-          type="text"
-          placeholder="Enter Age"
-          name="age"
-          className="bg-accent h-12 w-full rounded px-4 placeholder:text-sky-600"
-        />
-        <label>Password</label>
-        <input
-          type="password"
-          placeholder="Password"
-          name="password"
-          className="bg-accent h-12 w-full rounded px-4 placeholder:text-sky-600"
-        />
-        <div className="my-3 text-sm text-gray-500">
-          <input type="checkbox" className="me-2" />
-          You agree to our friendly{" "}
-          <span className="cursor-pointer underline hover:font-semibold">
-            privacy policy
-          </span>
-        </div>
-        <button className="bg-primary h-12 w-full rounded px-4 font-semibold text-white hover:shadow-lg hover:shadow-blue-300">
-          Register
-        </button>
-      </form>
+        <GoogleButton/>
+      </div>
     </>
   );
 };
