@@ -1,5 +1,6 @@
 import React from "react";
 import HeroCard from "./HeroCard";
+import page from "../app/(WithSidebar)/lobby/page"
 
 export default function HeroCategory() {
   return (
@@ -18,6 +19,9 @@ export default function HeroCategory() {
       <div className="mt-16 flex flex-nowrap gap-8 overflow-x-auto py-1 max-w-[80dvw] md:max-w-[80dvw] mx-auto">
         {categories.map((el, idx) => {
           return <HeroCard el={el} key={idx} />;
+        })}
+        {categories.map((el, idx) => {
+          return <page el={el} key={idx} />;
         })}
       </div>
     </>
