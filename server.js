@@ -1,6 +1,7 @@
-import { createServer } from "node:http";
-import next from "next";
-import { Server } from "socket.io";
+const { createServer } = require("http");
+const { parse } = require("url");
+const next = require("next");
+const { Server } = require("socket.io");
 
 const dev = process.env.NODE_ENV !== "production";
 const hostname = "localhost";
@@ -14,9 +15,24 @@ app.prepare().then(() => {
 
   const io = new Server(httpServer);
 
+  let data;
+  let trigger;
   io.on("connection", (socket) => {
     // ...
+    socket.emit("hello", "world");
+    socket.on("coba", (value) => {
+      console.log(value, "di server");
+      data = value;
+    });
+    socket.emit("leader", data);
+    socket.on("trigger", (value) => {
+      console.log("masuk trigger");
+      trigger = value;
+    });
+    io.emit("send", trigger);
   });
+
+  // io.emit("send", trigger);
 
   httpServer
     .once("error", (err) => {

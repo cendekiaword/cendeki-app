@@ -14,6 +14,7 @@ import { CorrectFeedback, IncorrectFeedback } from "@/components/Feedback";
 import IncompleteJourney from "@/components/IncompleteJourney";
 import LoadingSkeleton from "@/components/LoadingSkeleton";
 import { capitalize, clearTimer, getTimeUp, onClickStart, postScore } from "../actions";
+import { socket } from "@/socket";
 
 export default function page({ params }) {
   const Ref = useRef(null);
@@ -38,6 +39,8 @@ export default function page({ params }) {
   const [timer, setTimer] = useState("00:10");
   const [question, setQuestion] = useState("");
   const [title, setTitle] = useState("");
+  const [isConnected, setIsConnected] = useState(socket.connected);
+  const [transport, setTransport] = useState("N/A");
   const [history, setHistory] = useState([]);
 
   const generatePrompt = async (e) => {
@@ -138,6 +141,35 @@ export default function page({ params }) {
       }
     };
   }, []);
+
+  // useEffect(() => {
+  //   function onConnect() {
+  //     setIsConnected(true);
+  //     setTransport(socket.io.engine.transport.name);
+
+  //     socket.io.engine.on("upgrade", (transport) => {
+  //       setTransport(transport.name);
+  //     });
+  //   }
+
+  //   function onDisconnect() {
+  //     setIsConnected(false);
+  //     setTransport("N/A");
+  //   }
+
+  //   socket.on("connect", onConnect);
+  //   socket.on("disconnect", onDisconnect);
+  //   socket.on("hello", (value) => {
+  //     console.log(value);
+  //   })
+  //   console.log(finalScore);
+  //   socket.emit("trigger", finalScore)
+
+  //   return () => {
+  //     socket.off("connect", onConnect);
+  //     socket.off("disconnect", onDisconnect);
+  //   };
+  // }, [postScore, gameEnd]);
 
   function handleSubmit(e) {
     if (e.key == "Enter") {

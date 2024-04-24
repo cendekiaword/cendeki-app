@@ -1,28 +1,71 @@
-"use server"
+"use client"
 import Sidebar from "@/components/Sidebar";
 import { BASE_URL } from "@/db/config/constant";
-import React from "react";
+import { socket } from "@/socket";
+import React, { useEffect, useState } from "react";
 
-export default async function page() {
+export default function page() {
+  const [champ, setChamp] = useState([])
+  const [isConnected, setIsConnected] = useState(socket.connected);
+  const [transport, setTransport] = useState("N/A");
+
   const getLeader = async () => {
     let res = await fetch(`${BASE_URL}/api/leaderboard`, {
       cache: 'no-store'
     })
     let result = await res.json()
-
-    return result.data
+    let {data} = result
+    let hasil = data.map(({ totalScore, user }) => ({ totalScore, name: user.name }))
+    setChamp(hasil)
   }
+  
+  useEffect(() => {
+    getLeader()
+  },[])
 
-  let data = await getLeader()
+  // useEffect(() => {
+  //   function onConnect() {
+  //     setIsConnected(true);
+  //     setTransport(socket.io.engine.transport.name);
 
-  const highest = () => {
-    return  data.map(({ totalScore, user }) => ({ totalScore, name: user.name }))
-  }
+  //     socket.io.engine.on("upgrade", (transport) => {
+  //       setTransport(transport.name);
+  //     });
+  //   }
+
+  //   function onDisconnect() {
+  //     setIsConnected(false);
+  //     setTransport("N/A");
+  //   }
+
+  //   socket.on("connect", onConnect);
+  //   socket.on("disconnect", onDisconnect);
+
+  //   socket.on("hello", (value) => {
+  //     console.log(value);
+  //   })
+
+  //   socket.emit("coba", champ)
+  //   socket.on("leader", (value) => {
+  //     console.log(value);
+  //   })
+
+  //   console.log('lewat');
+  //   socket.on("send", (value) => {
+  //     console.log(value);
+  //   })
+    
+
+  //   return () => {
+  //     socket.off("connect", onConnect);
+  //     socket.off("disconnect", onDisconnect);
+  //   };
+  // }, [champ]);
+
+
 
   let date = new Date().toLocaleDateString()
-
-  let champ = highest()
-
+  
   return (
     <>
       <div className="flex w-full flex-col items-center justify-center md:max-h-dvh">
@@ -62,10 +105,10 @@ export default async function page() {
               </tr>
             </thead>
             <tbody className="h-[20%] overflow-y-auto overflow-x-hidden">
-              {data.map((rank, idx) => (
+              {champ.map((rank, idx) => (
                 <tr className="text-left font-bold hover:bg-sky-200" key={idx}>
                   <td className="w-6 p-2 text-center">{idx + 1}</td>
-                  <td className="p-2 ">{rank.user.name}</td>
+                  <td className="p-2 ">{rank.name}</td>
                   <td className="p-2 text-black">{rank.totalScore}</td>
                 </tr>
               ))}
