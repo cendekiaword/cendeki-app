@@ -1,7 +1,5 @@
 import Link from "next/link";
 import React from "react";
-import Image from "next/image";
-import hero from '/public/Learn.png'
 
 export default function HeroBanner() {
   return (

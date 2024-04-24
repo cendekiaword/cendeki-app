@@ -1,5 +1,6 @@
 import React from "react";
 import Sidebar from "@/components/Sidebar";
+import Image from "next/image";
 
 export default function page() {
   return (
@@ -13,9 +14,9 @@ export default function page() {
             return (
               <div className="col-span-2 flex min-h-80 flex-col overflow-clip rounded-xl bg-gray-800  hover:shadow-lg hover:shadow-blue-600">
                 <img
-                  src="https://images.pexels.com/photos/3958516/pexels-photo-3958516.jpeg"
+                  src={`/${el.name}.png` }
                   alt=""
-                  className="w-72 bg-cover"
+                  className="w-72 bg-cover h-60"
                 />
                 <div className="flex flex-col gap-4 py-4">
                   <p className="text-center text-xl font-semibold text-white">
@@ -45,6 +46,6 @@ const categories = [
     name: "Science",
   },
   {
-    name: "Physics",
+    name: "Art",
   },
 ];
