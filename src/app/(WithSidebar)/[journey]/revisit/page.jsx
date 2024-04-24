@@ -4,6 +4,7 @@ import { FaCircleCheck, FaCircleXmark } from "react-icons/fa6";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import { getStory } from "@/actions/actions";
+import { socket } from "@/socket";
 
 export default function page({ params }) {
   const Ref = useRef(null);
@@ -11,7 +12,8 @@ export default function page({ params }) {
     let data = await getStory(params.journey);
     setJourney(data);
   }
-
+  // const [isConnected, setIsConnected] = useState(socket.connected);
+  // const [transport, setTransport] = useState("N/A");
   const [journey, setJourney] = useState({});
   const [answers, setAnswers] = useState(Array(journey.answer.length));
   const [feedback, setFeedback] = useState(
@@ -58,6 +60,36 @@ export default function page({ params }) {
     const sum = scores.reduce((acc, score) => acc + score, 0);
     setFinalScore(sum);
   }, [scores, gameEnd]);
+
+  // useEffect(() => {
+  //   function onConnect() {
+  //     setIsConnected(true);
+  //     setTransport(socket.io.engine.transport.name);
+
+  //     socket.io.engine.on("upgrade", (transport) => {
+  //       setTransport(transport.name);
+  //     });
+  //   }
+
+  //   function onDisconnect() {
+  //     setIsConnected(false);
+  //     setTransport("N/A");
+  //   }
+
+  //   socket.on("connect", onConnect);
+  //   socket.on("disconnect", onDisconnect);
+  //   socket.on("hello", (value) => {
+  //     console.log(value);
+  //   })
+  //   console.log('masuk');
+  //   console.log(finalScore);
+  //   socket.emit("trigger", finalScore)
+
+  //   return () => {
+  //     socket.off("connect", onConnect);
+  //     socket.off("disconnect", onDisconnect);
+  //   };
+  // }, [gameEnd]);
 
   useEffect(() => {
     callAction();

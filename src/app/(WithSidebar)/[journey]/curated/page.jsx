@@ -22,6 +22,7 @@ import {
 } from "../actions";
 import { HighestScorer, HighestScore } from "@/components/Highest";
 import { JourneyCard } from "@/components/JourneyCard";
+import { socket } from "@/socket";
 
 export default function page({ params }) {
   const Ref = useRef(null);
@@ -48,6 +49,8 @@ export default function page({ params }) {
   const [question, setQuestion] = useState("");
   const [title, setTitle] = useState("");
   const [history, setHistory] = useState([]);
+  const [isConnected, setIsConnected] = useState(socket.connected);
+  const [transport, setTransport] = useState("N/A");
 
   const onClickStart = () => {
     clearTimer(getTimeUp(), setTimer, setGameEnd, Ref);
@@ -66,13 +69,44 @@ export default function page({ params }) {
         confirmButtonText: "okay",
       }).then((result) => {
         if (result.isConfirmed) {
-          // router.push("/profile/history");
+          router.push('/lobby');
+          // router.push('/history/curated');
         }
       });
     }
     const sum = scores.reduce((acc, score) => acc + score, 0);
     setFinalScore(sum);
   }, [scores, gameEnd]);
+
+  useEffect(() => {
+    function onConnect() {
+      setIsConnected(true);
+      setTransport(socket.io.engine.transport.name);
+
+      socket.io.engine.on("upgrade", (transport) => {
+        setTransport(transport.name);
+      });
+    }
+
+    function onDisconnect() {
+      setIsConnected(false);
+      setTransport("N/A");
+    }
+
+    socket.on("connect", onConnect);
+    socket.on("disconnect", onDisconnect);
+    socket.on("hello", (value) => {
+      console.log(value);
+    })
+    // console.log('masuk');
+    // console.log(finalScore);
+    socket.emit("trigger", finalScore)
+
+    return () => {
+      socket.off("connect", onConnect);
+      socket.off("disconnect", onDisconnect);
+    };
+  }, [gameEnd]);
 
   useEffect(() => {
     const currentCategory = params.journey;

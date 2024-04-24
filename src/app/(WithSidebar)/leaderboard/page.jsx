@@ -1,13 +1,19 @@
 "use client"
 import Sidebar from "@/components/Sidebar";
+import { useAppContext } from "@/context";
 import { BASE_URL } from "@/db/config/constant";
 import { socket } from "@/socket";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 export default function page() {
   const [champ, setChamp] = useState([])
+  const [trigger, setTrigger] = useState("")
+  const router = useRouter()
   const [isConnected, setIsConnected] = useState(socket.connected);
   const [transport, setTransport] = useState("N/A");
+  const update = useAppContext()
+  console.log(update.trigger, '<< ini updated');
 
   const getLeader = async () => {
     let res = await fetch(`${BASE_URL}/api/leaderboard`, {
@@ -17,50 +23,52 @@ export default function page() {
     let {data} = result
     let hasil = data.map(({ totalScore, user }) => ({ totalScore, name: user.name }))
     setChamp(hasil)
+    // router.refresh()
   }
   
   useEffect(() => {
     getLeader()
-  },[])
+  },[trigger])
 
-  // useEffect(() => {
-  //   function onConnect() {
-  //     setIsConnected(true);
-  //     setTransport(socket.io.engine.transport.name);
+  useEffect(() => {
+    function onConnect() {
+      setIsConnected(true);
+      setTransport(socket.io.engine.transport.name);
 
-  //     socket.io.engine.on("upgrade", (transport) => {
-  //       setTransport(transport.name);
-  //     });
-  //   }
+      socket.io.engine.on("upgrade", (transport) => {
+        setTransport(transport.name);
+      });
+    }
 
-  //   function onDisconnect() {
-  //     setIsConnected(false);
-  //     setTransport("N/A");
-  //   }
+    function onDisconnect() {
+      setIsConnected(false);
+      setTransport("N/A");
+    }
 
-  //   socket.on("connect", onConnect);
-  //   socket.on("disconnect", onDisconnect);
+    socket.on("connect", onConnect);
+    socket.on("disconnect", onDisconnect);
 
-  //   socket.on("hello", (value) => {
-  //     console.log(value);
-  //   })
+    socket.on("hello", (value) => {
+      console.log(value);
+    })
 
-  //   socket.emit("coba", champ)
-  //   socket.on("leader", (value) => {
-  //     console.log(value);
-  //   })
+    socket.emit("coba", champ)
+    socket.on("leader", (value) => {
+      console.log(value);
+    })
 
-  //   console.log('lewat');
-  //   socket.on("send", (value) => {
-  //     console.log(value);
-  //   })
+    // console.log('lewat');
+    socket.on("send", (value) => {
+      console.log(value);
+      setTrigger(value)
+    })
     
 
-  //   return () => {
-  //     socket.off("connect", onConnect);
-  //     socket.off("disconnect", onDisconnect);
-  //   };
-  // }, [champ]);
+    return () => {
+      socket.off("connect", onConnect);
+      socket.off("disconnect", onDisconnect);
+    };
+  }, [update]);
 
 
 
