@@ -1,9 +1,15 @@
-import React from "react";
+'use client'
+import React, { useState } from "react";
 import { LuBarChart2 } from "react-icons/lu";
 import { FaBookBookmark } from "react-icons/fa6";
 import { IoRibbonSharp } from "react-icons/io5";
+import { useAppContext } from "@/context";
 
 export default function ProfileSummary() {
+  const [profile, setProfile] = useState({})
+  let category = useAppContext()
+  console.log(category.state);
+
   return (
     <div className="border-primary flex min-h-[20dvh] w-[80%] justify-evenly overflow-clip rounded-lg border">
       <div className="border-primary flex w-full max-w-[35%] items-center justify-between gap-4 border-r px-8">
@@ -14,7 +20,7 @@ export default function ProfileSummary() {
           <p className="text-md mb-2 text-gray-500 2xl:text-xl">
             Total Stories
           </p>
-          <p className="text-4xl font-extrabold 2xl:text-6xl">50</p>
+          <p className="text-4xl font-extrabold 2xl:text-6xl">{category.state?.history?.length}</p>
         </div>
       </div>
       <div className="border-primary flex w-full max-w-[35%] items-center justify-between gap-4 border-r px-8">
@@ -25,7 +31,7 @@ export default function ProfileSummary() {
           <p className="text-md mb-2 text-gray-500 2xl:text-xl">
             Highest Score
           </p>
-          <p className="text-4xl font-extrabold 2xl:text-6xl">5000</p>
+          <p className="text-4xl font-extrabold 2xl:text-6xl">{category.state.highestScore}</p>
         </div>
       </div>
       <div className="border-primary flex w-full max-w-[35%] items-center justify-between gap-4 border-r px-8">
