@@ -31,7 +31,7 @@ export default function ProfileSummary() {
           <p className="text-md mb-2 text-gray-500 2xl:text-xl">
             Highest Score
           </p>
-          <p className="text-4xl font-extrabold 2xl:text-6xl">{category.state.highestScore}</p>
+          <p className="text-4xl font-extrabold 2xl:text-6xl">{category.state?.highestScore}</p>
         </div>
       </div>
       <div className="border-primary flex w-full max-w-[35%] items-center justify-between gap-4 border-r px-8">
@@ -40,9 +40,11 @@ export default function ProfileSummary() {
         </div>
         <div className="w-[70%] max-w-[70%]">
           <p className="text-md mb-2 text-gray-500 2xl:text-xl">
-            Highest Ranking
+            Total Score
           </p>
-          <p className="text-4xl font-extrabold 2xl:text-6xl">#1</p>
+          <p className="text-4xl font-extrabold 2xl:text-6xl">
+            {category.state?.totalScore}
+            </p>
         </div>
       </div>
     </div>

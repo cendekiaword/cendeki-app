@@ -143,7 +143,13 @@ export class UserModel {
             $max: "$historyId.score" // Calculate the maximum score from historyId array
           }
         }
+      },
+      {
+        $addFields: {
+          totalScore: { $sum: "$history.score" } // Calculate the total score
+        }
       }
+
     ];
     const cursor = this.collection().aggregate(agg);
     const result = await cursor.toArray();
