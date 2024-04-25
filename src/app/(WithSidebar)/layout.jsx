@@ -11,15 +11,7 @@ export const metadata = {
   description: "Interactive Learning Platform",
 };
 
-export default function RootLayout({ params, children }) {
-  const headerList = headers();
-  const url_1 = headerList?.headers.referer
-    .split("/")
-    .filter((segment) => segment !== "")[3];
-  const url_2 = headerList?.headers.referer
-    .split("/")
-    .filter((segment) => segment !== "")[4];
-    
+export default function RootLayout({ children }) {
   const findToken = async () => {
     const data = cookies().get("Authorization");
     if (!data) {
