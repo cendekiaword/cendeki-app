@@ -16,8 +16,8 @@ export default function IncompleteJourney({
   handleSubmit,
 }) {
   console.log(journey, "INCOMPLETE JOURNEY");
-  const questions = journey.split("----").map((question, idx) => {
-    if (idx !== journey.split("----").length - 1) {
+  const questions = journey?.split("----").map((question, idx) => {
+    if (idx !== journey?.split("----").length - 1) {
       return (
         <React.Fragment key={idx}>
           <span className="">{question}</span>

@@ -1,10 +1,14 @@
 "use client";
+import { useAppContext } from "@/context";
 import { BASE_URL } from "@/db/config/constant";
+import { useRouter } from "next/navigation";
 import React from "react";
 import Swal from "sweetalert2";
 import Cookies from "universal-cookie";
 
 const ButtonTryAgain = ({ id }) => {
+  const router = useRouter()
+  const { story, setStory } = useAppContext();
   const cookies = new Cookies();
   const handleSubmit = async () => {
     let res = await fetch(`${BASE_URL}/api/journey/retry?storyId=${id}`, {
@@ -24,13 +28,17 @@ const ButtonTryAgain = ({ id }) => {
       });
     }
 
-    const result = await res.json()
-    console.log(result);
+    const {status, data} = await res.json();
+    console.log(data, "BUTTON");
+    setStory(data)
+    router.push(`/${data.category}/revisit`)
   };
   return (
     <>
-      <button className="border-primary h-10 rounded-md border hover:shadow hover:shadow-sky-500"
-      onClick={handleSubmit}>
+      <button
+        className="border-primary h-10 rounded-md border hover:shadow hover:shadow-sky-500"
+        onClick={handleSubmit}
+      >
         Try Again
       </button>
     </>

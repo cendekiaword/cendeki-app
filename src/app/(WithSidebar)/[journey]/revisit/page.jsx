@@ -3,25 +3,31 @@ import React, { useEffect, useRef, useState } from "react";
 import { FaCircleCheck, FaCircleXmark } from "react-icons/fa6";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
-import { getStory } from "@/actions/actions";
+import { useAppContext } from "@/context";
+import { capitalize, clearTimer, getTimeUp, postScore } from "../actions";
+import CompleteJourney from "@/components/CompleteJourney";
+import IncompleteJourney from "@/components/IncompleteJourney";
+
 
 export default function page({ params }) {
+  const { story, setStory } = useAppContext();
   const Ref = useRef(null);
-  async function callAction() {
-    let data = await getStory(params.journey);
-    setJourney(data);
-  }
-
-  const [journey, setJourney] = useState({});
-  const [answers, setAnswers] = useState(Array(journey.answer.length));
-  const [feedback, setFeedback] = useState(
-    Array(journey.answer.length).fill(""),
-  );
-  const [border, setBorder] = useState(Array(journey.answer.length).fill(""));
-  const [scores, setScores] = useState(Array(journey.answer.length).fill(0));
+  const [journey, setJourney] = useState("");
+  const [answers, setAnswers] = useState([]);
+  const [storyId, setStoryId] = useState("");
+  const [correctAnswers, setCorrectAnswers] = useState([]);
+  const [feedback, setFeedback] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [generating, setGenerating] = useState(false);
+  const [displayComplete, setDisplayComplete] = useState(false);
+  const [border, setBorder] = useState([]);
+  const [scores, setScores] = useState([]);
+  const [category, setCategory] = useState("");
   const [finalScore, setFinalScore] = useState(0);
   const [gameEnd, setGameEnd] = useState(false);
   const [timer, setTimer] = useState("00:10");
+  const [question, setQuestion] = useState("");
+  const [title, setTitle] = useState("");
   const router = useRouter();
   const getTimeRemaining = (e) => {
     const total = Date.parse(e) - Date.parse(new Date());
@@ -43,15 +49,21 @@ export default function page({ params }) {
 
   useEffect(() => {
     if (gameEnd) {
+      postScore(finalScore, storyId);
       Swal.fire({
         title: "Time's up!",
-        text: `Your final score is ${finalScore}`,
+        html: `<p class='leading-loose'>Your final score is ${finalScore} <br /> Do you want to see the correct answer ?</p>`,
         icon: "info",
-        confirmButtonColor: "#3085d6",
-        confirmButtonText: "okay",
+        showDenyButton: true,
+        confirmButtonColor: "#1860b6",
+        denyButtonColor: "#14b8a6",
+        confirmButtonText: "Yes",
+        denyButtonText: "No",
       }).then((result) => {
         if (result.isConfirmed) {
-          router.push("/profile/history");
+          setDisplayComplete(true);
+        } else {
+          router.push("/leaderboard");
         }
       });
     }
@@ -60,7 +72,15 @@ export default function page({ params }) {
   }, [scores, gameEnd]);
 
   useEffect(() => {
-    callAction();
+    capitalize(params.journey, setCategory);
+    setJourney(story.story);
+    setStoryId(story._id);
+    setCorrectAnswers(story.answer);
+    setAnswers(Array(story.answer?.length).fill(""));
+    setScores(Array(story.answer?.length).fill(0));
+    setTitle(story.title);
+    setGenerating(false);
+    setLoading(false);
     return () => {
       if (Ref.current) {
         clearInterval(Ref.current);
@@ -110,7 +130,7 @@ export default function page({ params }) {
           return;
         }
         const res =
-          answer?.toLowerCase() === journey.answer[idx]?.toLowerCase()
+          answer?.toLowerCase() === correctAnswers[idx]?.toLowerCase()
             ? "Correct"
             : "Incorrect";
 
@@ -122,7 +142,7 @@ export default function page({ params }) {
 
         let borderClass = "";
         if (res === "Correct") {
-          borderClass = "border-b-2 border-teal-400";
+          borderClass = "correct-answer";
         } else if (res === "Incorrect" && answer && answer.length !== 0) {
           borderClass = "border-b-2 border-rose-400";
         } else {
@@ -153,90 +173,42 @@ export default function page({ params }) {
     }
   }
 
-  const questions = journey.story.split("----").map((question, idx) => {
-    if (idx !== journey.story.split("----").length - 1) {
-      return (
-        <React.Fragment key={idx}>
-          <span className="">{question}</span>
-          <span className="relative">
-            <input
-              type="text"
-              placeholder="- - - -"
-              value={answers[idx]}
-              onKeyDown={handleSubmit}
-              onChange={(e) => {
-                const newAnswers = [...answers];
-                newAnswers[idx] = e.target.value;
-                setAnswers(newAnswers);
-              }}
-              className={
-                "inline h-6 w-40 max-w-fit rounded-full border-b-2 border-sky-400 px-3 " +
-                (border[idx] !== "" ? border[idx] : " bg-opacity-70")
-              }
-            />
-            {feedback[idx] == "Correct" && (
-              <>
-                <span className="absolute right-6 top-0 text-sm">
-                  {scores[idx]}
-                </span>
-                <FaCircleCheck className="absolute right-1 top-[0.1rem] size-4 text-xl text-cyan-500" />
-              </>
-            )}
-            {border[idx] == "border-b-2 border-rose-400" && (
-              <>
-                <span className="absolute right-6 top-0 text-sm text-rose-500">
-                  {scores[idx]}
-                </span>
-                <FaCircleXmark className="absolute right-1 top-[0.1rem] size-4 text-xl text-rose-500" />
-              </>
-            )}
-          </span>
-        </React.Fragment>
-      );
-    } else {
-      return (
-        <span className="invert" key={"q" + idx}>
-          {question}
-        </span>
-      );
-    }
-  });
-
   return (
     <>
-      <div className="mx-auto mt-32 flex max-w-[80dvw] flex-col gap-8 md:max-w-[60dvw]">
-        <h1 className="text-center text-8xl font-bold">Test Your Knowledge</h1>
-        <p className="text-center">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis
-          magnam aliquam a praesentium alias quibusdam impedit esse itaque,
-          necessitatibus nulla eos explicabo nihil, provident laborum. Tempore
-          error non ullam minus.
-        </p>
-      </div>
-      <div className="border-primary mx-auto mt-16 max-w-[80dvw] rounded-lg border p-4 md:max-w-[60dvw]">
-        <div className="flex items-center justify-between">
-          <div className="flex flex-col justify-center gap-1">
-            <h2 className="text-2xl font-bold">Indonesian Independence</h2>
-            <p>Fill the missing blank down below</p>
-          </div>
-          <button
-            onClick={onClickStart}
-            className="border-primary h-12 w-32 rounded-xl border hover:shadow hover:shadow-sky-400"
-          >
-            Start
-          </button>
+      <div className="mx-auto">
+        <div className="mx-auto mb-8 mt-8 flex max-w-[80dvw] flex-col gap-8 md:max-w-[60dvw]">
+          <h1 className="text-center text-4xl font-bold md:text-7xl 2xl:text-8xl">
+            Test Your Knowledge
+          </h1>
         </div>
-        <div className="border-primary mt-4 rounded-lg border">
-          <p className="p-4 text-justify indent-10 leading-loose tracking-tight">
-            {questions}
-          </p>
-          <div className="bg-primary flex w-full justify-between">
-            <p className="px-4 py-2 font-bold text-white">
-              Score: {finalScore}
-            </p>
-            <p className="px-4 py-2 font-bold text-white">Time: {timer}</p>
-          </div>
+        <div className="mb-10 flex w-full flex-col items-center justify-center gap-2">
         </div>
+
+        {generating && <LoadingSkeleton />}
+        {!loading && !displayComplete && (
+          <IncompleteJourney
+            feedback={feedback}
+            title={title}
+            journey={journey}
+            answers={answers}
+            border={border}
+            scores={scores}
+            timer={timer}
+            finalScore={finalScore}
+            setAnswers={setAnswers}
+            onClickStart={onClickStart}
+            handleSubmit={handleSubmit}
+          />
+        )}
+        {displayComplete && (
+          <CompleteJourney
+            journey={journey}
+            correctAnswers={correctAnswers}
+            title={title}
+            finalScore={finalScore}
+            timer={timer}
+          />
+        )}
       </div>
     </>
   );

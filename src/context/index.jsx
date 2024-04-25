@@ -9,6 +9,7 @@ const AppContext = createContext()
 
 export function AppWrapper({children}){
     const [state, setState] = useState({})
+    const [story, setStory] = useState({})
 
     async function getProfile(){
         let res = await profile()
@@ -20,7 +21,7 @@ export function AppWrapper({children}){
       },[editProfile])
 
     return (
-        <AppContext.Provider value={{state, getProfile}}>
+        <AppContext.Provider value={{state, getProfile, story, setStory}}>
             {children}
         </AppContext.Provider>
     )
