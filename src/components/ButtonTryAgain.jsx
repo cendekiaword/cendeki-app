@@ -17,6 +17,7 @@ const ButtonTryAgain = ({ id }) => {
       headers: {
         Cookie: cookies.toString(),
       },
+      mode: 'no-cors'
     });
 
     if (!res.ok) {

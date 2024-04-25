@@ -3,12 +3,13 @@ import { BASE_URL } from "@/db/config/constant";
 import React, { useEffect, useState } from "react";
 import { PiStarFourBold } from "react-icons/pi";
 
-export default function page() {
+export default function Page() {
   const [champ, setChamp] = useState([]);
 
   const getLeader = async () => {
     let res = await fetch(`${BASE_URL}/api/leaderboard`, {
       cache: "no-store",
+      mode: 'no-cors'
     });
     let result = await res.json();
     let { data } = result;

@@ -23,7 +23,8 @@ const ApnaChatGpt = () => {
       setAnswer("");
       const res = await fetch(`${BASE_URL}/api/chatgpt-history?query=${question}`,{
         method: 'POST',
-        cache: 'no-store'
+        cache: 'no-store',
+        mode: 'no-cors'
       });
       // console.log(res);
       const result = await res.json()

@@ -38,6 +38,7 @@ const Page = () => {
       headers: {
         "Content-Type": "application/json",
       },
+      mode: 'no-cors'
     });
 
     const result = await res.json();

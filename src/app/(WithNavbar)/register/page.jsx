@@ -40,6 +40,7 @@ const Page = () => {
       headers: {
         "Content-Type": "application/json",
       },
+      mode: 'no-cors'
     });
 
     if (!res.ok) {

@@ -11,6 +11,7 @@ export async function profile() {
       headers: {
         Cookie: cookies().toString(),
       },
+      mode: 'no-cors'
     });
 
     let result = await res.json();
@@ -27,6 +28,7 @@ export async function getStory(params) {
     headers: {
       Cookie: cookies().toString(),
     },
+    mode: 'no-cors'
   });
 
   let result = await res.json();
@@ -43,6 +45,7 @@ export async function editProfile({ fullname, bio }) {
       "Content-Type": "application/json",
       Cookie: cookies().toString(),
     },
+    mode: 'no-cors'
   });
   // console.log(res);
   if (!res.ok) {

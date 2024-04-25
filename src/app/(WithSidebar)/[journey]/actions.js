@@ -83,7 +83,9 @@ export const getAllStoryFromCategory = async (category, setJourneyList) => {
       {
         method: "GET",
         cache: "no-store",
+        mode: 'no-cors'
       },
+      
     );
     if (!res.ok) {
       alert();

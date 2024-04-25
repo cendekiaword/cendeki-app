@@ -7,10 +7,11 @@ import { useAppContext } from "@/context";
 import { capitalize, clearTimer, getTimeUp, postScore } from "../actions";
 import CompleteJourney from "@/components/CompleteJourney";
 import IncompleteJourney from "@/components/IncompleteJourney";
+import LoadingSkeleton from "@/components/LoadingSkeleton";
 
 
-export default function page({ params }) {
-  const { story, setStory } = useAppContext();
+export default function Page({ params }) {
+  const { story } = useAppContext();
   const Ref = useRef(null);
   const [journey, setJourney] = useState("");
   const [answers, setAnswers] = useState([]);
@@ -22,11 +23,11 @@ export default function page({ params }) {
   const [displayComplete, setDisplayComplete] = useState(false);
   const [border, setBorder] = useState([]);
   const [scores, setScores] = useState([]);
-  const [category, setCategory] = useState("");
+  // const [category, setCategory] = useState("");
   const [finalScore, setFinalScore] = useState(0);
   const [gameEnd, setGameEnd] = useState(false);
   const [timer, setTimer] = useState("00:10");
-  const [question, setQuestion] = useState("");
+  // const [question, setQuestion] = useState("");
   const [title, setTitle] = useState("");
   const router = useRouter();
   const getTimeRemaining = (e) => {
@@ -72,7 +73,7 @@ export default function page({ params }) {
   }, [scores, gameEnd]);
 
   useEffect(() => {
-    capitalize(params.journey, setCategory);
+    capitalize(params.journey);
     setJourney(story.story);
     setStoryId(story._id);
     setCorrectAnswers(story.answer);

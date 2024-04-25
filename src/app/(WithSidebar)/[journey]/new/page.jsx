@@ -14,7 +14,7 @@ import {
   postScore,
 } from "../actions";
 
-export default function page({ params }) {
+export default function Page({ params }) {
   const Ref = useRef(null);
   const [journey, setJourney] = useState({
     title: "",
@@ -53,6 +53,7 @@ export default function page({ params }) {
             {
               method: "POST",
               cache: "no-store",
+              mode: 'no-cors'
             },
           );
           break;
@@ -63,6 +64,7 @@ export default function page({ params }) {
             {
               method: "POST",
               cache: "no-store",
+              mode: 'no-cors'
             },
           );
           break;

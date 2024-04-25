@@ -14,7 +14,7 @@ import {
 } from "../actions";
 import { JourneyCard } from "@/components/JourneyCard";
 
-export default function page({ params }) {
+export default function Page({ params }) {
   const Ref = useRef(null);
   const [journey, setJourney] = useState({
     title: "",
@@ -32,7 +32,7 @@ export default function page({ params }) {
   const [displayComplete, setDisplayComplete] = useState(false);
   const [border, setBorder] = useState([]);
   const [scores, setScores] = useState([]);
-  const [category, setCategory] = useState("");
+  // const [category, setCategory] = useState("");
   const [finalScore, setFinalScore] = useState(0);
   const [gameEnd, setGameEnd] = useState(false);
   const [timer, setTimer] = useState("00:10");
@@ -71,7 +71,7 @@ export default function page({ params }) {
   useEffect(() => {
     const currentCategory = params.journey;
     getAllStoryFromCategory(currentCategory, setJourneyList);
-    capitalize(currentCategory, setCategory);
+    capitalize(currentCategory);
     return () => {
       if (Ref.current) {
         clearInterval(Ref.current);

@@ -22,6 +22,7 @@ export function JourneyCard({
       method: "POST",
       cache: "no-store",
       body: JSON.stringify(storyId),
+      mode: 'no-cors'
     });
     if (!res.ok) {
       alert();
