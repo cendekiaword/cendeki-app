@@ -26,7 +26,7 @@ export default function page() {
   useEffect(() => {
     getLeader();
   }, []);
-
+  
   // useEffect(() => {
   //   function onConnect() {
   //     setIsConnected(true);
