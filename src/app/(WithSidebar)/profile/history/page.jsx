@@ -6,6 +6,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { profile } from "@/actions/actions";
+import ButtonTryAgain from "@/components/ButtonTryAgain";
 
 export default async function page() {
   const getData = async () => {
@@ -15,7 +16,7 @@ export default async function page() {
   const data = await getData()
   // console.log(data);
   let histories = data.history
-  // console.log(histories);
+  console.log(histories);
 
   return (
     <>
@@ -83,9 +84,7 @@ export default async function page() {
                     </div>
                     <p className="text-xl font-bold">Score: {el.score}</p>
                   </div>
-                  <button className="border-primary h-10 rounded-md border hover:shadow hover:shadow-sky-500">
-                    Try Again
-                  </button>
+                  <ButtonTryAgain id={el.storyId}/>
                 </div>
               );
             })}

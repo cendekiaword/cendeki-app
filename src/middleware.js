@@ -42,5 +42,5 @@ export async function middleware(request) {
 // Matching Paths
 export const config = {
   // Define the paths for which the middleware will run
-  matcher: ['/lobby', '/api/language/story', '/api/history/story', '/api/profile', '/api/scoring', '/:journey*/new'],
+  matcher: ['/lobby', '/api/language/story', '/api/history/story', '/api/profile', '/api/scoring', '/:journey*/new', '/:journey*/curated'],
 };
