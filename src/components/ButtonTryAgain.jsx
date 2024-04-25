@@ -10,6 +10,7 @@ const ButtonTryAgain = ({ id }) => {
   const router = useRouter()
   const { story, setStory } = useAppContext();
   const cookies = new Cookies();
+  const router = useRouter()
   const handleSubmit = async () => {
     let res = await fetch(`${BASE_URL}/api/journey/retry?storyId=${id}`, {
       method: "GET",
