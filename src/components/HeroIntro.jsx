@@ -12,10 +12,7 @@ export default function HeroIntro({ className }) {
       >
         <h1 className=" text-8xl font-bold">Why Cendekia?</h1>
         <p className="text-center">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem
-          neque deserunt aperiam modi eligendi natus fugiat illo dolore, ducimus
-          obcaecati suscipit architecto, voluptates rerum quidem eaque officia
-          facere, asperiores esse.
+        We are an educational platform designed to facilitate learning management. It offers a range of features aimed at enhancing the teaching and learning experience for both educators and students.
         </p>
         <div className="flex gap-16">
           <div>
