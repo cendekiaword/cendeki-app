@@ -43,26 +43,40 @@ export function JourneyCard({
   };
 
   return (
-    <div className="border-primary flex w-60 flex-col justify-evenly gap-2 rounded-md border p-2">
-      <div className="text-center text-xl">{el.title}</div>
-      {el.highestScore ? (
-        <HighestScore highestScore={el.highestScore} />
-      ) : (
-        <HighestScore highestScore={el.highestScore} />
-      )}
-      {el.highestScorer ? (
-        <HighestScorer highestScorer={el.highestScorer} />
-      ) : (
-        <HighestScorer highestScorer={"-"} />
-      )}
+    <div
+      style={{
+        backgroundImage: 'url("/roman-style.png")',
+        // maxHeight: "40dvw",
+        // maxWidth: "80%",
+        backgroundSize: "cover",
+        position: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+      className="border-primary flex h-72 w-60 flex-col justify-between gap-2 rounded-md border p-2"
+    >
+      <div className="text-center text-xl text-white font-bold bg-black/60 rounded-md py-2">{el.title}</div>
+      <div className="h-32 bg-white px-3 py-2 rounded-md overflow-clip flex flex-col">
+      <p className="text-center text-md font-bold mb-2">Record</p>
+        {el.highestScore && el.highestScorer ? (
+          <>
+            <HighestScore highestScore={el.highestScore} />
+            <HighestScorer highestScorer={el.highestScorer} />
+          </>
+        ) : (
+          <>
+            <HighestScore highestScore={el.highestScore} />
+            <HighestScorer highestScorer={"-"} />
+          </>
+        )}
       <button
         onClick={() => {
           getStoryById(el._id);
         }}
-        className="border-primary rounded-md border px-2"
+        className="border-primary rounded-md border mt-2 px-2"
       >
         Try this story
       </button>
+      </div>
     </div>
   );
 }

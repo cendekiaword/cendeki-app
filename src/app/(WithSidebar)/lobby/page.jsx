@@ -2,7 +2,7 @@
 import React from "react";
 
 import Link from "next/link";
-export default function page() {
+export default function Page() {
   return (
     <>
       <div className="flex min-h-full w-full flex-col items-center justify-center">
@@ -37,7 +37,7 @@ export default function page() {
                       className="bg-primary w-[30%] rounded-md py-2 text-center text-white hover:opacity-80"
                       href={`/${category}/curated`}
                     >
-                      Available
+                      All Story
                     </Link>
                   </div>
                 </div>
@@ -58,7 +58,7 @@ const act = [
   },
   {
     id: 2,
-    text: "Available",
+    text: "All Story",
     description: "",
   },
 ];

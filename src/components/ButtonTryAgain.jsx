@@ -36,7 +36,7 @@ const ButtonTryAgain = ({ id }) => {
   return (
     <>
       <button
-        className="border-primary h-10 rounded-md border hover:shadow hover:shadow-sky-500"
+        className="border-primary bg-sky-100 h-10 rounded-md border hover:shadow hover:shadow-sky-500"
         onClick={handleSubmit}
       >
         Try Again

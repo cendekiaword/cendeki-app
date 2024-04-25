@@ -9,7 +9,7 @@ import CompleteJourney from "@/components/CompleteJourney";
 import IncompleteJourney from "@/components/IncompleteJourney";
 
 
-export default function page({ params }) {
+export default function Page({ params }) {
   const { story, setStory } = useAppContext();
   const Ref = useRef(null);
   const [journey, setJourney] = useState("");
@@ -23,9 +23,10 @@ export default function page({ params }) {
   const [border, setBorder] = useState([]);
   const [scores, setScores] = useState([]);
   const [category, setCategory] = useState("");
+  const [gameStart, setGameStart] = useState(false)
   const [finalScore, setFinalScore] = useState(0);
   const [gameEnd, setGameEnd] = useState(false);
-  const [timer, setTimer] = useState("00:10");
+  const [timer, setTimer] = useState("00:30");
   const [question, setQuestion] = useState("");
   const [title, setTitle] = useState("");
   const router = useRouter();
@@ -105,7 +106,7 @@ export default function page({ params }) {
 
   const clearTimer = (endtime) => {
     if (Ref.current) clearInterval(Ref.current);
-    setTimer("00:10");
+    setTimer("00:30");
 
     const id = setInterval(() => {
       startTimer(endtime);
@@ -121,6 +122,7 @@ export default function page({ params }) {
 
   const onClickStart = () => {
     clearTimer(getTimeUp());
+    setGameStart(true)
   };
 
   function handleSubmit(e) {
@@ -198,6 +200,7 @@ export default function page({ params }) {
             setAnswers={setAnswers}
             onClickStart={onClickStart}
             handleSubmit={handleSubmit}
+            gameStart={gameStart}
           />
         )}
         {displayComplete && (

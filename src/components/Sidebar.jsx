@@ -55,7 +55,7 @@ export default function Sidebar() {
               );
             })}
           </div>
-          <div className="flex items-center gap-2 px-4">
+          <div className="items-center gap-2 px-4 hidden">
             <RxGear />
             <p className="text-lg font-semibold">Settings</p>
           </div>

@@ -3,7 +3,7 @@ import { BASE_URL } from "@/db/config/constant";
 import React, { useEffect, useState } from "react";
 import { PiStarFourBold } from "react-icons/pi";
 
-export default function page() {
+export default function Page() {
   const [champ, setChamp] = useState([]);
 
   const getLeader = async () => {

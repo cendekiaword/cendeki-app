@@ -3,7 +3,7 @@ import React from "react";
 export function HighestScorer({ highestScorer }) {
   return (
     <div className="flex justify-between text-sm">
-      <span className="text-sm">Highest Scorer:</span>
+      <span className="text-sm">Scorer:</span>
       {highestScorer}
     </div>
   );
@@ -12,7 +12,7 @@ export function HighestScorer({ highestScorer }) {
 export function HighestScore({ highestScore }) {
   return (
     <div className="flex justify-between text-sm">
-      <span className="text-sm">Highest Score:</span>
+      <span className="text-sm">Score:</span>
       {highestScore}
     </div>
   );

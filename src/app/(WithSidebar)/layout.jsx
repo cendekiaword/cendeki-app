@@ -1,6 +1,6 @@
 import { Inter } from "next/font/google";
 import Sidebar from "@/components/Sidebar";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { AppWrapper } from "@/context";
 import Navbar from "@/components/Navbar";
 import HeroFooter from "@/components/HeroFooter";
@@ -11,7 +11,15 @@ export const metadata = {
   description: "Interactive Learning Platform",
 };
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ params, children }) {
+  const headerList = headers();
+  const url_1 = headerList?.headers.referer
+    .split("/")
+    .filter((segment) => segment !== "")[3];
+  const url_2 = headerList?.headers.referer
+    .split("/")
+    .filter((segment) => segment !== "")[4];
+    
   const findToken = async () => {
     const data = cookies().get("Authorization");
     if (!data) {

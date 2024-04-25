@@ -14,8 +14,9 @@ export default function IncompleteJourney({
   onClickStart,
   feedback,
   handleSubmit,
+  gameStart
 }) {
-  console.log(journey, "INCOMPLETE JOURNEY");
+  console.log(journey, answers, gameStart ,"INCOMPLETE JOURNEY");
   const questions = journey?.split("----").map((question, idx) => {
     if (idx !== journey?.split("----").length - 1) {
       return (
@@ -24,6 +25,7 @@ export default function IncompleteJourney({
           <span className="relative font-bold italic">
             <input
               type="text"
+              disabled={!gameStart ? true : false}
               placeholder="- - - -"
               value={answers[idx]}
               onKeyDown={handleSubmit}

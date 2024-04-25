@@ -16,7 +16,7 @@ export async function postScore(finalScore, storyId) {
 
 export const getTimeUp = () => {
   let timeup = new Date();
-  timeup.setSeconds(timeup.getSeconds() + 10);
+  timeup.setSeconds(timeup.getSeconds() + 30);
   return timeup;
 };
 
@@ -24,7 +24,7 @@ export const getTimeUp = () => {
 
 export const clearTimer = (endtime, setTimer, setGameEnd, Ref) => {
   if (Ref.current) clearInterval(Ref.current);
-  setTimer("00:10");
+  setTimer("00:30");
 
   const id = setInterval(() => {
     startTimer(endtime, setTimer, setGameEnd, Ref);
