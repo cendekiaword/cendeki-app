@@ -15,7 +15,7 @@ export default async function page() {
 
   const data = await getData()
   // console.log(data);
-  let histories = data.history
+  let histories = data?.history
   console.log(histories);
 
   return (

@@ -59,7 +59,7 @@ const Page = () => {
     });
     // console.log(result);
     cookies.set("Authorization", `Bearer ${result.accessToken}`)
-    return router.push("/");
+    return router.push("/lobby");
   }
   return (
     <>
