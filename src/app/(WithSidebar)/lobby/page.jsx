@@ -17,11 +17,20 @@ export default function page() {
                 key={idx}
                 className="col-span-2 flex min-h-80 flex-col overflow-clip rounded-xl bg-gray-800  hover:shadow-lg hover:shadow-blue-600"
               >
-                <img
-                  src={`/${el.name}.png`}
-                  alt=""
-                  className="h-60 w-96 bg-cover"
-                />
+                <div className="relative h-60 w-96 bg-cover">
+                  <img
+                    src={`/${el.name}.png`}
+                    alt=""
+                    className="h-full w-full"
+                  />
+                  {el.soon === "Coming Soon" ? (
+                    <div className="absolute inset-0 flex items-center justify-center w-full h-full bg-black/[0.6]">
+                      <span className="text-2xl font-semibold text-white">
+                        Coming Soon
+                      </span>
+                    </div>
+                  ) : null}
+                </div>
                 <div className="flex flex-col gap-4 py-4">
                   <p className="text-center text-xl font-semibold text-white">
                     {el.name}
@@ -72,8 +81,10 @@ const categories = [
   },
   {
     name: "Science",
+    soon: "Coming Soon",
   },
   {
     name: "Art",
+    soon: "Coming Soon",
   },
 ];

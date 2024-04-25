@@ -145,10 +145,7 @@ export default function Teaser({ animationData }) {
       <div id="teaser" className="mx-auto mt-32 flex max-w-[80dvw] flex-col gap-8 md:max-w-[60dvw]">
         <h1 className="text-center text-8xl font-bold">Test Your Knowledge</h1>
         <p className="text-center">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis
-          magnam aliquam a praesentium alias quibusdam impedit esse itaque,
-          necessitatibus nulla eos explicabo nihil, provident laborum. Tempore
-          error non ullam minus.
+          {/* Demo the learning game we have. */}
         </p>
       </div>
       <div className="border-primary mx-auto mt-16 max-w-[80dvw] rounded-lg border p-4 md:max-w-[60dvw]">
