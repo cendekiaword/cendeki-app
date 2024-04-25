@@ -1,11 +1,13 @@
 "use client";
 import { BASE_URL } from "@/db/config/constant";
+import { useRouter } from "next/navigation";
 import React from "react";
 import Swal from "sweetalert2";
 import Cookies from "universal-cookie";
 
 const ButtonTryAgain = ({ id }) => {
   const cookies = new Cookies();
+  const router = useRouter()
   const handleSubmit = async () => {
     let res = await fetch(`${BASE_URL}/api/journey/retry?storyId=${id}`, {
       method: "GET",
@@ -26,6 +28,7 @@ const ButtonTryAgain = ({ id }) => {
 
     const result = await res.json()
     console.log(result);
+    router.push()
   };
   return (
     <>
