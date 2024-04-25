@@ -1,3 +1,4 @@
+import { ObjectId } from "mongodb";
 import { getCollection } from "../config/mongodb";
 import { z } from "zod";
 
@@ -40,7 +41,8 @@ export class StoryModel {
     return result;
   }
 
-  static async getStoryById(_id) {
+  static async getStoryById(id) {
+    const _id = new ObjectId(String(id))
     const result = await this.collection().findOne({ _id });
     return result;
   }
