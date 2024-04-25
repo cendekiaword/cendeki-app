@@ -11,7 +11,7 @@ export default function TeamIntroduction() {
         Our philosophy is simple - hire a team of diverse, passionate people and
         foster a culture that empowers you to do your best work.
       </p>
-      <div className="mx-auto mt-16 flex xl:min-w-[60%] w-full flex-wrap justify-center gap-16 xl:max-w-[60%]">
+      <div className="mx-auto mt-16 flex lg:min-w-[80%] w-full flex-wrap justify-center gap-16 max-w-[70%] lg:max-w-[60%]">
         {team.map((el, idx) => {
           return (
             <div key={idx} className="flex flex-col items-center">
@@ -40,7 +40,7 @@ const team = [
     position: "Front-end Developer",
   },
   {
-    name: "Derio Anjaya",
+    name: "Raihan Yumna",
     position: "Back-end Developer",
   },
   {
