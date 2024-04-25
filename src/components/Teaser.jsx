@@ -142,7 +142,7 @@ export default function Teaser({ animationData }) {
 
   return (
     <>
-      <div className="mx-auto mt-32 flex max-w-[80dvw] flex-col gap-8 md:max-w-[60dvw]">
+      <div id="teaser" className="mx-auto mt-32 flex max-w-[80dvw] flex-col gap-8 md:max-w-[60dvw]">
         <h1 className="text-center text-8xl font-bold">Test Your Knowledge</h1>
         <p className="text-center">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis

@@ -1,32 +1,72 @@
-"use client"
+"use client";
 import Sidebar from "@/components/Sidebar";
 import { BASE_URL } from "@/db/config/constant";
 import { socket } from "@/socket";
 import React, { useEffect, useState } from "react";
+import { PiStarFourBold } from "react-icons/pi";
 
 export default function page() {
-  const [champ, setChamp] = useState([])
+  const [champ, setChamp] = useState([]);
   const [isConnected, setIsConnected] = useState(socket.connected);
   const [transport, setTransport] = useState("N/A");
 
   const getLeader = async () => {
     let res = await fetch(`${BASE_URL}/api/leaderboard`, {
-      cache: 'no-store'
-    })
-    let result = await res.json()
-    let {data} = result
-    let hasil = data.map(({ totalScore, user }) => ({ totalScore, name: user.name }))
-    setChamp(hasil)
-  }
-  
+      cache: "no-store",
+    });
+    let result = await res.json();
+    let { data } = result;
+    let hasil = data.map(({ totalScore, user }) => ({
+      totalScore,
+      name: user.name,
+    }));
+    setChamp(hasil);
+  };
+
   useEffect(() => {
-    getLeader()
-  },[])
-
-
-
-  let date = new Date().toLocaleDateString()
+    getLeader();
+  }, []);
   
+  // useEffect(() => {
+  //   function onConnect() {
+  //     setIsConnected(true);
+  //     setTransport(socket.io.engine.transport.name);
+
+  //     socket.io.engine.on("upgrade", (transport) => {
+  //       setTransport(transport.name);
+  //     });
+  //   }
+
+  //   function onDisconnect() {
+  //     setIsConnected(false);
+  //     setTransport("N/A");
+  //   }
+
+  //   socket.on("connect", onConnect);
+  //   socket.on("disconnect", onDisconnect);
+
+  //   socket.on("hello", (value) => {
+  //     console.log(value);
+  //   })
+
+  //   socket.emit("coba", champ)
+  //   socket.on("leader", (value) => {
+  //     console.log(value);
+  //   })
+
+  //   console.log('lewat');
+  //   socket.on("send", (value) => {
+  //     console.log(value);
+  //   })
+
+  //   return () => {
+  //     socket.off("connect", onConnect);
+  //     socket.off("disconnect", onDisconnect);
+  //   };
+  // }, [champ]);
+
+  let date = new Date().toLocaleDateString();
+
   return (
     <>
       <div className="flex w-full flex-col items-center justify-center md:max-h-dvh">
@@ -34,25 +74,59 @@ export default function page() {
         <p>Latest update: {date}</p>
 
         <div className="my-8 flex items-end">
-          <div className="flex h-44 w-32 flex-col">
-            <img src="logo.png" alt="" className="mb-2 size-12 self-center" />
-            <p className="text-center font-extrabold">{champ[1]?.name}</p>
-            <p className="text-center font-bold">{champ[1]?.totalScore}</p>
-            <div className="h-full bg-sky-400"></div>
-          </div>
-          <div className="flex h-52 w-32 flex-col">
-            <img src="logo.png" alt="" className="size-12 self-center" />
+          <div className="flex h-56 min-h-56 w-32 flex-col">
+          <div className="self-center">
+              <img
+                src="logo.png"
+                alt=""
+                className="mx-auto size-12 content-center"
+              />
+              <p className="text-center font-extrabold">{champ[1]?.name}</p>
+              <div className="flex justify-center">
+                <PiStarFourBold className="size-6" />
+                <PiStarFourBold className="size-8" />
+              </div>
+            </div>
 
-            <p className="text-center font-extrabold">{champ[0]?.name}</p>
-            <p className="text-center font-bold">{champ[0]?.totalScore}</p>
-            <div className="h-full bg-sky-600"></div>
+            <div className="h-full bg-sky-400">
+              <p className="text-center font-bold">{champ[1]?.totalScore}</p>
+            </div>
           </div>
-          <div className="flex h-36 w-32 flex-col">
-            <img src="logo.png" alt="" className="size-12 self-center" />
+          <div className="flex h-64 min-h-64 w-32 flex-col">
+            <div className="self-center">
+              <img
+                src="logo.png"
+                alt=""
+                className="mx-auto size-12 content-center"
+              />
+              <p className="text-center font-extrabold">{champ[0]?.name}</p>
+              <div className="flex justify-center">
+                <PiStarFourBold className="size-6" />
+                <PiStarFourBold className="size-8" />
+                <PiStarFourBold className="size-6" />
+              </div>
+            </div>
 
-            <p className="text-center font-extrabold">{champ[2]?.name}</p>
-            <p className="text-center font-bold">{champ[2]?.totalScore}</p>
-            <div className="h-full bg-sky-200"></div>
+            <div className="h-full bg-sky-600">
+              <p className="text-center font-bold">{champ[0]?.totalScore}</p>
+            </div>
+          </div>
+          <div className="flex h-48 min-h-48 w-32 flex-col">
+            <div className="self-center">
+              <img
+                src="logo.png"
+                alt=""
+                className="mx-auto size-12 content-center"
+              />
+              <p className="text-center font-extrabold">{champ[2]?.name}</p>
+              <div className="flex justify-center">
+                <PiStarFourBold className="size-8" />
+              </div>
+            </div>
+
+            <div className="h-full bg-sky-200">
+              <p className="text-center font-bold">{champ[2]?.totalScore}</p>
+            </div>
           </div>
         </div>
 

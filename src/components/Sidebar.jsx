@@ -6,6 +6,10 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import Cookies from "universal-cookie";
+import { BiCategory } from "react-icons/bi";
+import { IoIosBookmarks } from "react-icons/io";
+import { MdOutlineBarChart } from "react-icons/md";
+import { RxGear } from "react-icons/rx";
 
 export default function Sidebar() {
   // const [dataProfile, setDataProfile] = useState({});
@@ -25,10 +29,8 @@ export default function Sidebar() {
     return router.push("/");
   }
 
-
   const dataProfile = useAppContext();
   // console.log(dataProfile.getProfile);
-
 
   return (
     <div>
@@ -47,14 +49,14 @@ export default function Sidebar() {
                   key={idx}
                   className="flex items-center gap-2 rounded-md px-3 hover:bg-sky-200"
                 >
-                  <img src="/logo.png" className="size-6" alt="" />
+                  {el.icon}
                   <p className="text-lg font-semibold">{el.name}</p>
                 </Link>
               );
             })}
           </div>
           <div className="flex items-center gap-2 px-4">
-            <img src="/logo.png" className="size-6" alt="" />
+            <RxGear />
             <p className="text-lg font-semibold">Settings</p>
           </div>
         </div>
@@ -86,17 +88,17 @@ export default function Sidebar() {
 const menus = [
   {
     name: "Category",
-    icon: "",
+    icon: <BiCategory />,
     href: "/lobby",
   },
   {
     name: "Leaderboard",
-    icon: "",
+    icon: <MdOutlineBarChart />,
     href: "/leaderboard",
   },
   {
     name: "Previous Journey",
-    icon: "",
+    icon: <IoIosBookmarks />,
     href: "/profile/history",
   },
 ];
