@@ -15,7 +15,7 @@ export default function HeroFooter() {
       <div className="flex gap-4">
         <Link href="/lobby">Category</Link>
         <Link href="/leaderboard">Leaderboard</Link>
-        <Link href="#about">About Us</Link>
+        <Link href="/#about">About Us</Link>
       </div>
       <div className="flex gap-2">
         <FaSquareXTwitter className="text-primary size-6" />

@@ -2,7 +2,6 @@
 import React from "react";
 
 import Link from "next/link";
-import { BiCategory } from "react-icons/bi";
 export default function page() {
   return (
     <>
@@ -27,7 +26,6 @@ export default function page() {
                   <p className="text-center text-xl font-semibold text-white">
                     {el.name}
                   </p>
-                  {/* <AnimatedTooltip items={act} category={category} /> */}
                   <div className="mx-auto flex w-full justify-evenly">
                     <Link
                       href={`/${category}/new`}

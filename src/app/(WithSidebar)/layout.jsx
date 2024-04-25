@@ -27,7 +27,6 @@ export default function RootLayout({ children }) {
     } else {
     }
     let token = data.value.split(" ")[1];
-    // console.log(token);
     if (token) {
       return (
         <html lang="en">

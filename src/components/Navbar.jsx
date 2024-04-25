@@ -44,7 +44,7 @@ export default function Navbar({ className }) {
             Leaderboard
           </Link>
           <Link
-            href="#about"
+            href="/#about"
             className="border-primary text-primary px-3 pb-3 text-lg font-bold hover:border-b-4"
           >
             About Us
