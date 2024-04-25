@@ -4,14 +4,14 @@ export default function TeamIntroduction() {
   return (
     <div
       id="about"
-      className="mx-auto mt-32 flex flex-col items-center justify-between md:max-w-[60dvw]"
+      className="mx-auto mt-32 flex max-w-[80dvw] flex-col items-center justify-between xl:max-w-[60dvw]"
     >
-      <h2 className="text-center text-4xl font-bold mb-8">Meet our team</h2>
-      <p className="max-w-[75%] text-center md:max-w-[60%]">
+      <h2 className="mb-8 text-center text-4xl font-bold">Meet our team</h2>
+      <p className="max-w-[75%] text-center xl:max-w-[60%]">
         Our philosophy is simple - hire a team of diverse, passionate people and
         foster a culture that empowers you to do your best work.
       </p>
-      <div className="mx-auto mt-16 flex max-w-[60%] flex-wrap justify-center gap-16">
+      <div className="mx-auto mt-16 flex xl:min-w-[60%] w-full flex-wrap justify-center gap-16 xl:max-w-[60%]">
         {team.map((el, idx) => {
           return (
             <div key={idx} className="flex flex-col items-center">
