@@ -14,7 +14,7 @@ import {
 } from "../actions";
 import { JourneyCard } from "@/components/JourneyCard";
 
-export default function page({ params }) {
+export default function Page({ params }) {
   const Ref = useRef(null);
   const [journey, setJourney] = useState({
     title: "",
@@ -25,6 +25,7 @@ export default function page({ params }) {
   const [answers, setAnswers] = useState([]);
   const [storyId, setStoryId] = useState("");
   const [correctAnswers, setCorrectAnswers] = useState([]);
+  const [gameStart, setGameStart] = useState(false)
   const [journeyList, setJourneyList] = useState([]);
   const [feedback, setFeedback] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -35,11 +36,12 @@ export default function page({ params }) {
   const [category, setCategory] = useState("");
   const [finalScore, setFinalScore] = useState(0);
   const [gameEnd, setGameEnd] = useState(false);
-  const [timer, setTimer] = useState("00:10");
+  const [timer, setTimer] = useState("00:30");
   const [title, setTitle] = useState("");
 
   const onClickStart = () => {
     clearTimer(getTimeUp(), setTimer, setGameEnd, Ref);
+    setGameStart(true)
   };
 
   const router = useRouter();
@@ -135,6 +137,7 @@ export default function page({ params }) {
         <h1 className="text-center text-4xl font-bold md:text-7xl 2xl:text-8xl">
           Test Your Knowledge
         </h1>
+      <h2 className="text-2xl font-bold mx-auto">Subject: {category}</h2>
       </div>
       <div className="mb-10 grid w-full grid-cols-3 items-center justify-center gap-4 px-8 2xl:grid-cols-4">
         {journeyList.length != 0 &&
@@ -171,7 +174,8 @@ export default function page({ params }) {
           setAnswers={setAnswers}
           onClickStart={onClickStart}
           handleSubmit={handleSubmit}
-        />
+          gameStart={gameStart}
+          />
       )}
       {displayComplete && (
         <CompleteJourney

@@ -14,7 +14,7 @@ import {
   postScore,
 } from "../actions";
 
-export default function page({ params }) {
+export default function Page({ params }) {
   const Ref = useRef(null);
   const [journey, setJourney] = useState({
     title: "",
@@ -29,12 +29,13 @@ export default function page({ params }) {
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
   const [displayComplete, setDisplayComplete] = useState(false);
+  const [gameStart, setGameStart] = useState(false)
   const [border, setBorder] = useState([]);
   const [scores, setScores] = useState([]);
   const [category, setCategory] = useState("");
   const [finalScore, setFinalScore] = useState(0);
   const [gameEnd, setGameEnd] = useState(false);
-  const [timer, setTimer] = useState("00:10");
+  const [timer, setTimer] = useState("00:30");
   const [question, setQuestion] = useState("");
   const [title, setTitle] = useState("");
 
@@ -91,6 +92,7 @@ export default function page({ params }) {
 
   const onClickStart = () => {
     clearTimer(getTimeUp(), setTimer, setGameEnd, Ref);
+    setGameStart(true)
   };
 
   const router = useRouter();
@@ -210,6 +212,7 @@ export default function page({ params }) {
             setAnswers={setAnswers}
             onClickStart={onClickStart}
             handleSubmit={handleSubmit}
+            gameStart={gameStart}
           />
         )}
         {displayComplete && (
