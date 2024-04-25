@@ -14,7 +14,6 @@ export default async function page() {
   }
 
   const data = await getData()
-  // console.log(data);
   let histories = data?.history
   console.log(histories);
 
@@ -94,54 +93,3 @@ export default async function page() {
     </>
   );
 }
-
-// const histories = [
-//   // {
-//   //   title: "Indonesia Independence",
-//   //   category: "History",
-//   //   date: "22/04/2024",
-//   //   score: 800,
-//   // },
-//   // {
-//   //   title: "Bahasa Indonesia",
-//   //   category: "Language",
-//   //   date: "22/04/2024",
-//   //   score: 400,
-//   // },
-//   // {
-//   //   title: "photosynthesis",
-//   //   category: "Science",
-//   //   date: "22/04/2024",
-//   //   score: 1200,
-//   // },
-//   // {
-//   //   title: "Majapahit Kingdom",
-//   //   category: "History",
-//   //   date: "22/04/2024",
-//   //   score: 300,
-//   // },
-//   // {
-//   //   title: "English",
-//   //   category: "Language",
-//   //   date: "22/04/2024",
-//   //   score: 800,
-//   // },
-//   // {
-//   //   title: "Quantum Reactor",
-//   //   category: "Physics",
-//   //   date: "22/04/2024",
-//   //   score: 2000,
-//   // },
-//   // {
-//   //   title: "Gravity",
-//   //   category: "Physics",
-//   //   date: "22/04/2024",
-//   //   score: 1500,
-//   // },
-//   // {
-//   //   title: "Japanese",
-//   //   category: "Language",
-//   //   date: "22/04/2024",
-//   //   score: 900,
-//   // },
-// ];

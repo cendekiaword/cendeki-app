@@ -1,16 +1,8 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import { FaCircleCheck, FaCircleXmark } from "react-icons/fa6";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
-import { BASE_URL } from "@/db/config/constant";
-import Cookies from "universal-cookie";
-import Skeleton from "@/components/ui/skeleton";
-import { ImSpinner9 } from "react-icons/im";
-import PromptAPI from "@/components/PromptAPI";
-import JourneyTitle from "@/components/JourneyTitle";
 import CompleteJourney from "@/components/CompleteJourney";
-import { CorrectFeedback, IncorrectFeedback } from "@/components/Feedback";
 import IncompleteJourney from "@/components/IncompleteJourney";
 import LoadingSkeleton from "@/components/LoadingSkeleton";
 import {
@@ -20,7 +12,6 @@ import {
   getTimeUp,
   postScore,
 } from "../actions";
-import { HighestScorer, HighestScore } from "@/components/Highest";
 import { JourneyCard } from "@/components/JourneyCard";
 
 export default function page({ params }) {
@@ -45,9 +36,7 @@ export default function page({ params }) {
   const [finalScore, setFinalScore] = useState(0);
   const [gameEnd, setGameEnd] = useState(false);
   const [timer, setTimer] = useState("00:10");
-  const [question, setQuestion] = useState("");
   const [title, setTitle] = useState("");
-  const [history, setHistory] = useState([]);
 
   const onClickStart = () => {
     clearTimer(getTimeUp(), setTimer, setGameEnd, Ref);

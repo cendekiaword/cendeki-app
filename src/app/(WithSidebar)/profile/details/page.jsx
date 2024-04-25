@@ -1,28 +1,12 @@
 "use client";
-import { editProfile, profile } from "@/actions/actions";
-import ProfileNav from "@/components/ProfileNav";
-import { BentoGridSecondDemo } from "@/components/page/MyProfile";
-import MyProfile from "@/components/page/MyProgress";
+import { editProfile } from "@/actions/actions";
 import { useAppContext } from "@/context";
-import Link from "next/link";
-import { useParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
-// import ProfileTable from "@/components/ProfileTable";
-// import { BASE_URL } from "@/db/config/constant";
-// import Cookies from "universal-cookie";
+import React, { useEffect } from "react";
 
 import ProfileSummary from "@/components/ProfileSummary";
 import EditProfile from "@/components/EditProfile";
 
 const Page = () => {
-  const [data, setData] = useState({
-    fullname: "",
-    email: "",
-    age: 0,
-  });
-  const params = useParams();
-  const { pageProfile } = params;
-
   let context = useAppContext();
   let { getProfile, state } = context;
 
@@ -32,7 +16,7 @@ const Page = () => {
 
   return (
     <div className="flex w-full flex-col items-center gap-4 py-16">
-      <p className="text-4xl font-bold text-primary">My Profile</p>
+      <p className="text-primary text-4xl font-bold">My Profile</p>
       <div
         className="mb-8 flex min-h-[20dvh] w-full max-w-[80%] items-center gap-16 overflow-clip rounded-lg px-8"
         style={{
@@ -67,7 +51,6 @@ const Page = () => {
         </div>
       </div>
       <ProfileSummary />
-      {/* <button className="bg-primary h-12 w-48 rounded-lg mt-16 text-white text-xl font-bold">Edit Profile</button> */}
       <EditProfile getProfile={getProfile} />
     </div>
   );

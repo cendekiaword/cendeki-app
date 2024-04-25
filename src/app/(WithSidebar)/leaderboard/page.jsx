@@ -1,14 +1,10 @@
 "use client";
-import Sidebar from "@/components/Sidebar";
 import { BASE_URL } from "@/db/config/constant";
-import { socket } from "@/socket";
 import React, { useEffect, useState } from "react";
 import { PiStarFourBold } from "react-icons/pi";
 
 export default function page() {
   const [champ, setChamp] = useState([]);
-  const [isConnected, setIsConnected] = useState(socket.connected);
-  const [transport, setTransport] = useState("N/A");
 
   const getLeader = async () => {
     let res = await fetch(`${BASE_URL}/api/leaderboard`, {
@@ -26,44 +22,6 @@ export default function page() {
   useEffect(() => {
     getLeader();
   }, []);
-  
-  // useEffect(() => {
-  //   function onConnect() {
-  //     setIsConnected(true);
-  //     setTransport(socket.io.engine.transport.name);
-
-  //     socket.io.engine.on("upgrade", (transport) => {
-  //       setTransport(transport.name);
-  //     });
-  //   }
-
-  //   function onDisconnect() {
-  //     setIsConnected(false);
-  //     setTransport("N/A");
-  //   }
-
-  //   socket.on("connect", onConnect);
-  //   socket.on("disconnect", onDisconnect);
-
-  //   socket.on("hello", (value) => {
-  //     console.log(value);
-  //   })
-
-  //   socket.emit("coba", champ)
-  //   socket.on("leader", (value) => {
-  //     console.log(value);
-  //   })
-
-  //   console.log('lewat');
-  //   socket.on("send", (value) => {
-  //     console.log(value);
-  //   })
-
-  //   return () => {
-  //     socket.off("connect", onConnect);
-  //     socket.off("disconnect", onDisconnect);
-  //   };
-  // }, [champ]);
 
   let date = new Date().toLocaleDateString();
 
