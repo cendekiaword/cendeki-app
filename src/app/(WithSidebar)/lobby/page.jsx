@@ -2,8 +2,7 @@
 import React from "react";
 
 import Link from "next/link";
-import { AnimatedTooltip } from "@/components/ui/animated-tooltip";
-
+import { BiCategory } from "react-icons/bi";
 export default function page() {
   return (
     <>

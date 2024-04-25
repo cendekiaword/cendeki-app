@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import Cookies from "universal-cookie";
 
-
 export default function HeroBanner() {
   const cookies = new Cookies();
   const router = useRouter();
@@ -16,7 +15,7 @@ export default function HeroBanner() {
     if (data) {
       const token = data.split(" ")[1];
       if (token) {
-        return router.push('/lobby')
+        return router.push("/lobby");
       }
     }
   };
@@ -24,7 +23,7 @@ export default function HeroBanner() {
     <div
       className="mx-auto mt-16 flex h-[363px] flex-col items-center justify-center gap-4 overflow-clip rounded-2xl md:max-w-[920px]"
       style={{
-        backgroundImage: 'url(/Learn.png)',
+        backgroundImage: "url(/Learn.png)",
         maxHeight: "40dvw",
         maxWidth: "80dvw",
         backgroundSize: "cover",
@@ -35,12 +34,20 @@ export default function HeroBanner() {
         CENDEKIA LEARNING PLATFORM
       </p>
       <p className="text-xl invert">Where education meets entertainment!</p>
-      <button
-        onClick={() => goToLogin()}
-        className="bg-primary flex max-w-[150px] items-center justify-center rounded-lg px-4 py-3"
-      >
-        <p className="font-semibold invert">Try it for free!</p>
-      </button>
+      <div className="flex gap-8">
+        <button
+          onClick={() => goToLogin()}
+          className="bg-primary flex w-36 max-w-[150px] items-center justify-center rounded-lg px-4 py-3"
+        >
+          <p className="font-semibold invert">Login</p>
+        </button>
+        <Link
+          href="#teaser"
+          className="bg-primary flex w-36 max-w-[150px] items-center justify-center rounded-lg px-4 py-3"
+        >
+          <p className="font-semibold invert">Try it for free!</p>
+        </Link>
+      </div>
     </div>
   );
 }
