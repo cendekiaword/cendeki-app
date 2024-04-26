@@ -7,6 +7,7 @@ import { useAppContext } from "@/context";
 import { capitalize, clearTimer, getTimeUp, postScore } from "../actions";
 import CompleteJourney from "@/components/CompleteJourney";
 import IncompleteJourney from "@/components/IncompleteJourney";
+import LoadingSkeleton from "@/components/LoadingSkeleton";
 
 
 export default function Page({ params }) {
