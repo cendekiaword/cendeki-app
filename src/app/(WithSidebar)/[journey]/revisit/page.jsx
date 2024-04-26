@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import { FaCircleCheck, FaCircleXmark } from "react-icons/fa6";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import { useAppContext } from "@/context";

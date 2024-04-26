@@ -24,7 +24,7 @@ export default function Page() {
                     className="h-full w-full"
                   />
                   {el.soon === "Coming Soon" ? (
-                    <div className="absolute inset-0 flex items-center justify-center w-full h-full bg-black/[0.6]">
+                    <div className="absolute inset-0 flex h-full w-full items-center justify-center bg-black/[0.6]">
                       <span className="text-2xl font-semibold text-white">
                         Coming Soon
                       </span>
@@ -35,20 +35,31 @@ export default function Page() {
                   <p className="text-center text-xl font-semibold text-white">
                     {el.name}
                   </p>
-                  <div className="mx-auto flex w-full justify-evenly">
-                    <Link
-                      href={`/${category}/new`}
-                      className="bg-primary w-[30%] rounded-md py-2 text-center text-white hover:opacity-80"
-                    >
-                      New
-                    </Link>
-                    <Link
-                      className="bg-primary w-[30%] rounded-md py-2 text-center text-white hover:opacity-80"
-                      href={`/${category}/curated`}
-                    >
-                      All Story
-                    </Link>
-                  </div>
+                  {el.soon ? (
+                    <div className="mx-auto flex w-full justify-evenly">
+                      <div className="bg-primary w-[30%] rounded-md py-2 text-center text-white">
+                        New
+                      </div>
+                      <div className="bg-primary w-[30%] rounded-md py-2 text-center text-white">
+                        All Story
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="mx-auto flex w-full justify-evenly">
+                      <Link
+                        href={`/${category}/new`}
+                        className="bg-primary w-[30%] rounded-md py-2 text-center text-white hover:opacity-80"
+                      >
+                        New
+                      </Link>
+                      <Link
+                        className="bg-primary w-[30%] rounded-md py-2 text-center text-white hover:opacity-80"
+                        href={`/${category}/curated`}
+                      >
+                        All Story
+                      </Link>
+                    </div>
+                  )}
                 </div>
               </div>
             );
